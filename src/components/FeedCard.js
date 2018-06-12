@@ -17,8 +17,9 @@ export default class LogoutButton extends Component {
 					
 			);
 		} else { //No media
-			var media = (<Image style={styles.imageContainer} source={require('../../Images/fordham-rams-logo.png')}/>);
+			var media = (<Image style={styles.imageContainer} source={require('../../Images/foundry-logo-top-bar.png')}/>);
 		}
+		console.log("TEXT: ", this.props.descortweet)
 
 		return (
 			<View style={styles.encompCont}>
@@ -39,7 +40,7 @@ export default class LogoutButton extends Component {
 					</View>
 				</View>
 				<View marginBottom={16} marginLeft={16}>
-					<ButtonRounded width={110} fillWithColor='#47101E' onPress={() => console.log("do nothing")}>Discuss</ButtonRounded>
+					<ButtonRounded width={110} fillWithColor='#5B1728' onPress={() => console.log("do nothing")}>Discuss</ButtonRounded>
 				</View>	
 			</View>
 		)
@@ -48,7 +49,7 @@ export default class LogoutButton extends Component {
 
 const styles = ({
 	encompCont: {
-		//flex: 1,
+		flex: 1,
 		flexDirection: 'column',
 		width: windowSize.width * .9,//344,
 		//height: 400,

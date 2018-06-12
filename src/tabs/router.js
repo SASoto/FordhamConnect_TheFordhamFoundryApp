@@ -1,7 +1,10 @@
 import React from 'react';
-import {Dimensions, Animated, Easing, View, Image, Button, Icon, ImageBackground, Text} from 'react-native';
-import {TabNavigator, StackNavigator, DrawerNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
+import {Dimensions, Animated, Easing, View, Image, Button, Icon, ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {createStackNavigator, TabNavigator, createDrawerNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 
+import  MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import MenuButton from '../components/MenuButton';
+//import EntIcon from 'react-native-vector-icons/dist/Entypo';
 //import LogoutButton from './profile/LogoutButton';
 
 import firebase from 'firebase';
@@ -20,6 +23,10 @@ import TweetScreen from './feed/tweet_screen';
 import ProfileScreen from './profile/profile_screen';
 // import LogoutScreen from './Login/logout_screen';
 
+import DiscBoardScreen from './discboard/discboard_screen';
+
+import ChatScreen from './chat/chat_screen';
+
 const windowSize = Dimensions.get('window');
 const noTransitionConfig = () => ({
   transitionSpec: {
@@ -32,13 +39,13 @@ const noTransitionConfig = () => ({
   }
 })
 
-export const Splash_Stack = StackNavigator ({
+export const Splash_Stack = createStackNavigator ({
 	Splash: {
 		screen: SplashScreen
 	}
 })
 
-export const Onboard_Stack = StackNavigator ({
+export const Onboard_Stack = createStackNavigator ({
 	Onboard: {
 		screen: OnboardScreen,
     	navigationOptions: {
@@ -69,7 +76,7 @@ export const Onboard_Stack = StackNavigator ({
 	}
 });
 
-const FeedStack = StackNavigator ({
+const FeedStack = createStackNavigator ({
 	Feed: {
 		screen: FeedScreen,
 		navigationOptions: ({navigation}) => ({
@@ -98,7 +105,10 @@ const FeedStack = StackNavigator ({
 			title: 'Feed',
 			//size: 25,
 			//headerTintColor: 'white',
-			headerLeft: <Button title="menu" size={35} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>,
+			headerLeft: 
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>,
 			headerStyle: {
 				shadowOpacity: 1,
 				shadowColor: '#010000',
@@ -117,40 +127,10 @@ const FeedStack = StackNavigator ({
 			// 	</View>
 
 		})
-	},
-	// Tweet: {
-	// 	screen: TweetScreen,
-	// 	navigationOptions: ({navigation}) => ({
-	// 		headerBackground: 
-	// 		<ImageBackground
-	// 			style={{
- //                flex: 1,
- //                //resizeMode,
- //                position: 'absolute',
- //                width: '105%',
- //                height: '100%',
- //                //alignItems: 'center',
- //              }}
-
- //              source={require('../../Images/background_splash.jpg')}
-
-	// 		/>,
-	// 		title: '',
-	// 		headerTintColor: 'white',
-	// 		headerLeft: <Button title="<" size={35} onPress={() => navigation.goBack()}/>
-	// 		// headerLeft: 
-	// 		// 	<View flex={1} flexDirection="row">
-	// 		// 		<View justifyContent="center">
-	// 		// 		<Button title="menu" size={35} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-	// 		// 		</View>
-	// 		// 	<Text style={styles.drawerTitle}>Feed</Text>
-	// 		// 	</View>
-
-	// 	})
-	// }
+	}
 })
 
-const ProfileStack = StackNavigator ({
+const ProfileStack = createStackNavigator ({
 	Profile: {
 		screen: ProfileScreen,
 		navigationOptions: ({navigation}) => ({
@@ -170,7 +150,69 @@ const ProfileStack = StackNavigator ({
 			/>,
 			title: 'Profile',
 			headerTintColor: 'white',
-			headerLeft: <Button title="menu" size={35} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+			headerLeft:
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>
+
+		})
+	}
+})
+
+const DiscussionStack = createStackNavigator ({
+	DiscussionBoard: {
+		screen: DiscBoardScreen,
+		navigationOptions: ({navigation}) => ({
+			headerBackground: 
+			<ImageBackground
+				style={{
+                flex: 1,
+                //resizeMode,
+                position: 'absolute',
+                width: '105%',
+                height: '100%',
+                //alignItems: 'center',
+              }}
+
+              source={require('../../Images/background_splash.jpg')}
+
+			/>,
+			title: 'Discussion Board',
+			headerTintColor: 'white',
+			headerLeft: 
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>
+
+		})
+
+	}
+})
+
+const ChatStack = createStackNavigator ({
+	Chat: {
+		screen: ChatScreen,
+		navigationOptions: ({navigation}) => ({
+			headerBackground: 
+			<ImageBackground
+				style={{
+                flex: 1,
+                //resizeMode,
+                position: 'absolute',
+                width: '105%',
+                height: '100%',
+                //alignItems: 'center',
+              }}
+
+              source={require('../../Images/background_splash.jpg')}
+
+			/>,
+			title: 'Chat',
+			headerTintColor: 'white',
+			headerLeft: 
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>
 
 		})
 	}
@@ -266,7 +308,6 @@ const ProfileStack = StackNavigator ({
 // });
 
 const SideDrawer = (props) => {
-
 	const userEmail = firebase.auth().currentUser.email;
 
 	return (
@@ -280,13 +321,13 @@ const SideDrawer = (props) => {
 			<View><Text>{userEmail}</Text></View>
 			</View>
 			</View>
-			<View marginTop={50} borderWidth={1} borderColor='black'/>
+			<View marginTop={50} borderTopWidth={1} borderColor='grey'/>
 				<View marginTop={20}>
 					<DrawerItems {...props}/>
 				</View>
-			<View alignItems="flex-start" marginLeft={16} marginTop={10}>
+			<TouchableOpacity style={styles.logoutCont}>
 				<LogoutButton {...props} />
-			</View>
+			</TouchableOpacity>
 		</View>
 	</View>
 	);
@@ -297,24 +338,38 @@ const DrawerRoutes = {
     screen: FeedStack,
     navigationOptions: {
       title: 'Feed',
-      //drawerIcon: //Icon goes here
+      drawerIcon: <MatIcon name="home" size={20} color="grey"/> //Icon goes here
     },
   },
-  Profile: {
+  Network: {
     screen: ProfileStack,
     navigationOptions: {
-      title: 'Profile',
-      //drawerIcon: //Icon goes here
+      title: 'Network',
+      drawerIcon: <MatIcon name="people" size={20} color="grey"/>//Icon goes here
+    },
+  },
+  DiscussionBoard: {
+  	screen: DiscussionStack,
+  	navigationOptions: {
+      title: 'Discussion Board',
+      drawerIcon: <MatIcon name="dashboard" size={20} color="grey"/>
+    },
+  },
+  Chat: {
+  	screen: ChatStack,
+  	navigationOptions: {
+      title: 'Messages',
+      drawerIcon: <MatIcon name="email" size={20} color="grey"/>//Icon goes here
     },
   }
 };
 
 const DrawerOptions = {
-  initialRouteName: 'Feed',
+  initialRouteName: 'Network',
   contentComponent: SideDrawer,
 };
 
-const Drawer = DrawerNavigator(DrawerRoutes, DrawerOptions);
+const Drawer = createDrawerNavigator(DrawerRoutes, DrawerOptions);
 
 // export const DrawerNavigation = StackNavigator({
 // 	DrawerStack: { screen: FoundryApp_DrawerStack},
@@ -341,7 +396,7 @@ const Drawer = DrawerNavigator(DrawerRoutes, DrawerOptions);
 // 	}
 // )
 
-export const AppStack = StackNavigator ({
+export const AppStack = createStackNavigator ({
 	Splash: {
 		screen: SplashScreen
 	},
@@ -389,6 +444,11 @@ const styles = ({
 		height: 40,
 		borderRadius: 20,
 		backgroundColor: 'grey'
+	},
+	logoutCont: {
+		alignItems: "flex-start",
+		marginLeft: 16,
+		marginTop: 10
 	}
 })
 
