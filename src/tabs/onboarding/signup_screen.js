@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, Text, View, ImageBackground, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
-import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
+import {emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 
@@ -42,13 +42,21 @@ class signup_screen extends Component {
         this.props.emailChanged(text)
     }
 
+    onFirstNameChange(text){
+        this.props.firstnameChanged(text)
+    }
+
+    onLastNameChange(text){
+        this.props.lastnameChanged(text)
+    }
+
     onPasswordChange(text){
         this.props.passwordChanged(text)
     }
 
     onNewHere() {
-        const {email, password} = this.props
-        this.props.newUser({email: email || '', password: password || ''})
+        const {email, password, firstname, lastname} = this.props
+        this.props.newUser({email: email || '', password: password || '', firstname: firstname || '', lastname: lastname || '',})
     }
 
     checkFlag() {
@@ -99,10 +107,10 @@ class signup_screen extends Component {
               <TextInputUnderline fieldName="FORDHAM EMAIL" fontSize={11} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
             </View>
             <View marginTop={15}>
-              <TextInputUnderline fieldName="FIRST NAME" fontSize={11} passedFunc={()=>console.log("HELLO FIRST NAME")}/>
+              <TextInputUnderline fieldName="FIRST NAME" fontSize={11} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
             </View>
             <View marginTop={15}>
-              <TextInputUnderline fieldName="LAST NAME" fontSize={11} passedFunc={()=>console.log("HELLO LAST NAME")}/>
+              <TextInputUnderline fieldName="LAST NAME" fontSize={11} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
             </View>
             <View marginTop={15}>
               <TextInputUnderline fieldName="PASSWORD" fontSize={11} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
@@ -151,10 +159,12 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    firstname: state.auth.firstname,
+    lastname: state.auth.lastname,
     error: state.auth.error,
     loading: state.auth.loading,
     loggedIn: state.auth.loggedIn
   }
 }
 
-export default connect(mapStateToProps,{emailChanged, passwordChanged, loginUser, loggedInUser, newUser})(signup_screen)
+export default connect(mapStateToProps,{emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser})(signup_screen)
