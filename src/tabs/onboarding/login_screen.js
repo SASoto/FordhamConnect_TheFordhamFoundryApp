@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, ImageBackground, TouchableOpacity} from 'react-native';
+import {Keyboard, Dimensions, Text, View, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
@@ -82,6 +82,7 @@ class login_screen extends Component {
 
           source={require('../../../Images/background_splash.jpg')}
         >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View alignItems="center">
           <TitleFordhamConnect marginTop={(windowSize.width*1/10)}/>
           <View style={styles.signInCont}>
@@ -106,9 +107,10 @@ class login_screen extends Component {
            </TouchableOpacity>
         </View>
         </View>
+        </TouchableWithoutFeedback>
         </ImageBackground>
-        {this.checkStuff()}
         {this.renderErrorMess()}
+        {this.checkStuff()}
         </View>
     );
   }

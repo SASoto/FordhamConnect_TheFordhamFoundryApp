@@ -13,7 +13,7 @@ export default class LogoutButton extends Component {
 		} else if(this.props.imageonlineurl != null) { //A video/gif url
 			var media = (
 					
-					<Video url={this.props.imageonlineurl} inlineOnly={true}/>
+					<Video url={this.props.imageonlineurl} inlineOnly={true} logo={null}/>
 					
 			);
 		} else { //No media
@@ -33,7 +33,9 @@ export default class LogoutButton extends Component {
 							<Text style={styles.dateStyle}>{this.props.date}</Text>
 						</View>
 				</View>
+				<View borderWidth={0.5} borderColor="grey"/>
 				{media}
+				<View borderWidth={0.5} borderColor="grey"/>
 				<View style={styles.textCont}>
 					<View flex={1}>
 						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>

@@ -18,6 +18,13 @@ import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 
 const windowSize = Dimensions.get('window')
 class signup_screen extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            checkedUser: false,
+        }
+    }
 
     // componentWillMount() {
     //     firebase.auth().onAuthStateChanged((user) => {
@@ -30,67 +37,53 @@ class signup_screen extends Component {
     // }
 
   checkLoggedIn(){
-    const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
+    //const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
     // if(routeName === "SignedIn") 
     // {
-    this.props.navigation.navigate(routeName)
-        // const resetAction = NavigationActions.reset({
-        //   index:0,
-        //   actions: [
-        //     NavigationActions.navigate({routeName})
-        //   ]
-        // })
-        // this.props.navigation.dispatch(resetAction)
-    // }
-    // else {
-        //this.props.navigation.navigate("SignedOut")
-        // const resetAction = NavigationActions.reset({
-        //   index:0,
-        //   actions: [
-        //     NavigationActions.navigate({routeName})
-        //   ]
-        // })
-        // this.props.navigation.dispatch(resetAction)
-    //}
-
-  //});
+    if(this.state.checkedUser)
+        this.props.navigation.navigate("SignedIn")
+    else
+        this.props.navigation.navigate("SignedOut")
+        
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
         this.props.loggedInUser();
+        this.setState({checkedUser: true});
       } else {
         this.props.logoutUser();
       }
     });
-    setTimeout(this.checkLoggedIn.bind(this), 1200);
-        //{this.checkLoggedInt()}
+        {setTimeout(this.checkLoggedIn.bind(this), 1200);}
   }
 
     render() {
         const resizeMode = 'cover';
-    return (
-        <View flex={1}>
-            <ImageBackground
-              style={{
-                flex: 1,
-                //resizeMode,
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                //alignItems: 'center',
-              }}
+        // if(!this.state.checkedUser) {
+            return (
+                <View flex={1}>
+                    <ImageBackground
+                      style={{
+                        flex: 1,
+                        //resizeMode,
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        //alignItems: 'center',
+                      }}
 
-              source={require('../../../Images/background_splash.jpg')}
-            >
-            <View alignItems='center'>
-            <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
-            </View>
-            <SkypeIndicator color='#bdbdbd' size={30} />
-            </ImageBackground>
-        </View>
-    );
+                      source={require('../../../Images/background_splash.jpg')}
+                    >
+                    <View alignItems='center'>
+                    <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
+                    </View>
+                    <SkypeIndicator color='#bdbdbd' size={30} />
+                    </ImageBackground>
+                </View>
+            );
+        //}
     }
 }
 

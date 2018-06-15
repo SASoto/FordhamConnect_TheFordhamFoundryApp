@@ -6,7 +6,6 @@ import TextInputUnderline from '../../components/TextInputUnderline';
 
 const windowSize = Dimensions.get('window')
 export default class profile_screen extends Component {
-
 	render() {
 		return (
 				<View flex={1}>

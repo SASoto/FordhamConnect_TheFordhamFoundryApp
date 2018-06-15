@@ -6,7 +6,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
-import {Dimensions, Text, View, ImageBackground, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
+import {Dimensions, Text, View, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
 import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
@@ -15,15 +15,6 @@ import firebase from 'firebase';
 import TextInputUnderline from '../../components/TextInputUnderline';
 import ButtonRounded from '../../components/ButtonRounded';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
-
-
-// <!-- <View>
-//             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-//               <Text style={styles.signUpAcc}>
-//                 Create a Fordham Connect account.
-//               </Text>
-//            </TouchableOpacity>
-//             </View> -->
 
 const windowSize = Dimensions.get('window');
 
@@ -57,13 +48,6 @@ class signup_screen extends Component {
         }
         else {
           this.props.navigation.navigate("SignedIn")
-        //     const resetAction = NavigationActions.reset({
-        //         index:0,
-        //         actions: [
-        //           NavigationActions.navigate("SignedIn")
-        //         ]
-        //     })
-        //     this.props.navigation.dispatch(resetAction)
          }
     }
 
@@ -76,7 +60,6 @@ class signup_screen extends Component {
     render() {
     return (
       <View flex={1}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ImageBackground
             style={{
                 flex: 1,
@@ -89,6 +72,7 @@ class signup_screen extends Component {
 
               source={require('../../../Images/background_splash.jpg')}
         >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View alignItems="center">
         <TitleFordhamConnect marginTop={(windowSize.width*1/10)}/>
         <View style={styles.signUpCont}>
@@ -114,7 +98,7 @@ class signup_screen extends Component {
         <View marginTop={(windowSize.height * 1/10) * .3}>
           <ButtonRounded width={windowSize.width*.85} fillWithColor='#55B5FF' onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonRounded>
         </View>
-        <View marginTop={(windowSize.height * 1/10)*.85}>
+        <View marginTop={(windowSize.height * 1/10)*.75}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.signUpAcc}>
                 I already have a Fordham Connect account.
@@ -122,8 +106,9 @@ class signup_screen extends Component {
             </TouchableOpacity>
         </View>
         </View>
+
+        </TouchableWithoutFeedback>
         </ImageBackground>
-      </TouchableWithoutFeedback>
       {this.checkStuff()}
       </View>
     );
