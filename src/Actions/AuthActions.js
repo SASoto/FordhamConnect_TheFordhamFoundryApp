@@ -44,16 +44,28 @@ export const loginUser = ({email, password}) => {
     dispatch({type: LOGIN_USER})
     firebase.auth().signInWithEmailAndPassword(email,password)
       .then(user => loginUserSuccess(dispatch, user))
+      .then(()=> {
+        console.log("Trying to read the names from the database...")
+        //var database = firebase.database()
+        this.usersRef = firebase.database().ref('users').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+        // Make sure we remove all previous listeners.
+        this.usersRef.off();
+        usersRef.on('value', function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+            console.log("Another first name...")
+            var childData = childSnapshot.val();
+            console.log(childData.firstname + ' ' + childData.lastname)
+          });
+        });        
+      })
       .catch( ()=> loginUserFail(dispatch)
         )
-
-  }
+    }
   }
 }
 
 //Add the new user to the 'users' database branch.
 function writeNewUserData(userId, email,firstname,lastname) {
-  var refreshinit = "January 1, 2001 08:00:00"
   var initials = parseInitials(firstname,lastname)
   firebase.database().ref('users/' + userId).set({
     email: email,
@@ -61,7 +73,6 @@ function writeNewUserData(userId, email,firstname,lastname) {
     lastname: lastname,
     initials: initials,
     bio: "I'm a human who is associated with Fordham University, but I haven't updated my bio yet.",
-    lastnewsrefresh: refreshinit,      //A string object – if dates/times need to be compared, must convert to date with 'new Date()'
     website: "",
     affiliation1: "",
     affiliation2: "",
@@ -70,6 +81,7 @@ function writeNewUserData(userId, email,firstname,lastname) {
     affiliation5: "",
   })
   initCampuses(userId)
+  initFavorite_Users(userId)
 }
 
 
@@ -84,6 +96,15 @@ function initCampuses(userId) {
   firebase.database().ref('campuses/rhcamp/members/' + userId).set(false)
   firebase.database().ref('campuses/lccamp/members/' + userId).set(false)
   firebase.database().ref('campuses/westcamp/members/' + userId).set(false)
+}
+
+//Initialize favorites list, including the Fordham Foundry as a favorite for all new users.
+//In addition to the plain userId stored, 
+function initFavorite_Users(userId) {
+  var firstname = "Fordham";
+  var lastname = "Foundry";
+  var firstlast = firstname + ' ' + lastname;
+  firebase.database().ref('favorite_users/' + userId + '/yVXMElLOjGTqQDid8znTmvxNIyx1').set(firstlast)
 }
 
 //Get first letter of first name and first letter of last name.
@@ -183,3 +204,6 @@ export const loggedInUser = (user) => {
     payload: user
   }
 }
+
+//var database = firebase.database();
+//console.log(database)
