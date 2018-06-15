@@ -25,15 +25,6 @@ const windowSize = Dimensions.get('window');
 import FeedCard from '../../components/FeedCard';
 
 export default class feed_screen extends Component {
-  // static navigationOptions = {
-  //   // drawerLabel: 'Home',
-  //   drawerIcon: ({ tintColor }) => (
-  //     <Image
-  //       source={require('../../../Images/fordham-rams-logo.png')}
-  //       style={[styles.icon, {tintColor: tintColor}]}
-  //     />
-  //   ),
-  // };
 
 	constructor(props) {
         super(props);
@@ -45,6 +36,7 @@ export default class feed_screen extends Component {
             refreshing: false,
 
             sinceId: null,
+            retSinceId: null,
             getNewerTweets: null,
             maxId: null,
             getOlderTweets: null
@@ -56,7 +48,6 @@ export default class feed_screen extends Component {
         this.renderFooter = this.renderFooter.bind(this);
         this.loadOlderTweets = this.loadOlderTweets.bind(this);
         this.loadNewerTweets = this.loadNewerTweets.bind(this);
-        //this.handleRefresh = this.handleRefresh.bind(this);
     }
 
 	componentDidMount() {
@@ -121,7 +112,7 @@ export default class feed_screen extends Component {
       var NeworOld = null //0 for new 1 for old
 
       if(this.state.maxId == null && this.state.sinceId == null) {
-        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1`;//${TIMELINE_COUNT}`;
+        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1`;
       }
       else if (this.state.getOlderTweets) {
         var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
@@ -144,24 +135,23 @@ export default class feed_screen extends Component {
     	.then((response) => {
     	response.json().then((result) => 
     	{
-        if(NeworOld) {
-      		this.setState({
-            feedData: [...this.state.feedData, ...result],
-            //loading: false,
-          })
-        }
+        //Handles on first open of feed
+        if(this.state.feedData.length == []) {
+          this.setState({feedData: result, sinceId: result[0].id});
+          //console.log("SETTING SINCEID: ", this.state.sinceId);
+        } //Handles loading older tweets
+        else if(NeworOld) {
+      		this.setState({feedData: [...this.state.feedData, ...result]})
+        } //Handles loading newer tweets and appending to top of original feed data
         else {
-          this.setState({
-            feedData: [...result, ...this.state.feedData],
-            //loading: false,
-          })
+          if(result[0]!= null) { 
+            if(this.state.sinceId != result[0].id) {
+              //console.log('NORESULT: ', result)
+              const newFeedData = this.state.feedData.slice(1,this.state.feedData.length-1);            
+              this.setState({feedData: [...result, ...newFeedData], sinceId: result[0].id})
+            }          
+          }
         }
-        //console.log("FEED: ", this.state.feedData)
-
-        // if(this.state.refreshing) {
-          //this.setState({refreshing: false})
-          // this.setState({loading: false})
-        //}
     	})
     	})
     	.catch((error) => {this.setState({error, loading: false, refreshing: false})})
@@ -212,7 +202,7 @@ export default class feed_screen extends Component {
     }
 
     var link = tweettext[tweettext.length-1];
-    console.log("After slice: ", tweettext)
+    //console.log("After slice: ", tweettext)
     // TWEET.ITEM.EXTENDED_ENTITIES.MEDIA DOES NOT WORK
     var entities = JSON.stringify(tweet.item.extended_entities);
     if(entities != null) {
@@ -294,7 +284,7 @@ export default class feed_screen extends Component {
         })
         this.fetchTwitterFeed();
       } else {
-        this.setState({loading: false})
+        this.setState({refreshing: false, loading: false})
       }
 
     },1000)
@@ -304,17 +294,17 @@ export default class feed_screen extends Component {
     //this.setState({loading: true})
     setTimeout(() => {
       var latest_sinceid = this.state.feedData[0].id
-      console.log("OLD SINCE: ", this.state.feedData[0].id)
-      console.log("NEW SINCE: ", latest_sinceid)
+      //console.log("OLD SINCE: ", this.state.feedData[0].id)
+      //console.log("NEW SINCE: ", latest_sinceid)
 
-      // if(latest_sinceid != this.state.sinceId) {
+     // if(latest_sinceid != this.state.sinceId) {
         this.setState ({
           sinceId: latest_sinceid, getNewerTweets: true, getOlderTweets: false
         })
         this.fetchTwitterFeed();
-      // } else {
-      //     this.setState({refreshing: false, loading: false})
-      // }
+      //} else {
+          this.setState({refreshing: false, loading: false})
+      //}
 
       }, 1000)
   }
@@ -336,7 +326,7 @@ export default class feed_screen extends Component {
             <FlatList
               // onRefresh={this.onRefresh()}
               // refreshing={this.state.refreshing}
-              data={this.state.feedData} keyExtractor={(x,i) => i} renderItem={({item}) =>      
+              data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
               <View marginTop={27} alignItems="center">
               	{this.parseFeedData({item})}
               </View>

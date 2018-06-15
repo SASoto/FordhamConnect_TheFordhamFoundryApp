@@ -2,8 +2,9 @@ import React from 'react';
 import {Dimensions, Animated, Easing, View, Image, Button, Icon, ImageBackground, Text, TouchableOpacity} from 'react-native';
 import {createStackNavigator, TabNavigator, createDrawerNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 
-import  MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import MenuButton from '../components/MenuButton';
+import BackButton from '../components/BackButton';
 //import EntIcon from 'react-native-vector-icons/dist/Entypo';
 //import LogoutButton from './profile/LogoutButton';
 
@@ -17,11 +18,14 @@ import LoginScreen from './onboarding/login_screen';
 import SignupScreen from './onboarding/signup_screen';
 import LogoutButton from './logoutbutton';
 
+import ProfileScreen from './profile/profile_screen';
+
 import FeedScreen from './feed/feed_screen';
 import TweetScreen from './feed/tweet_screen';
-
-import ProfileScreen from './profile/profile_screen';
 // import LogoutScreen from './Login/logout_screen';
+
+import ContactListScreen from './network/contacts_screen'
+import ContactProfileScreen from './network/contactprofile_screen'
 
 import DiscBoardScreen from './discboard/discboard_screen';
 
@@ -153,6 +157,61 @@ const ProfileStack = createStackNavigator ({
 			headerLeft:
 				<View paddingLeft={5}>
 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>
+
+		})
+	}
+})
+
+const NetworkStack = createStackNavigator ({
+	ContactList: {
+		screen: ContactListScreen,
+		navigationOptions: ({navigation}) => ({
+			headerBackground: 
+			<ImageBackground
+				style={{
+                flex: 1,
+                //resizeMode,
+                position: 'absolute',
+                width: '105%',
+                height: '100%',
+                //alignItems: 'center',
+              }}
+
+              source={require('../../Images/background_splash.jpg')}
+
+			/>,
+			title: 'Fordham Contacts',
+			headerTintColor: 'white',
+			headerLeft: 
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>
+
+		})
+	},
+	ContactProfile: {
+		screen: ContactProfileScreen,
+		navigationOptions: ({navigation}) => ({
+			headerBackground: 
+			<ImageBackground
+				style={{
+                flex: 1,
+                //resizeMode,
+                position: 'absolute',
+                width: '105%',
+                height: '100%',
+                //alignItems: 'center',
+              }}
+
+              source={require('../../Images/background_splash.jpg')}
+
+			/>,
+			title: 'Contact Profile',
+			headerTintColor: 'white',
+			headerLeft: 
+				<View paddingLeft={5}>
+					<BackButton onPress={() => navigation.goBack()}/>
 				</View>
 
 		})
@@ -313,17 +372,23 @@ const SideDrawer = (props) => {
 	return (
 	<View flex={1}>
 		<View flexDirection="column">
-			<View marginTop={40} marginLeft={18}>
-				<View style={styles.profPic}>
-			</View>
-			<View marginTop={20}>
-				<View><Text>NAME</Text></View>
-			<View><Text>{userEmail}</Text></View>
-			</View>
-			</View>
+			<TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
+				<View flexDirection="column" marginLeft={18}>
+					<View marginTop={40}>
+						<View style={styles.profPic}/>
+					</View>
+					<View marginTop={20}>
+						<View><Text>NAME</Text></View>
+					<View><Text>{userEmail}</Text></View>
+					</View>
+				</View>
+			</TouchableOpacity>
 			<View marginTop={50} borderTopWidth={1} borderColor='grey'/>
 				<View marginTop={20}>
-					<DrawerItems {...props}/>
+					<DrawerItems 
+					{...props}
+					//items={items.filter((item) => item.routeName !== 'Profile')}
+					/>
 				</View>
 			<TouchableOpacity style={styles.logoutCont}>
 				<LogoutButton {...props} />
@@ -334,6 +399,13 @@ const SideDrawer = (props) => {
 };
 
 const DrawerRoutes = {
+  Profile: {
+    screen: ProfileStack,
+    navigationOptions: {
+    	drawerLabel: () => null,
+    }
+    
+  },
   Feed: {
     screen: FeedStack,
     navigationOptions: {
@@ -342,7 +414,7 @@ const DrawerRoutes = {
     },
   },
   Network: {
-    screen: ProfileStack,
+    screen: NetworkStack,
     navigationOptions: {
       title: 'Network',
       drawerIcon: <MatIcon name="people" size={20} color="grey"/>//Icon goes here
@@ -361,7 +433,7 @@ const DrawerRoutes = {
       title: 'Messages',
       drawerIcon: <MatIcon name="email" size={20} color="grey"/>//Icon goes here
     },
-  }
+  },
 };
 
 const DrawerOptions = {
