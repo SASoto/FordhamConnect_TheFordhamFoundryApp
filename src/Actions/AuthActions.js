@@ -52,7 +52,7 @@ export const loginUser = ({email, password}) => {
         this.usersRef.off();
         usersRef.on('value', function(snapshot) {
           snapshot.forEach(function(childSnapshot) {
-            console.log("Another first name...")
+            //console.log("Another first name...")
             var childData = childSnapshot.val();
             console.log(childData.firstname + ' ' + childData.lastname)
           });
