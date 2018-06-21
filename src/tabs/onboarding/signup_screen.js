@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, Text, View, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
-import {emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
+import {emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 
@@ -45,9 +45,13 @@ class signup_screen extends Component {
         this.props.passwordChanged(text)
     }
 
+    onConfirmChange(text){
+        this.props.confirmChanged(text)
+    }
+
     onNewHere() {
-        const {email, password, firstname, lastname} = this.props
-        this.props.newUser({email: email || '', password: password || '', firstname: firstname || '', lastname: lastname || '',})
+        const {email, password, confirm, firstname, lastname} = this.props
+        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '',})
     }
 
     checkFlag() {
@@ -100,7 +104,7 @@ class signup_screen extends Component {
               <TextInputUnderline fieldName="PASSWORD" fontSize={11} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
             </View>
             <View marginTop={15}>
-              <TextInputUnderline fieldName="CONFIRM PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={()=>console.log("HELLO CONFIRM PASSWORD")}/>
+              <TextInputUnderline fieldName="CONFIRM PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
             </View>
         </View>
         <View marginTop={(windowSize.height * 1/10) * .3}>
@@ -144,6 +148,7 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    confirm: state.auth.confirm,
     firstname: state.auth.firstname,
     lastname: state.auth.lastname,
     error: state.auth.error,
@@ -152,4 +157,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps,{emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser})(signup_screen)
+export default connect(mapStateToProps,{emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser})(signup_screen)

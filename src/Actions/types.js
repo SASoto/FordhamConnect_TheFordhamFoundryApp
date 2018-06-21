@@ -1,6 +1,7 @@
 //export action types as variables to avoid typos
 export const EMAIL_CHANGED = 'email_changed'
 export const PASSWORD_CHANGED = 'password_changed'
+export const CONFIRM_CHANGED = 'confirm_changed'
 export const FIRSTNAME_CHANGED = 'firstname_changed'
 export const LASTNAME_CHANGED = 'lastname_changed'
 export const LOGIN_USER_SUCCESS = 'login_user_success'

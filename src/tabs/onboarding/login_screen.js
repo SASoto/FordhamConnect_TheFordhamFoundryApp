@@ -31,6 +31,20 @@ class login_screen extends Component {
     this.props.loginUser({ email, password })
   }
 
+  // Sends a password reset email to the user via Firebase
+  onResetPress(){
+    var auth = firebase.auth()
+    const {email} = this.props
+    var emailAddress = email
+
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+    // Email sent.
+      alert('An email with a password reset link has been sent to your email address.')
+    }).catch(function(error) {
+      // An error happened.
+      alert(error)
+    });
+  }
   // Checks if loggedIn value has changed to true
   checkFlag() {
     if(this.props.loggedIn === null) {
@@ -105,6 +119,11 @@ class login_screen extends Component {
                 I do not have a Fordham Connect account.
               </Text>
            </TouchableOpacity>
+        </View>
+        <View marginTop={windowSize.height * 1/10}>
+          <ButtonRounded width={windowSize.width*.5} fillWithColor='#55B5FF' onPress={this.onResetPress.bind(this)}>
+              FORGOT PASSWORD
+          </ButtonRounded>
         </View>
         </View>
         </TouchableWithoutFeedback>

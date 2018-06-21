@@ -1,4 +1,4 @@
-import {EMAIL_CHANGED, PASSWORD_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, IS_EMPTY,LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,LOGIN_USER, EXISTS_FAIL, NO_USER, NEW_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from './types' 
+import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, IS_EMPTY,LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,LOGIN_USER, EXISTS_FAIL, NO_USER, NEW_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from './types' 
 import {Actions} from 'react-native-router-flux'
 import firebase from 'firebase'
 
@@ -12,6 +12,13 @@ export const emailChanged = (text) => {
 export const passwordChanged = (text) => {
   return {
     type: PASSWORD_CHANGED,
+    payload: text
+  }
+}
+
+export const confirmChanged = (text) => {
+  return {
+    type: CONFIRM_CHANGED,
     payload: text
   }
 }
@@ -44,20 +51,20 @@ export const loginUser = ({email, password}) => {
     dispatch({type: LOGIN_USER})
     firebase.auth().signInWithEmailAndPassword(email,password)
       .then(user => loginUserSuccess(dispatch, user))
-      .then(()=> {
-        console.log("Trying to read the names from the database...")
+      //.then(()=> {
+        //console.log("Trying to read the names from the database...")
         //var database = firebase.database()
-        this.usersRef = firebase.database().ref('users').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+        //this.usersRef = firebase.database().ref('users').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
         // Make sure we remove all previous listeners.
-        this.usersRef.off();
-        usersRef.on('value', function(snapshot) {
-          snapshot.forEach(function(childSnapshot) {
+        //this.usersRef.off();
+        //usersRef.on('value', function(snapshot) {
+          //snapshot.forEach(function(childSnapshot) {
             //console.log("Another first name...")
-            var childData = childSnapshot.val();
-            console.log(childData.firstname + ' ' + childData.lastname)
-          });
-        });        
-      })
+            //var childData = childSnapshot.val();
+            //console.log(childData.firstname + ' ' + childData.lastname)
+          //});
+        //});        
+      
       .catch( ()=> loginUserFail(dispatch)
         )
     }
@@ -115,46 +122,93 @@ function parseInitials(firstname,lastname) {
   return(initials)
 }
 
-export const newUser = ({email, password, firstname, lastname}) => {
-  if (email == '', password == '', firstname == '', lastname == '') {
+export const newUser = ({email, password, confirm, firstname, lastname}) => {
+  var testEmail = email.toLowerCase();
+  var validFordham = testEmail.endsWith("@fordham.edu")
+
+  if (email == '', password == '', confirm == '', firstname == '', lastname == '') {
     return(dispatch) => {
-      isEmpty(email,password,firstname,lastname),
-      console.log("email is " + email + ", password is " + password + ", firstname is " + firstname + ", lastname is " + lastname)
+      isEmpty(email,password,confirm,firstname,lastname),
+      console.log("email is " + email + ", password is " + password + ", confirm is " + confirm + ", firstname is " + firstname + ", lastname is " + lastname)
       alert ("Oops! Sign Up By Filling out Each Field.")
+    }
+  } else if (validFordham == false) {
+    return(dispatch) => {
+      alert("Oops! Your email must be a valid @fordham.edu address.")
+    }
+  }
+    else if (password.length < 8) {
+    return(dispatch) => {
+      alert ("Oops! Password is too short – it should be at least 8 characters.")
+    }
+  } else if (password != confirm){
+    return(dispatch) => {
+      console.log(password + " " + confirm)
+      alert("Oops! Password and Confirm Password did not match. Please try again.")
     }
   }
   else
   {
    return (dispatch) => {
     dispatch({type: NEW_USER})
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-      //console.log('Trying to sign in with new account...')
-      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        //console.log('Trying to fetch userId of current user')
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        var userId = firebase.auth().currentUser.uid;
+        var user = firebase.auth().currentUser;
+        console.log("Trying to send email verification...")
+
+        user.sendEmailVerification()
+        .then(function(){
+          alert("Your Account Was Created! We have sent you a verification email to your email address. Please make sure you received it!")
+          console.log("Email verification was sent!!")
+          writeNewUserData(userId,email,firstname,lastname)
+        })
+        .catch(function(error) {
+          alert(error)
+        })
+        .then (() => {
+          //alert ('Your Account Was Created!');
+          this.props({
+            email,
+            password,
+            firstname,
+            lastname,
+            loading
+          })
+        })
+        .catch(() => existsFail(dispatch))
+      })
+      .catch(function(error) {
+        //Handling Errors...
         var errorCode = error.code;
         var errorMessage = error.message;
-        //console.log('Error message is: ', errorMessage)
-        // ...
-      }).then(() => {
-      //console.log('Trying to fetch userId of current user')
-      var userId = firebase.auth().currentUser.uid;
-      //console.log('userId is:', userId)
-      writeNewUserData(userId,email,firstname,lastname)
+        if (errorCode == 'auth/weak-password') {
+          alert("Oops! Try a stronger password.");
+        } else if (errorCode == 'auth/email-already-in-use') {
+          alert("Oops! There already exists an account with the given email address.")
+        } else if (errorCode == 'auth/invalid-email') {
+          alert("Oops! That doesn't appear to be a valid email address.")
+        } else if (errorCode == 'auth/operation-not-allowed') {
+          alert("Oops! There's a problem with the server. Please contact us at fordhamfoundryapp@gmail.com and let us know.")
+        }
+        console.log(error);
       })
-    })
-    .then (() => {alert ('Your Account Was Created!');
-      this.props({
-        email,
-        password,
-        firstname,
-        lastname,
-        loading
+    // .then (() => {
+    //   alert ('Your Account Was Created!');
+    //   this.props({
+    //     email,
+    //     password,
+    //     firstname,
+    //     lastname,
+    //     loading
 
-      })
+    //   })
 
-      })
-      .catch(() => existsFail(dispatch))
-  }
+    //   })
+    //   .catch(() => existsFail(dispatch))
+    }
   }
 }
 

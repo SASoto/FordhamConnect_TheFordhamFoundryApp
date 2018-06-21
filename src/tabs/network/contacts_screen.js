@@ -61,12 +61,14 @@ export default class contacts_screen extends Component {
         //console.log("Trying to construct our full user list...")
         //var database = firebase.database()
         usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+        return firebase.database().ref('users/').once('value')
+        .then(function(snapshot) {
         //console.log("Found a reference to the list, by firstnames...")
         // Make sure we remove all previous listeners..??
-        usersList.off();
+        //usersList.off();
         //console.log(usersList)
         //console.log("Other previous listeners disabled.")
-        usersList.on('value', function(snapshot) {
+        //usersList.on('value', function(snapshot) {
             //console.log(snapshot.val())
             //console.log("And foo, also.")
             snapshot.forEach(function(childSnapshot) {
@@ -84,8 +86,9 @@ export default class contacts_screen extends Component {
             //console.log("Length of fullContactsArr is ", fullContactsArr.length)
             //console.log("Length of testArray is ", testArray.length)
 
-        });
-        this.setState({myData: fullContactsArr})
+        }).then(() => {
+            this.setState({myData: fullContactsArr})
+        })
         //console.log("In componentWillMount, myData is : ", this.state.myData)
         //console.log("In componentWillMount, fullContactsArr is : ", fullContactsArr)
     }
@@ -118,18 +121,18 @@ export default class contacts_screen extends Component {
     // 	return onlyContentArr;
     // }
 
-	// sortContactList(myArray) {
-	// 	//var onlyContentArr = this.getOnlyContent();
- //        function compare(a,b) {
- //          if (a.fullname < b.fullname)
- //            return -1;
- //          if (a.fullname > b.fullname)
- //            return 1;
- //          return 0;
- //        }
+	sortContactList(myArray) {
+		//var onlyContentArr = this.getOnlyContent();
+        function compare(a,b) {
+          if (a.fullname < b.fullname)
+            return -1;
+          if (a.fullname > b.fullname)
+            return 1;
+          return 0;
+        }
 
- //        return myArray.sort(compare);
- //        //console.log("SORTED: ", myData)
+        return myArray.sort(compare);
+        //console.log("SORTED: ", myData)
 
 
  //        // for(var i=0; i<myData.length; i++) {
@@ -147,7 +150,7 @@ export default class contacts_screen extends Component {
  //        // }
 
  //    	//return myData
- //    }
+    }
 
     //Searches for specified userID
     // searchForUserID(nameKey, myArray) {
@@ -180,8 +183,8 @@ export default class contacts_screen extends Component {
         //    //favoritedContactsArr.push(contactObj);
         //    //this.setState({myData: this.state.myData.splice(indexOfUser,1)})
         // }
-        //console.log("Once again, MyData is ", this.state.myData)
-        //console.log("Trying to get the favorites for this user...")
+        console.log("Once again, MyData is ", this.state.myData)
+        console.log("Trying to get the favorites for this user...")
 
         var currentUserId = firebase.auth().currentUser.uid;
         //usersFavs = firebase.database().ref('favorite_users/' + currentUserId).orderByValue();//.startAt('Cha').endAt('Cha\uf8ff');
@@ -201,7 +204,7 @@ export default class contacts_screen extends Component {
             //console.log(childKey)
             //console.log(childData)
             //var favObj = {'userID':childKey, 'fullname':childData};
-            console.log("Pushing OBJECT: " + childKey + ' ' + childData);
+            //console.log("Pushing OBJECT: " + childKey + ' ' + childData);
             favoritedContactsArr.push({userID: childKey, fullname: childData});
             console.log("After push, favoritedContactsArr is ", favoritedContactsArr)
             //alert("Within forEach " + favoritedContactsArr.length);
@@ -246,8 +249,10 @@ export default class contacts_screen extends Component {
         //var favoritedContactsArr = this.getFavoritedContacts()
         var favoritedContactsArr = [];
         var currentUserId = firebase.auth().currentUser.uid;
-        usersFavs = firebase.database().ref('favorite_users/' + currentUserId).orderByValue();
-        usersFavs.on('value', function(snapshot) {
+        firebase.database().ref('favorite_users/' + currentUserId).once('value')
+        .then(function(snapshot) {
+        // usersFavs = firebase.database().ref('favorite_users/' + currentUserId).orderByValue();
+        // usersFavs.on('value', function(snapshot) {
 
             //console.log("Testing...")
           snapshot.forEach(function(childSnapshot) {
@@ -257,7 +262,7 @@ export default class contacts_screen extends Component {
             //console.log(childKey)
             //console.log(childData)
             //var favObj = {'userID':childKey, 'fullname':childData};
-            console.log("Pushing OBJECT: " + childKey + ' ' + childData);
+            console.log("Pushing yet another: " + childKey + ' ' + childData);
             favoritedContactsArr.push({userID: childKey, fullname: childData});
             console.log("After NEW push, favoritedContactsArr is ", favoritedContactsArr)
             //alert("Within forEach " + favoritedContactsArr.length);
@@ -268,7 +273,9 @@ export default class contacts_screen extends Component {
         }); 
         this.getFavoritedContacts()
         .then(() => {
-        console.log("Favs array is ", favoritedContactsArr)
+        //console.log("Favs array is ", favoritedContactsArr)
+        favoritedContactsArr = this.sortContactList(favoritedContactsArr)
+        //console.log("And sorted, it is...")
         //  NEED THIS LATER favoritedContactsArr = this.sortContactList(favoritedContactsArr);
         // this.setState({lengthOfFavorites: favoritedContactsArr.length})
         
@@ -280,16 +287,18 @@ export default class contacts_screen extends Component {
         // }
         //setTimeout(() => {
         console.log("AFTER REMOVE: ", this.state.myData)
-        console.log("FIRST ELEMENT OF myData is : ", this.state.myData[0])
+        //console.log("FIRST ELEMENT OF myData is : ", this.state.myData[0])
+        this.state.myData = this.sortContactList(this.state.myData)
         var joinedData = favoritedContactsArr.concat(this.state.myData);
         this.setState({contactList: joinedData});
-        console.log("at the end of getCombinedContactList joinedData is ", joinedData)
+        //joinedData = this.sortContactList(joinedData);
+        //console.log("at the end of getCombinedContactList joinedData is ", joinedData)
         console.log("at the end of getCombinedContactList contactList is ", this.state.contactList)        
         // console.log("STATE IS AFTER: ", this.state.contactList);
         return joinedData
         //},4000)
         })
-        //joinedData = this.sortContactList(joinedData);
+
         // console.log("BEFORE SET STATE: ", joinedData)
         // console.log("STATE IS BEFORE: ", this.state.contactList);
 
@@ -316,8 +325,8 @@ export default class contacts_screen extends Component {
     }
 
     whatIsRendered() {
-        console.log("In whatIsRendered, My data is: ",this.state.myData);
-        console.log("In whatIsRendered, the length of myData is: ", this.state.myData.length);
+        //console.log("In whatIsRendered, My data is: ",this.state.myData);
+        //console.log("In whatIsRendered, the length of myData is: ", this.state.myData.length);
         if(this.state.contactList.length > 0) {
             //console.log("My Data is ", this.state.myData)
             return (
@@ -352,8 +361,10 @@ export default class contacts_screen extends Component {
     }
 
 	render() {
+        //setTimeout(() => {
         //console.log("COMBINED: ",joinedData)
         //console.log("STATE IS AFTER: ", this.state.contactList);
+        //},10000)
         return (
             <View flex={1}>
             {this.whatIsRendered()}

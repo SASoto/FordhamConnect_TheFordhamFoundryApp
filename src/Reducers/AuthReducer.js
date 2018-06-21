@@ -1,7 +1,8 @@
-import {EMAIL_CHANGED, PASSWORD_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, LOGIN_USER_SUCCESS, NO_USER, IS_EMPTY, NEW_USER, EXISTS_FAIL, LOGIN_USER_FAIL,LOGIN_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from '../Actions/types'
+import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, LOGIN_USER_SUCCESS, NO_USER, IS_EMPTY, NEW_USER, EXISTS_FAIL, LOGIN_USER_FAIL,LOGIN_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from '../Actions/types'
 const INITIAL_STATE = {
   email: '', 
-  password: '', 
+  password: '',
+  confirm: '', 
   firstname: '',
   lastname: '',
   user: null, 
@@ -17,6 +18,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, email: action.payload}
     case PASSWORD_CHANGED:
       return {...state, password: action.payload}
+    case CONFIRM_CHANGED:
+      return {...state, confirm: action.payload}
     case FIRSTNAME_CHANGED:
       return {...state, firstname: action.payload}
     case LASTNAME_CHANGED:
