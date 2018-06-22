@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, TouchableOpacity, Button, FlatList, ImageBackground} from 'react-native';
-
+import {Dimensions, Text, View, TouchableOpacity, Button, FlatList, ImageBackground, RefreshControl} from 'react-native';
+import {createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
+import {connect} from 'react-redux';
+// import LinearGradient from 'react-native-linear-gradient';
 import {SkypeIndicator} from 'react-native-indicators';
-import { List } from 'react-native-elements';
+import {List} from 'react-native-elements';
 
-//import Video from 'react-native-video';
 import base64 from '../base64function';
 import TransitionPanel from '../../components/TransitionPanel';
 
 // SHOULD BE READ FROM DATABASE
-const CONS_KEY = 'W0n6YI1nVz3oqehhM68kNZE67';
-const CONS_SECRET = 'goG3kTESuUYT2ywJ8UbkBxAR9Qkq1T2AQkMwwyR2lAk59fU3sn';
+const CONS_KEY = 'VPqb7vDy7Dq3JCj5r7jodxwKc';
+const CONS_SECRET = 'RvCaQFxp7mVoECccpeQAcRhbcPLri2d7hKFT6g695VSOYKBv2Q';
 
 const AUTH_URL = 'https://api.twitter.com/oauth2/token';
 const TIMELINE_URL = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 
 // SHOULD BE READ FROM DATABASE
-const USER_ID = '1002710784957472769';
+const USER_ID = '1006242115909771264';
 
 const TIMELINE_COUNT = '10';
 
@@ -25,6 +26,28 @@ const windowSize = Dimensions.get('window');
 import FeedCard from '../../components/FeedCard';
 
 export default class feed_screen extends Component {
+
+  // static navigationOptions = ({navigation}) => {
+  //     tabBarOnPress({ navigation, defaultHandler }){
+  //           // perform your logic here
+  //           // this is mandatory to perform the actual switch
+  //           // you can omit this if you want to prevent it
+  //           console.log("ITS WORKING")
+  //           navigation.navigate('DiscussionBoard')
+  //           //jumpToIndex(1);
+  //         }
+  //   }
+
+  // static navigationOptions = ({navigation}) => {
+  //   return {
+  //     tabBarOnPress: (tab, jumpToIndex) => {
+  //       if(!tab.focused){
+  //         jumpToIndex(tab.index);
+  //         navigation.state.params.onFocus()
+  //       }
+  //     },
+  //   }
+  // }
 
 	constructor(props) {
         super(props);
@@ -186,6 +209,12 @@ export default class feed_screen extends Component {
   parseFeedData(tweet){
     var name = tweet.item.user.name;
     var screenname = tweet.item.user.screen_name;
+    var profileimage = tweet.item.user.profile_image_url;
+    var seeIfHTTP = profileimage.search("http://");
+    if(seeIfHTTP != -1) {
+      profileimage = profileimage.slice(0,4) + 's' + profileimage.slice(4,profileimage.length)
+      //console.log("profile image: ", profileimage)
+    }
 
     var date = tweet.item.user.created_at;
     var formattedDate = new Date(date);
@@ -228,7 +257,7 @@ export default class feed_screen extends Component {
       //image = (<Image style={styles.imageContainer} source={{uri: image_url}}/>);
       return (
        // <TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={null}>
-            <FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} imageurl={image_url} descortweet={tweettext}/>
+            <FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageurl={image_url} descortweet={tweettext}/>
         //</TransitionPanel>
       );
 
@@ -245,7 +274,7 @@ export default class feed_screen extends Component {
       // );
       return (
          //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-         	<FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} imageonlineurl={image_online_url} descortweet={tweettext}/>
+         	<FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
        // </TransitionPanel>
       );
 
@@ -261,13 +290,13 @@ export default class feed_screen extends Component {
       // );
       return (
         //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-        	<FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} imageonlineurl={image_online_url} descortweet={tweettext}/>
+        	<FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
         //</TransitionPanel>
       );
 
     } else {
       return (
-          <FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} descortweet={tweettext}/>
+          <FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} descortweet={tweettext}/>
       )
     }
   }
@@ -313,31 +342,59 @@ export default class feed_screen extends Component {
     if(!this.state.loading) return null;
     
     return (
-      <View padding={20} borderTopWidth={1} borderTopColor={1}>
+      <View padding={20} borderTopWidth={1} borderTopColor={1} backgroundColor="rgb(221, 215, 218)">
         <SkypeIndicator color='#bdbdbd' size={30}/>
       </View>
     )
   }
 
+  renderSeparator() {
+    return (
+      <View
+        style={{
+          height: 10,
+          width: windowSize.width,
+          backgroundColor: "rgb(221, 215, 218)",
+        }}
+      />
+    );
+  }
+
   renderFeed() {
-    console.log("GOT FEED: ", this.state.feedData)
+    //console.log("GOT FEED: ", this.state.feedData)
        return (
-        <List containerStyle={{borderTopWidth: 0, borderBottomWidth: 0, backgroundColor: '#5B1728'}}>
+        //<View flex={1} marginBottom={10}>
+        //<View marginTop={20}>
+        <List>
+          <View backgroundColor="rgb(221, 215, 218)">
             <FlatList
-              // onRefresh={this.onRefresh()}
-              // refreshing={this.state.refreshing}
+              ItemSeparatorComponent={this.renderSeparator}
               data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
-              <View marginTop={27} alignItems="center">
+              <View alignItems="center">
               	{this.parseFeedData({item})}
               </View>
           	}
              ListFooterComponent={this.renderFooter}
              onEndReached={this.loadOlderTweets}
-             onEndThreshold={5}
-             refreshing={this.state.refreshing}
-             onRefresh={this.loadNewerTweets}
+             onEndThreshold={8}
+             //refreshing={this.state.refreshing}
+             //onRefresh={this.loadNewerTweets}
+             refreshControl={
+               <RefreshControl
+                   refreshing={this.state.refreshing}
+                   onRefresh={this.loadNewerTweets}
+                   title="Pull to refresh"
+                   tintColor="darkgrey"
+                   // titleColor="#red"
+                   // progressBackgroundColor="blue"
+                />
+              }
             />
+            </View>
         </List>
+        //</View>
+        
+        
       );
   }
 
@@ -350,7 +407,7 @@ export default class feed_screen extends Component {
 
   render() {
     return (
-        <View flex={1} style={styles.encompCont}>
+        <View style={styles.encompCont}>
         {this.renderFeed()}
       </View>
     );
@@ -361,7 +418,13 @@ const styles = ({
 	encompCont: {
 		// justifyContent: 'center',
 		// alignItems: 'center'
-    backgroundColor: '#5B1728'//'#47101E'//#530F1C'
+    //margin: 0,
+    flex: 1,
+    margin: -10,
+    // top: 0,
+    // bottom: 0,
+    //height: 10,
+    backgroundColor: 'rgb(191, 187, 187)'//rgba(233, 228, 228, 1)'//'#47101E'//#530F1C'
 	},
 	imageContainer: {
 	//alignItems: 'center',

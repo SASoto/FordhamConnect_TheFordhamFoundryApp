@@ -28,16 +28,12 @@ class LogoutButton extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	this.onButtonPress()
-	// }
-
 	render() {
 		return (
 			<TouchableOpacity onPress={this.onButtonPress.bind(this)}>
 				<View flexDirection="row">
 					<View marginRight={35}>
-						<EntIcon name="arrow-long-right" size={20} color="grey"/>
+						<EntIcon name="arrow-long-left" size={20} color="lightgrey"/>
 					</View>
 					<View>
 						<Text style={styles.buttonTxt}>Logout</Text>
@@ -51,6 +47,7 @@ class LogoutButton extends Component {
 const styles = StyleSheet.create({
 	buttonTxt: {
 		fontSize: 14,
+		color: 'lightgrey',
 		fontFamily: 'HelveticaNeue-Medium'
 	}
 })

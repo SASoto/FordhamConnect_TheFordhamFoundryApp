@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, Button} from 'react-native';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
@@ -27,7 +27,7 @@ export default class StarredContactListItem extends Component {
 		}
 
 		return (
-			<TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.destination, {userID: this.props.userID, userfname: this.props.userfname})}>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.destination, {userID: this.props.userID, favorited: this.props.favorited, userfname: this.props.userfname, handleFavorites: this.props.handleFavorites})}>
 				<View style={styles.encompCont}>
 					<View height={55} justifyContent="center">
 						<View flexDirection="row">
@@ -45,6 +45,8 @@ export default class StarredContactListItem extends Component {
 		);
 	}
 }
+
+//<Button title="Favor" onPress={this.props.handleFavorites}/>
 
 const styles = ({
 	encompCont: {

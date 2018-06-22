@@ -22,8 +22,10 @@ export default (state = INITIAL_STATE, action) => {
     case LASTNAME_CHANGED:
       return {...state, lastname: action.payload}
     case LOGIN_USER:
+      //console.log("EMAIL IS:", INITIAL_STATE.email)
       return {...state, ...INITIAL_STATE, loading:true, error: ''}
     case LOGIN_USER_SUCCESS:
+      //console.log("USER PAYLOAD IS: ", INITIAL_STATE.email)
       return {...state, ...INITIAL_STATE, user: action.payload, loggedIn: true}
     case LOGIN_USER_FAIL:
       return {...state, user: null, error: 'Authentication Failed.', password: '', loading: false}
@@ -34,7 +36,7 @@ export default (state = INITIAL_STATE, action) => {
     case NO_USER:
       return {...state, user: null, error: "User Does Not Exist", loading: false}
     case NEW_USER:
-      return {...state, ...INITIAL_STATE, loading: true, email: '', password: ''}
+      return {...state, ...INITIAL_STATE, loading: true}//, email: '', password: ''}
     case EXISTS_FAIL:
       return {...state, error: "User Exists Already", password: '', loading: false} 
     case IS_EMPTY: 

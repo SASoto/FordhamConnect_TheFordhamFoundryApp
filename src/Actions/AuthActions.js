@@ -115,21 +115,28 @@ export const newUser = ({email, password, firstname, lastname}) => {
         //console.log('Error message is: ', errorMessage)
         // ...
       }).then(() => {
+        // this.props({
+        //   email: email,
+        //   password: password,
+        //   firstname: firstname,
+        //   lastname: lastname,
+        //   //loading
+        // })
       //console.log('Trying to fetch userId of current user')
       var userId = firebase.auth().currentUser.uid;
-      //console.log('userId is:', userId)
-      writeNewUserData(userId,email,firstname,lastname)
+      writeNewUserData(userId,email,firstname,lastname);
+      
       })
     })
     .then (() => {alert ('Your Account Was Created!');
-      this.props({
-        email,
-        password,
-        firstname,
-        lastname,
-        loading
-
-      })
+      //this.props.email = email;
+      // this.props({
+      //   email,
+      //   password,
+      //   firstname,
+      //   lastname,
+      //   loading
+      // })
 
       })
       .catch(() => existsFail(dispatch))

@@ -45,6 +45,7 @@ export default class contacts_screen extends Component {
             ]
         }
 
+        this.changeFavoritedStatus = this.changeFavoritedStatus.bind(this)
         // this.getCombinedContactList = this.getCombinedContactList.bind(this);
         // this.getFavoritedContacts = this.getFavoritedContacts.bind(this);
         // this.searchForUserID = this.searchForUserID.bind(this);
@@ -161,19 +162,42 @@ export default class contacts_screen extends Component {
         return joinedData
     }
 
+
+    changeFavoritedStatus(passedUID, removeOrAdd) {
+        //console.log('SOMEONE NEW HAS BEEN FAVORITED')
+        this.setState({contactList: []});
+        console.log("passed uid: ", passedUID);
+        console.log("passed value: ", removeOrAdd);
+
+        if(removeOrAdd) {
+            // HANDLES REMOVING FROM FAVORITED LIST
+            // add uid (object) to contact list
+            // remove uid (object) from favorited list
+            // call get CombinedContactList()
+
+        }
+        else {
+            // HANDLES ADDING TO FAVORITED LIST
+            // add uid to favorited list
+            // search for index of passed uid in contactlist
+            // call getCombinedContactList();
+        }   
+
+    }
+
     renderListItem(item) {
         var isFavorited = this.checkIfFavorited(item.userID)
         if(isFavorited) {
             return (
                 <View flex={1} marginTop={25}>
-                <StarredContactListItem favorited={true} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.firstname} usercontent={item.content}/>
+                <StarredContactListItem handleFavorites={this.changeFavoritedStatus} favorited={true} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.firstname} usercontent={item.content}/>
                 </View>
             )
 
         } else {
             return (
                 <View flex={1} marginTop={15}>
-                <StarredContactListItem favorited={false} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.firstname} usercontent={item.content}/>
+                <StarredContactListItem handleFavorites={this.changeFavoritedStatus} favorited={false} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.firstname} usercontent={item.content}/>
                 </View>
            )
         }

@@ -7,22 +7,32 @@ export default class ButtonRounded extends Component {
   render() {
     const {container, buttonStyle, textStyle} = styles;
 
-    if (this.props.padding != null) {
+    if(this.props.padding != null) {
       var usePadding = this.props.padding;
     } else {
       var usePadding = 8;
     }
 
-    if (this.props.fillWithColor != null) {
-      var useFill = this.props.fillWithColor;
+    if(this.props.borderRadius != null) {
+      var useBR = this.props.borderRadius;
     } else {
-      var useFill = 'transparent';
+      var useBR = 10;
+    }
+
+    if(this.props.fillWithColor != null) {
+        var useFill = this.props.fillWithColor;
+    } else {
+        var useFill = 'transparent';
+    }
+
+    if(this.props.height != null) {
+      var useHeight = this.props.height;
     }
 
     return (
       //any component or tag inside Button will be displayed as text
       <TouchableOpacity onPress={this.props.onPress}>
-      <View style = {container} width={this.props.width} backgroundColor={useFill}>
+      <View borderRadius={useBR} width={this.props.width} height={useHeight} backgroundColor={useFill}>
         
           <View padding={usePadding}>
           <Text style={textStyle}>
@@ -37,12 +47,12 @@ export default class ButtonRounded extends Component {
 }
 
 const styles = ({
-  container: {
-    //backgroundColor: '#bdbdbd',
-    //borderColor: '#bdbdbd',
-    //borderWidth: 1,
-    borderRadius: 10,
-  },
+  // container: {
+  //   //backgroundColor: '#bdbdbd',
+  //   //borderColor: '#bdbdbd',
+  //   //borderWidth: 1,
+  //   borderRadius: 10,
+  // },
   textStyle: {
     alignSelf: 'center',
     color: 'white',

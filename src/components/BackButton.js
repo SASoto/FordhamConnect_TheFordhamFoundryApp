@@ -9,7 +9,7 @@ export default class BackButton extends Component {
 	render() {
 		return (
 			<TouchableOpacity onPress={this.props.onPress}>
-				<MatIcon name="keyboard-arrow-left" size={30} color="white"/>			
+				<MatIcon name="close" size={30} color="white"/>			
 			</TouchableOpacity>
   		);
 	}

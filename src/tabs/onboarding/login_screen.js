@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 
+import {SkypeIndicator} from 'react-native-indicators';
+
 import TextInputUnderline from '../../components/TextInputUnderline';
 import ButtonRounded from '../../components/ButtonRounded';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
@@ -14,6 +16,12 @@ import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 const windowSize = Dimensions.get('window');
 
 class login_screen extends Component {
+  constructor(props) {
+    super(props)
+
+    this.checkStuff = this.checkStuff.bind(this)
+  }
+
 
   // Tracks change in email prop value
    onEmailChange(text){
@@ -27,8 +35,10 @@ class login_screen extends Component {
 
    // Logs in user with current email and password prop value
   onLoginPress(){
-    const {email, password} = this.props
+    const {email, password} = this.props;
     this.props.loginUser({ email, password })
+    console.log("THE USER EMAIL: ", this.props.email)
+    //console.log("THE USER firstname: ", this.props.firstname)
   }
 
   // Checks if loggedIn value has changed to true
@@ -52,7 +62,14 @@ class login_screen extends Component {
   // If so, check for change in loggedIn value
   checkStuff() {
     if(this.props.loading === true) {
+      // console.log("IS THE USER LOADING? ",this.props.loading)
+      
       {this.checkFlag()}
+        return (
+          <View style={styles.loadingOverlay}>
+            <SkypeIndicator color='white' size={35}/>
+          </View>
+        )
     }
   }
 
@@ -97,12 +114,12 @@ class login_screen extends Component {
           </View>
         </View>
         <View marginTop={windowSize.height * 1/10}>
-          <ButtonRounded width={windowSize.width*.85} fillWithColor='#55B5FF' onPress={this.onLoginPress.bind(this)}>SIGN IN</ButtonRounded>
+          <ButtonRounded width={windowSize.width*.85} fillWithColor='#007AFF' onPress={this.onLoginPress.bind(this)}>SIGN IN</ButtonRounded>
         </View>
         <View marginTop={windowSize.height * 1/10}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("SignUp")}>
               <Text style={styles.createAcc}>
-                I do not have a Fordham Connect account.
+                First time user?
               </Text>
            </TouchableOpacity>
         </View>
@@ -130,11 +147,23 @@ const styles = ({
     color: 'white',
     fontWeight: '300',
     fontSize: 15
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)'
+    //backgroundColor: 'grey'
   }
 })
 
 const mapStateToProps = state => {
   return {
+    user: state.auth.user,
     email: state.auth.email,
     password: state.auth.password,
     error: state.auth.error,

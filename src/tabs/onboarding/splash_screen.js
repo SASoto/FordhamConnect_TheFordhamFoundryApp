@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, ActivityIndicator, View, ImageBackground} from 'react-native';
 
-import {SkypeIndicator} from 'react-native-indicators';
+import {MaterialIndicator} from 'react-native-indicators';
 import {loggedInUser, logoutUser} from '../../Actions';
 import { NavigationActions } from 'react-navigation';
 import {connect} from 'react-redux';
@@ -79,7 +79,7 @@ class signup_screen extends Component {
                     <View alignItems='center'>
                     <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
                     </View>
-                    <SkypeIndicator color='#bdbdbd' size={30} />
+                    <MaterialIndicator color='#007AFF' size={40} />
                     </ImageBackground>
                 </View>
             );
