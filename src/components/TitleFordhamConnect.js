@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, TouchableOpacity} from 'react-native';
+import {Dimensions, Text, View, Image, TouchableOpacity} from 'react-native';
 
 const windowSize = Dimensions.get('window');
 export default class TitleFordhamConnect extends Component {
@@ -8,16 +8,8 @@ export default class TitleFordhamConnect extends Component {
 
     return (
       <View>
-        <View flexDirection="column" marginTop={this.props.marginTop}>
-          <View>
-            <Text style={fordhamTxt}>Fordham</Text>
-          </View>
-          <View style={styles.fordhamCont}>
-            <Text style={connectTxt}>connect</Text>
-          </View>
-          <View style={styles.foundryCont}>
-            <Text style={foundryTxt}>by The Fordham Foundry</Text>
-          </View>
+        <View marginTop={this.props.marginTop}>
+          <Image style={styles.imgCont} source={require('../../Images/foundrylogowhite.png')} resizeMode="cover"/>
         </View>
       </View>
     );
@@ -25,6 +17,11 @@ export default class TitleFordhamConnect extends Component {
 }
 
 const styles = ({
+  imgCont: {
+    //flex: 1,
+    height: 65, 
+    width: 185
+  },
   fordhamCont: {
     marginTop: -15
   },

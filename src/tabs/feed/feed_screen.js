@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Dimensions, Text, View, TouchableOpacity, Button, FlatList, ImageBackground, RefreshControl} from 'react-native';
 import {createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 import {connect} from 'react-redux';
-// import LinearGradient from 'react-native-linear-gradient';
+
+import LinearGradient from 'react-native-linear-gradient';
 import {SkypeIndicator} from 'react-native-indicators';
 import {List} from 'react-native-elements';
 
@@ -62,6 +63,7 @@ export default class feed_screen extends Component {
             retSinceId: null,
             getNewerTweets: null,
             maxId: null,
+            //prevMaxID: null,
             getOlderTweets: null
         }
 
@@ -132,18 +134,18 @@ export default class feed_screen extends Component {
       if(!this.state.loading)
         this.setState({loading: true})
 
-      var NeworOld = null //0 for new 1 for old
+      // var NeworOld = null //0 for new 1 for old
 
-      if(this.state.maxId == null && this.state.sinceId == null) {
+      // if(this.state.maxId == null && this.state.sinceId == null) {
         var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1`;
-      }
-      else if (this.state.getOlderTweets) {
-        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
-        NeworOld = 1
-      } else if (this.state.getNewerTweets) {
-        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1`;
-        NeworOld = 0
-      }
+      // }
+      // else if (this.state.getOlderTweets) {
+      //   var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
+      //   NeworOld = 1
+      // } else if (this.state.getNewerTweets) {
+      //   var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1`;
+      //   NeworOld = 0
+      // }
 
     	const header = {
     		Authorization: 'Bearer ' + this.state.retToken.access_token,
@@ -159,25 +161,115 @@ export default class feed_screen extends Component {
     	response.json().then((result) => 
     	{
         //Handles on first open of feed
-        if(this.state.feedData.length == []) {
-          this.setState({feedData: result, sinceId: result[0].id});
+        // if(this.state.feedData.length == []) {
+          this.setState({feedData: result, sinceId: result[0].id, maxId: result[result.length-1].id});
           //console.log("SETTING SINCEID: ", this.state.sinceId);
-        } //Handles loading older tweets
-        else if(NeworOld) {
-      		this.setState({feedData: [...this.state.feedData, ...result]})
-        } //Handles loading newer tweets and appending to top of original feed data
-        else {
-          if(result[0]!= null) { 
-            if(this.state.sinceId != result[0].id) {
-              //console.log('NORESULT: ', result)
-              const newFeedData = this.state.feedData.slice(1,this.state.feedData.length-1);            
-              this.setState({feedData: [...result, ...newFeedData], sinceId: result[0].id})
-            }          
-          }
-        }
+        // } //Handles loading older tweets
+        // else if(NeworOld) {
+      		// this.setState({feedData: [...this.state.feedData, ...result]})
+        // } //Handles loading newer tweets and appending to top of original feed data
+        // else {
+        //   if(result[0]!= null) { 
+        //     if(this.state.sinceId != result[0].id) {
+        //       //console.log('NORESULT: ', result)
+        //       const newFeedData = this.state.feedData.slice(1,this.state.feedData.length-1);            
+        //       this.setState({feedData: [...result, ...newFeedData], sinceId: result[0].id})
+        //     }          
+        //   }
+        // }
     	})
     	})
     	.catch((error) => {this.setState({error, loading: false, refreshing: false})})
+
+      this.setState({refreshing: false, loading: false})
+  }
+
+  fetchNewTweets() {
+    if(!this.state.loading)
+        this.setState({loading: true})
+
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1`;
+
+      const header = {
+        Authorization: 'Bearer ' + this.state.retToken.access_token,
+      };
+
+      const requestOption = {
+        method: 'GET',
+        headers: header,
+      };
+
+      fetch(url, requestOption)
+      .then((response) => {
+      response.json().then((result) => 
+      {
+        if(result[0]!= null) { 
+          if(this.state.sinceId != result[0].id) {
+            // if(this.state.sinceId )
+            const olderFeedData = this.state.feedData;
+            //var slicedRes = result.slice(0,result.length-1);           
+            if(result[result.length-1].id == this.state.sinceId) {
+              const slicedRes = result.slice(0,result.length-1);
+              this.setState({feedData: [...slicedRes, ...olderFeedData], sinceId: result[0].id})
+            } else {
+              this.setState({feedData: [...result, ...olderFeedData], sinceId: result[0].id})
+            }
+            // this.setState({sinceId: result[0].id});
+          }          
+        }
+      }
+      )
+      })
+      .catch((error) => {this.setState({error, loading: false, refreshing: false})})
+
+      this.setState({refreshing: false, loading: false})
+
+  }
+
+  fetchOldTweets() {
+    if(!this.state.loading)
+        this.setState({loading: true})
+
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
+
+      const header = {
+        Authorization: 'Bearer ' + this.state.retToken.access_token,
+      };
+
+      const requestOption = {
+        method: 'GET',
+        headers: header,
+      };
+
+      fetch(url, requestOption)
+      .then((response) => {
+      response.json().then((result) => 
+      {
+        //Handles on first open of feed
+        //if(result.length > 1) {
+          //var moreRecentFD = this.state.feedData.slice(0,this.state.feedData.length-2);
+          //if(this.state.)
+          //setTimeout(() => {
+            if(this.state.maxId == result[0].id) {
+            //var moreRecentFD = this.state.feedData.slice(0,this.state.feedData.length-2);
+            result=result.slice(1,result.length-1);
+            this.setState({feedData: [...this.state.feedData, ...result]});
+            this.setState({maxId: this.state.feedData[this.state.feedData.length - 1].id});
+          } else {
+
+           this.setState({feedData: [...this.state.feedData, ...result]});
+           this.setState({maxId: this.state.feedData[this.state.feedData.length - 1].id});
+
+          //if(latest_maxid != this.state.maxId) {
+          }
+          //},500)
+          
+          
+        //}
+
+      })
+      })
+      .catch((error) => {this.setState({error, loading: false, refreshing: false})})
 
       this.setState({refreshing: false, loading: false})
   }
@@ -223,8 +315,23 @@ export default class feed_screen extends Component {
     date = dateArr[1] + ' ' + dateArr[2] + ' ' + dateArr[3];
 
     var tweettext = tweet.item.text;
-    var seeIfUrlPresent = tweettext.search("https://")
-    if(seeIfUrlPresent != -1) {
+    var urlPresentAtStart = tweettext.split(' ');
+
+    //if url present
+      //if in second position there is a ...
+      //add https:// to
+
+    if(urlPresentAtStart[0] != 'From') {
+      tweettext = tweettext.split(' ');
+      tweettext = tweettext.slice(1,(tweettext.length));
+      tweettext = tweettext.join(' ');
+      urlPresentAtStart = urlPresentAtStart[0];
+    } else {
+      urlPresentAtStart = null;
+    }
+
+    var urlPresentAtEnd = tweettext.search("https://")
+    if(urlPresentAtEnd != -1) {
       tweettext = tweettext.split(' ');
       tweettext = tweettext.slice(0,(tweettext.length -1 ));
       tweettext = tweettext.join(' ');
@@ -234,6 +341,7 @@ export default class feed_screen extends Component {
     //console.log("After slice: ", tweettext)
     // TWEET.ITEM.EXTENDED_ENTITIES.MEDIA DOES NOT WORK
     var entities = JSON.stringify(tweet.item.extended_entities);
+    //var image_url = null;
     if(entities != null) {
       var entities_parsed_media_1 = entities.split(':');
 
@@ -250,6 +358,12 @@ export default class feed_screen extends Component {
       // JOINS IMAGE URL LINK
       var image_parsed = entities_parsed_media_4.slice(3,entities_parsed_media_4.length - 2);
       var image_url = image_parsed.slice(0,5) + ':' + image_parsed.slice(5,image_parsed.length);
+    } else {
+      var final_type = 'photo';
+      if(urlPresentAtStart != null) {
+        var image_url = urlPresentAtStart;
+        console.log("IMAGE URL AT START: ",image_url);
+      }
     }
 
     // CHECK IF PHOTO, VIDEO, or GIF
@@ -302,40 +416,32 @@ export default class feed_screen extends Component {
   }
 
   loadOlderTweets() {
-    setTimeout(() => {
-      var dataLength = this.state.feedData.length;
-      var latest_maxid = this.state.feedData[dataLength - 1].id
+    //setTimeout(() => {
+        this.fetchOldTweets();
+      // } else {
+      //   this.setState({refreshing: false, loading: false})
+      // }
 
-      if(latest_maxid != this.state.maxId) {
-        this.setState({
-          // get since_id id
-          maxId: latest_maxid, getOlderTweets: true, getNewerTweets: false
-        })
-        this.fetchTwitterFeed();
-      } else {
-        this.setState({refreshing: false, loading: false})
-      }
-
-    },1000)
+    //},1000)
   }
 
   loadNewerTweets() {
     //this.setState({loading: true})
-    setTimeout(() => {
-      var latest_sinceid = this.state.feedData[0].id
+    //setTimeout(() => {
+      //var latest_sinceid = this.state.feedData[0].id
       //console.log("OLD SINCE: ", this.state.feedData[0].id)
       //console.log("NEW SINCE: ", latest_sinceid)
 
      // if(latest_sinceid != this.state.sinceId) {
-        this.setState ({
-          sinceId: latest_sinceid, getNewerTweets: true, getOlderTweets: false
-        })
-        this.fetchTwitterFeed();
+        // this.setState ({
+        //   sinceId: latest_sinceid//, getNewerTweets: true, getOlderTweets: false
+        // })
+        this.fetchNewTweets();
       //} else {
-          this.setState({refreshing: false, loading: false})
+          //this.setState({refreshing: false, loading: false})
       //}
 
-      }, 1000)
+     // }, 1000)
   }
 
   renderFooter() {
@@ -352,7 +458,7 @@ export default class feed_screen extends Component {
     return (
       <View
         style={{
-          height: 10,
+          height: 17,
           width: windowSize.width,
           backgroundColor: "rgb(221, 215, 218)",
         }}
@@ -365,8 +471,19 @@ export default class feed_screen extends Component {
        return (
         //<View flex={1} marginBottom={10}>
         //<View marginTop={20}>
-        <List>
-          <View backgroundColor="rgb(221, 215, 218)">
+        //USE rgb(221, 215, 218)
+        <View flex={1}>
+        <ImageBackground
+          resizeMode='cover'
+          style={{
+            flex: 1,
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}
+
+            source={require('../../../Images/plussilvergradient.png')}
+        >
             <FlatList
               ItemSeparatorComponent={this.renderSeparator}
               data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
@@ -376,7 +493,7 @@ export default class feed_screen extends Component {
           	}
              ListFooterComponent={this.renderFooter}
              onEndReached={this.loadOlderTweets}
-             onEndThreshold={8}
+             onEndThreshold={10}
              //refreshing={this.state.refreshing}
              //onRefresh={this.loadNewerTweets}
              refreshControl={
@@ -390,9 +507,12 @@ export default class feed_screen extends Component {
                 />
               }
             />
+            </ImageBackground>
             </View>
-        </List>
-        //</View>
+        
+
+        
+        
         
         
       );
@@ -407,7 +527,8 @@ export default class feed_screen extends Component {
 
   render() {
     return (
-        <View style={styles.encompCont}>
+      <View style={styles.encompCont}>
+        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
         {this.renderFeed()}
       </View>
     );
@@ -420,11 +541,12 @@ const styles = ({
 		// alignItems: 'center'
     //margin: 0,
     flex: 1,
-    margin: -10,
+    //margin: 10,
     // top: 0,
     // bottom: 0,
     //height: 10,
-    backgroundColor: 'rgb(191, 187, 187)'//rgba(233, 228, 228, 1)'//'#47101E'//#530F1C'
+    //elevation: null
+    //backgroundColor: 'rgb(191, 187, 187)'//rgba(233, 228, 228, 1)'//'#47101E'//#530F1C'
 	},
 	imageContainer: {
 	//alignItems: 'center',

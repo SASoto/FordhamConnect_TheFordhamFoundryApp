@@ -37,13 +37,16 @@ class signup_screen extends Component {
     // }
 
   checkLoggedIn(){
+    const routeName = this.state.checkedUser ? "SignedIn" : "SignedOut";
+    this.props.navigation.navigate(routeName);
     //const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
     // if(routeName === "SignedIn") 
     // {
-    if(this.state.checkedUser)
-        this.props.navigation.navigate("SignedIn")
-    else
-        this.props.navigation.navigate("SignedOut")
+
+    //if(this.state.checkedUser)
+        //this.props.navigation.navigate("SignedIn")
+    //else
+    //    this.props.navigation.navigate("SignedOut")
         
   }
 
@@ -60,21 +63,18 @@ class signup_screen extends Component {
   }
 
     render() {
-        const resizeMode = 'cover';
-        // if(!this.state.checkedUser) {
             return (
                 <View flex={1}>
                     <ImageBackground
+                      resizeMode='cover'
                       style={{
                         flex: 1,
-                        //resizeMode,
                         position: 'absolute',
                         width: '100%',
                         height: '100%',
-                        //alignItems: 'center',
                       }}
 
-                      source={require('../../../Images/background_splash.jpg')}
+                      source={require('../../../Images/positionedblur.png')}
                     >
                     <View alignItems='center'>
                     <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
@@ -83,7 +83,6 @@ class signup_screen extends Component {
                     </ImageBackground>
                 </View>
             );
-        //}
     }
 }
 

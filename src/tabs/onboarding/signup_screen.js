@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, Alert, Text, View, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
-import {emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
+import {emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 
@@ -60,11 +60,13 @@ class signup_screen extends Component {
         this.props.passwordChanged(text)
     }
 
+    onConfirmChange(text){
+        this.props.confirmChanged(text)
+    }
+
     onNewHere() {
-        const {email, password, firstname, lastname} = this.props
-        //CHECK THAT VALID EMAIL AND VALID PASSWORD, ELSE SHOW ALERT MESSAGE OR ERROR MESSAGE
-        //ADDITIONAL CODE HERE
-        this.props.newUser({email: email || '', password: password || '', firstname: firstname || '', lastname: lastname || '',})
+        const {email, password, confirm, firstname, lastname} = this.props
+        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '',})
     }
 
     checkFlag() {
@@ -155,38 +157,37 @@ class signup_screen extends Component {
     return (
       <View flex={1}>
         <ImageBackground
+            resizeMode='cover'
             style={{
                 flex: 1,
-                //resizeMode,
                 position: 'absolute',
                 width: '100%',
-                height: '100%',
-                //alignItems: 'center',
-              }}
+                height: '100%'
+            }}
 
               source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View alignItems="center">
-            <TitleFordhamConnect marginTop={(windowSize.width*1/10)}/>
+            <TitleFordhamConnect marginTop={(windowSize.width*2/10)}/>
             <View style={styles.signUpCont}>
-                <Text style={styles.signUpTxt}>NEW USER</Text>
+                <Text style={styles.signUpTxt}>First Time User</Text>
             </View>
-            <View marginTop={(windowSize.height * 2/10) * .1}>
+            <View marginTop={(windowSize.height * 1/10)/2}>
                 <View>
-                  <TextInputUnderline fieldName="FORDHAM EMAIL" fontSize={11} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
+                  <TextInputUnderline fieldName="FORDHAM EMAIL*" fontSize={11} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="FIRST NAME" fontSize={11} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
+                  <TextInputUnderline fieldName="FIRST NAME*" fontSize={11} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="LAST NAME" fontSize={11} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
+                  <TextInputUnderline fieldName="LAST NAME*" fontSize={11} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="PASSWORD" fontSize={11} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
+                  <TextInputUnderline fieldName="PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="CONFIRM PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={() => console.log("do nothing")}/>
+                    <TextInputUnderline fieldName="CONFIRM PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
                 </View>
             </View>
             <View marginTop={(windowSize.height * 1/10) * .3}>
@@ -199,7 +200,7 @@ class signup_screen extends Component {
                   </Text>
                 </TouchableOpacity>
             </View>
-            </View>
+        </View>
         </TouchableWithoutFeedback>
         </ImageBackground>
       {this.checkStuff()}
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent', 
     },
     signUpAccTxt: {
-    fontFamily: 'HelveticaNeue-Thin',
+    fontFamily: 'SFProText-Regular',
     color: 'white',
     fontWeight: '300',
     fontSize: 15
@@ -234,6 +235,7 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    confirm: state.auth.confirm,
     firstname: state.auth.firstname,
     lastname: state.auth.lastname,
     error: state.auth.error,
@@ -242,4 +244,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps,{emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser})(signup_screen)
+export default connect(mapStateToProps,{emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser})(signup_screen)

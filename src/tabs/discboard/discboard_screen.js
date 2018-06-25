@@ -15,7 +15,11 @@ export default class discboard_screen extends Component {
 
 	render() {
 		return (
-			<DBMainCard/>
+			
+				<View alignItems="center">
+					<DBMainCard/>
+				</View>
+			
   		);
 	}
 }

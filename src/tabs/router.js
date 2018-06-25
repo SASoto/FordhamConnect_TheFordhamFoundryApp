@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Animated, Easing, View, Image, Button, Icon, ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {Dimensions, Animated, Easing, Modal, View, Image, Button, Icon, ImageBackground, Text, TouchableOpacity} from 'react-native';
 import {TabNavigator, createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
@@ -22,9 +22,17 @@ import LogoutButton from './logoutbutton';
 
 import MainViewScreen2 from './home/mainview_screen2';
 
+import ProfileModal from './profilemodal';
 import ProfileScreen from './profile/profile_screen';
 
 import FeedScreen from './feed/feed_screen';
+
+
+import FoundryScreen from './foundry/foundry_screen';
+import FoundryEventsScreen from './foundry/foundryevents_screen';
+import FoundryAboutScreen from './foundry/foundryabout_screen';
+
+
 import TweetScreen from './feed/tweet_screen';
 // import LogoutScreen from './Login/logout_screen';
 
@@ -193,22 +201,41 @@ export const FeedStack = createStackNavigator ({
 	}
 })
 
+export const FoundryEventsStack = createStackNavigator ({
+	Events: {
+		screen: FoundryEventsScreen,
+		navigationOptions: {
+			header: null
+		}
+	}
+})
+
+export const FoundryAboutStack = createStackNavigator ({
+	About: {
+		screen: FoundryAboutScreen,
+		navigationOptions: {
+			header: null
+		}
+	}
+})
+
 const ProfileStack = createStackNavigator ({
 	Profile: {
 		screen: ProfileScreen,
 		navigationOptions: ({navigation}) => ({
 			headerBackground: 
 			<ImageBackground
+				resizeMode="cover"
 				style={{
                 flex: 1,
                 //resizeMode,
                 position: 'absolute',
-                width: '105%',
-                height: '100%',
+                width: '101%',
+                height: '101%',
                 //alignItems: 'center',
               }}
 
-              source={require('../../Images/background_splash.jpg')}
+              source={require('../../Images/positionedblur.png')}
 
 			/>,
 			title: 'Profile',
@@ -232,12 +259,12 @@ const NetworkStack = createStackNavigator ({
                 flex: 1,
                 //resizeMode,
                 position: 'absolute',
-                width: '105%',
-                height: '100%',
+                width: '101%',
+                height: '101%',
                 //alignItems: 'center',
               }}
 
-              source={require('../../Images/background_splash.jpg')}
+              source={require('../../Images/positionedblur.png')}
 
 			/>,
 			title: 'Fordham Contacts',
@@ -254,16 +281,17 @@ const NetworkStack = createStackNavigator ({
 		navigationOptions: ({navigation}) => ({
 			headerBackground: 
 			<ImageBackground
+				resizeMode="cover"
 				style={{
                 flex: 1,
                 //resizeMode,
                 position: 'absolute',
-                width: '105%',
-                height: '100%',
+                width: '101%',
+                height: '101%',
                 //alignItems: 'center',
               }}
 
-              source={require('../../Images/background_splash.jpg')}
+              source={require('../../Images/positionedblur.png')}
 
 			/>,
 			title: 'Contact Profile',
@@ -317,16 +345,17 @@ export const ChatStack = createStackNavigator ({
 		navigationOptions: ({navigation}) => ({
 			headerBackground: 
 			<ImageBackground
+				resizeMode="cover"
 				style={{
                 flex: 1,
                 //resizeMode,
                 position: 'absolute',
-                width: '105%',
-                height: '100%',
+                width: '101%',
+                height: '101%',
                 //alignItems: 'center',
               }}
 
-              source={require('../../Images/background_splash.jpg')}
+              source={require('../../Images/positionedblur.png')}
 
 			/>,
 			title: 'Chat',
@@ -342,40 +371,6 @@ export const ChatStack = createStackNavigator ({
 
 /*createMaterialTopTabNavigator*/ 
 export const MainViewTabNav = createMaterialTopTabNavigator ({
-// 	Discussion: DiscussionStack,
-// 	News: FeedStack
-// },
-//  {	
-//  	initialRouteName: "Discussion",
-//  	// navigationOptions: ({ navigation }) => {
-//   //     const { routeName, routes } = navigation.state;
-//   //   },
-//  	tabBarComponent: props => <CustomTabBarTop {...props}/>,
-//     tabBarOptions: {
-// 		upperCaseLabel: false,
-// 		labelStyle: {
-// 			fontSize: 14,
-// 			fontFamily: 'HelveticaNeue-Medium',
-// 			color: '#737373',
-// 			//activeTintColor: 'red'
-
-// 		},
-// 		tabStyle: {
-// 			height: 50,
-// 			width: 110,
-
-// 		},
-// 		indicatorStyle: {
-// 			backgroundColor: 'rgb(0, 122, 255)'
-// 		},
-// 		style: {
-// 			backgroundColor: 'rgb(221, 215, 218)',
-// 			//activeTintColor: 'red'
-// 		},
-// 	}
-
-//  }
-
 	Discussion: {
 		screen: DiscussionStack,
 		// navigationOptions: ({ navigation }) => ({
@@ -407,7 +402,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 	},
 },
 	{
-		initialRouteName: 'News',
+		initialRouteName: 'Discussion',
 		// navigationOptions: {
 		// 	swipeEnabled: false
 		// },
@@ -418,7 +413,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 			upperCaseLabel: false,
 			labelStyle: {
 				fontSize: 14,
-				fontFamily: 'HelveticaNeue-Medium',
+				fontFamily: 'SFProText-Regular',
 				color: '#737373',
 				//activeTintColor: 'red'
 
@@ -440,6 +435,73 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 
 )
 
+export const FoundryTabNav = createMaterialTopTabNavigator ({
+	Events: {
+		screen: FoundryEventsStack,
+		// navigationOptions: ({ navigation }) => ({
+		// 	// gesturesEnabled: false,
+		// 	tabBarOnPress: ({ navigation, defaultHandler }) => {
+		//         // perform your logic here
+		//         // this is mandatory to perform the actual switch
+		//         // you can omit this if you want to prevent it
+		//         console.log("WTF3")
+		//         navigation.navigate('DiscussionBoard');
+		//         //jumpToIndex(1);
+	 //        }
+		// })
+	},
+	About: {
+		screen: FoundryAboutStack,
+		// navigationOptions: ({ navigation }) => ({
+		// 	// gesturesEnabled: false,
+		// 	tabBarOnPress: ({ navigation, defaultHandler }) => {
+		//         // perform your logic here
+		//         // this is mandatory to perform the actual switch
+		//         // you can omit this if you want to prevent it
+		//         console.log("WTF3")
+		//         navigation.navigate('Feed');
+		//         this.defaultHandler.state.
+		//         //jumpToIndex(1);
+	 //        }
+		// }),
+	},
+},
+	{
+		initialRouteName: 'Events',
+		// navigationOptions: {
+		// 	swipeEnabled: false
+		// },
+		//tabBarComponent: props => <CustomTabBarTop {...props}/>,
+		tabBarOptions: {
+			//activeTintColor: 'red',
+			//margin: 0,
+			upperCaseLabel: false,
+			labelStyle: {
+				fontSize: 14,
+				fontFamily: 'SFProText-Regular',
+				color: '#737373',
+				//activeTintColor: 'red'
+
+			},
+			tabStyle: {
+				height: 50,
+				width: 110,
+
+			},
+			indicatorStyle: {
+				backgroundColor: 'rgb(0, 122, 255)'
+			},
+			style: {
+				backgroundColor: 'rgb(221, 215, 218)',
+				//activeTintColor: 'red'
+			},
+		}
+	}
+
+)
+
+
+
 const MainStack = createStackNavigator ({
 	MainView: {
 		screen: MainViewScreen2,
@@ -447,26 +509,31 @@ const MainStack = createStackNavigator ({
 			//headerBackgroundColor: 'maroon',
 			headerBackground:
 			<ImageBackground
+				resizeMode='cover'
 				style={{
-                flex: 1,
-                //resizeMode,
-                position: 'absolute',
-                width: '105%',
-                height: '105%',
-                //alignItems: 'center',
-              }}
+					flex: 1,
+					position: 'absolute',
+					width: '101%',
+					height: '101%',
+				}}
 
-              source={require('../../Images/background_splash.jpg')}
+              source={require('../../Images/positionedblur.png')}
 
 			/>,
 			headerTitleStyle: {
 			    //fontWeight: '300',
 			    color: 'white',
-			    fontFamily: 'HelveticaNeue-Medium',
+			    fontFamily: 'SFProText-Regular',
 			    fontSize: 19,
 			    //marginRight:
   			},
 			title: 'Home',
+			// fontFamily: 'Avenir',
+			titleStyle: {
+				//fontFamily: 'Arial Hebrew',
+			},
+			//fontFamily: 'Impact',
+			//titleStyle:
 			//size: 25,
 			//headerTintColor: 'white',
 			headerLeft: 
@@ -476,10 +543,10 @@ const MainStack = createStackNavigator ({
 			headerStyle: {
 				shadowOpacity: 1,
 				shadowColor: '#010000',
-				elevation: 1,
+				//elevation: 1,
 				shadowOffset: {
 					width: 0,
-					height: 5
+					height: 2
 				}
 			}
 			// headerLeft: 
@@ -494,42 +561,130 @@ const MainStack = createStackNavigator ({
 	}
 })
 
+const FoundryStack = createStackNavigator ({
+	Foundry: {
+		screen: FoundryScreen,
+		navigationOptions: ({navigation}) => ({
+			//headerBackgroundColor: 'maroon',
+			headerBackground:
+			<ImageBackground
+				resizeMode='cover'
+				style={{
+					flex: 1,
+					position: 'absolute',
+					width: '101%',
+					height: '101%',
+				}}
+
+              source={require('../../Images/positionedblur.png')}
+
+			/>,
+			headerTitleStyle: {
+			    //fontWeight: '300',
+			    color: 'white',
+			    fontFamily: 'SFProText-Regular',
+			    fontSize: 16,
+			    //marginRight:
+  			},
+			title: 'The Fordham Foundry',
+			// fontFamily: 'Avenir',
+			// titleStyle: {
+			// 	//fontFamily: 'Arial Hebrew',
+			// },
+			//fontFamily: 'Impact',
+			//titleStyle:
+			//size: 25,
+			//headerTintColor: 'white',
+			headerLeft: 
+				<View paddingLeft={5}>
+					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+				</View>,
+			headerStyle: {
+				shadowOpacity: 1,
+				shadowColor: '#010000',
+				//elevation: 1,
+				shadowOffset: {
+					width: 0,
+					height: 2
+				}
+			}
+			// headerLeft: 
+			// 	<View flex={1} flexDirection="row">
+			// 		<View justifyContent="center">
+			// 		<Button title="menu" size={35} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
+			// 		</View>
+			// 	<Text style={styles.drawerTitle}>Feed</Text>
+			// 	</View>
+
+		})
+	}
+})
+
+
+//<TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
 class SideDrawer extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state={
+			modalVisible: false
+		}
+	}
+
+	setModalVisible() {
+		this.setState({modalVisible: false});
+	}
+
 	// const userEmail = firebase.auth().currentUser.email;
 	render() {
-		console.log("IS THE USER LOGGEDIN? ",this.props.loggedIn)
-		console.log("THE USER THAT JUST LOGGED IN: ", this.props.user)
-		console.log("IS THE USER STILL LOADING: ", this.props.loading)
-		const userEmail = this.props.email;
-		console.log("USER EMAIL: ", userEmail);
+		// console.log("IS THE USER LOGGEDIN? ",this.props.loggedIn)
+		// console.log("THE USER THAT JUST LOGGED IN: ", this.props.user)
+		// console.log("IS THE USER STILL LOADING: ", this.props.loading)
+		// const userEmail = this.props.email;
+		// console.log("USER EMAIL: ", userEmail);
 			
-		const userFName = this.props.firstname;
-		console.log("USER FIRSTNAME: ",userFName)
-		const userLName = this.props.lastname;
-		console.log("USER LASTNAME: ",userLName)
+		// const userFName = this.props.firstname;
+		// console.log("USER FIRSTNAME: ",userFName)
+		// const userLName = this.props.lastname;
+		// console.log("USER LASTNAME: ",userLName)
 		//#5B1728
 	return (
-	<View flex={1} backgroundColor="#5B1728">
+	<View flex={1}>
+	<ImageBackground
+          resizeMode='cover'
+          style={{
+            flex: 1,
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}
+
+            source={require('../../Images/background_splash.jpg')}
+        >
 		<SafeAreaView flexDirection="column">
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
+			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
 				<View flexDirection="column" marginLeft={18}>
 					<View marginTop={40}>
 						<View style={styles.profPic}/>
 					</View>
-					
 				</View>
 			</TouchableOpacity>
-			<View marginTop={50} borderTopWidth={1} borderColor='grey'/>
-				<SafeAreaView marginTop={20}>
+
+			<ProfileModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
+
+			<View marginTop={50} borderTopWidth={1} borderColor='rgba(255,255,255,0.58)'/>
+				<View marginTop={20}>
 					<DrawerItems 
 					{...this.props}
+					labelStyle={{color: 'rgb(255,255,255)', fontFamily: 'HelveticaNeue-Medium', fontSize: 14}}
 					//items={items.filter((item) => item.routeName !== 'Profile')}
 					/>
-				</SafeAreaView>
+				</View>
 			<TouchableOpacity style={styles.logoutCont}>
 				<LogoutButton {...this.props} />
 			</TouchableOpacity>
 		</SafeAreaView>
+		</ImageBackground>
 	</View>
 	);
 	}
@@ -547,28 +702,21 @@ const DrawerRoutes = {
   	screen: MainStack,
   	navigationOptions: {
       title: 'Feed',
-      drawerIcon: <MatIcon name="home" size={20} color="white"/> //Icon goes here
+      drawerIcon: <MatIcon name="home" size={20} color="rgb(255,255,255)"/> //Icon goes here
     },
   },
-  // MainView: {
-  // 	screen: MainStack,
-  // 	navigationOptions: {
-  //     title: 'TheBoogieMan',
-  //     drawerIcon: <MatIcon name="remove-red-eye" size={20} color="grey"/> //Icon goes here
-  //   },
-  // },
-  // Feed: {
-  //   screen: FeedStack,
-  //   navigationOptions: {
-  //     title: 'Feed',
-  //     drawerIcon: <MatIcon name="home" size={20} color="grey"/> //Icon goes here
-  //   },
-  // },
+  TheFoundry: {
+  	screen: FoundryStack,
+  	navigationOptions: {
+      title: 'Fordham Foundry',
+      drawerIcon: <Image source={require('../../Images/foundrybulbwhite.png')}/> //Icon goes here
+    }
+  },
   Network: {
     screen: NetworkStack,
     navigationOptions: {
       title: 'Network',
-      drawerIcon: <MatIcon name="people" size={20} color="white"/>//Icon goes here
+      drawerIcon: <MatIcon name="people" size={20} color="rgb(255,255,255)"/>//Icon goes here
     },
   },
  // DiscussionBoard: {
@@ -582,7 +730,7 @@ const DrawerRoutes = {
   	screen: ChatStack,
   	navigationOptions: {
       title: 'Messages',
-      drawerIcon: <MatIcon name="email" size={20} color="white"/>//Icon goes here
+      drawerIcon: <MatIcon name="email" size={20} color="rgb(255,255,255)"/>//Icon goes here
     },
   },
 };
@@ -591,13 +739,14 @@ const DrawerOptions = {
   initialRouteName: 'MainView',
   contentComponent: SideDrawer,
   contentOptions: {
-  	activeTintColor: 'white',
-  	inactiveTintColor: 'lightgrey',
-	  labelStyle: {
-	    fontFamily: 'HelveticaNeue-Light',
-	    //color: 'grey',
-	    //activeTintColor: 'white',
-	  },
+  	activeTintColor: 'rgb(255,255,255)',
+  	activeBackgroundColor: 'darkred',
+	// labelStyle: {
+	// 	fontSize: 14,
+	// 	fontFamily: 'HelveticaNeue-Medium'//'SFProText-Regular',
+	// //color: 'grey',
+	// //activeTintColor: 'white',
+	// },
 	  // itemsContainerStyle: {
 	  //   marginVertical: 0,
 	  // },

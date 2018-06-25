@@ -17,13 +17,13 @@ export default class LogoutButton extends Component {
 					
 			);
 		} else { //No media
-			var media = (<Image style={styles.imageContainer} source={require('../../Images/foundry-logo-top-bar.png')}/>);
+			var media = null;
 		}
 		console.log("TEXT: ", this.props.descortweet)
 
 		return (
 			<View style={styles.encompCont}>
-				<View height={15} backgroundColor="rgb(221, 215, 218)"/>
+				
 				<View flexDirection="row">
 						
 						<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
@@ -60,8 +60,8 @@ const styles = ({
 		flex: 1,
 		//width: windowSize.width*.9,
 		flexDirection: 'column',
-		width: 375,
-		height: 445,
+		width: 370,
+		//height: 250,
 		backgroundColor: "rgba(106, 46, 52, 0.1)"//#E9E4E4"//6A2E34",
 		//borderRadius: 3,
 		//marginBottom: 1
@@ -79,7 +79,7 @@ const styles = ({
 	},
 	imageContainer: {
 		flex: 1,
-		height: 200,
+		height: 258,
 		//width: windowSize.width * .75//344
 	},
 	textCont: {
@@ -92,7 +92,7 @@ const styles = ({
 		fontSize: 14
 	},
 	subheadStyle: {
-		fontFamily: 'HelveticaNeue-Medium',
+		fontFamily: 'SFProText-Regular',
 		color: '#737373',
 		fontSize: 18
 	},
@@ -102,9 +102,10 @@ const styles = ({
 		fontSize: 12
 	},
 	textStyle: {
-		fontSize: 18,
+		fontSize: 16,
 		color: '#737373',
-		textAlign: 'left'
+		textAlign: 'left',
+		fontFamily: 'SFProText-Regular'
 	},
 	buttonStyle: {
 		width: 100,
