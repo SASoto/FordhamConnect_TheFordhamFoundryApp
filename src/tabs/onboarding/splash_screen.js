@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, ActivityIndicator, View, ImageBackground} from 'react-native';
 
-import {SkypeIndicator} from 'react-native-indicators';
+import {MaterialIndicator} from 'react-native-indicators';
 import {loggedInUser, logoutUser} from '../../Actions';
 import { NavigationActions } from 'react-navigation';
 import {connect} from 'react-redux';
@@ -37,13 +37,16 @@ class signup_screen extends Component {
     // }
 
   checkLoggedIn(){
+    const routeName = this.state.checkedUser ? "SignedIn" : "SignedOut";
+    this.props.navigation.navigate(routeName);
     //const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
     // if(routeName === "SignedIn") 
     // {
-    if(this.state.checkedUser)
-        this.props.navigation.navigate("SignedIn")
-    else
-        this.props.navigation.navigate("SignedOut")
+
+    //if(this.state.checkedUser)
+        //this.props.navigation.navigate("SignedIn")
+    //else
+    //    this.props.navigation.navigate("SignedOut")
         
   }
 
@@ -60,30 +63,26 @@ class signup_screen extends Component {
   }
 
     render() {
-        const resizeMode = 'cover';
-        // if(!this.state.checkedUser) {
             return (
                 <View flex={1}>
                     <ImageBackground
+                      resizeMode='cover'
                       style={{
                         flex: 1,
-                        //resizeMode,
                         position: 'absolute',
                         width: '100%',
                         height: '100%',
-                        //alignItems: 'center',
                       }}
 
-                      source={require('../../../Images/background_splash.jpg')}
+                      source={require('../../../Images/positionedblur.png')}
                     >
                     <View alignItems='center'>
                     <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
                     </View>
-                    <SkypeIndicator color='#bdbdbd' size={30} />
+                    <MaterialIndicator color='#007AFF' size={40} />
                     </ImageBackground>
                 </View>
             );
-        //}
     }
 }
 

@@ -184,6 +184,7 @@ export const newUser = ({email, password, confirm, firstname, lastname}) => {
         //Handling Errors...
         var errorCode = error.code;
         var errorMessage = error.message;
+
         if (errorCode == 'auth/weak-password') {
           alert("Oops! Try a stronger password.");
         } else if (errorCode == 'auth/email-already-in-use') {

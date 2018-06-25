@@ -17,60 +17,69 @@ export default class LogoutButton extends Component {
 					
 			);
 		} else { //No media
-			var media = (<Image style={styles.imageContainer} source={require('../../Images/foundry-logo-top-bar.png')}/>);
+			var media = null;
 		}
 		console.log("TEXT: ", this.props.descortweet)
 
 		return (
 			<View style={styles.encompCont}>
+				
 				<View flexDirection="row">
-						<View style={styles.profilePicCont}>
-
-						</View>
-						<View flexDirection="column" justifyContent="center">
-							<Text style={styles.titleStyle}>{this.props.titleorname}</Text>
+						
+						<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
+						
+						<View flexDirection="column" justifyContent="center">							
 							<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
-							<Text style={styles.dateStyle}>{this.props.date}</Text>
 						</View>
 				</View>
-				<View borderWidth={0.5} borderColor="grey"/>
-				{media}
-				<View borderWidth={0.5} borderColor="grey"/>
-				<View style={styles.textCont}>
-					<View flex={1}>
-						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
-					</View>
+				<View flex={1} paddingHorizontal={16} marginBottom={10}>
+					<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
 				</View>
-				<View marginBottom={16} marginLeft={16}>
-					<ButtonRounded width={110} fillWithColor='#5B1728' onPress={() => console.log("do nothing")}>Discuss</ButtonRounded>
+				{media}
+				<View borderWidth={1} borderColor="rgb(191,187,187)"/>
+				<View justifyContent="center" marginVertical={16} marginLeft={23} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>
+					
+					<TouchableOpacity onPress={() => console.log("do nothing")}>
+						<View style={styles.buttonStyle}>
+							<Text style={styles.buttonTextStyle}>
+							DISCUSS
+							</Text>
+						</View>
+					</TouchableOpacity>
 				</View>	
 			</View>
 		)
 	}
 }
 
+//<ButtonRounded width={100} height={30} padding={6} borderRadius={8} fillWithColor='rgb(0, 122, 255)' onPress={() => console.log("do nothing")}>DISCUSS</ButtonRounded>
+
 const styles = ({
 	encompCont: {
+		//marginTop: 10,
 		flex: 1,
+		//width: windowSize.width*.9,
 		flexDirection: 'column',
-		width: windowSize.width * .9,//344,
-		//height: 400,
-		backgroundColor: "white",
-		borderRadius: 3,
+		width: 370,
+		//height: 250,
+		backgroundColor: "rgba(106, 46, 52, 0.1)"//#E9E4E4"//6A2E34",
+		//borderRadius: 3,
 		//marginBottom: 1
 		//alignItems: 'center'
 	},
 	profilePicCont: {
-		backgroundColor: 'black',
-		borderRadius: 20,
-		width: 40,
-		height: 40,
-		margin: 16,
+		//backgroundColor: 'black',
+		borderRadius: 23,
+		width: 46,
+		height: 46,
+		marginLeft: 16,
+		marginTop:16,
+		marginBottom: 16, marginRight: 10
 		//justifyContent: 'center'
 	},
 	imageContainer: {
 		flex: 1,
-		height: 200,
+		height: 258,
 		//width: windowSize.width * .75//344
 	},
 	textCont: {
@@ -83,9 +92,9 @@ const styles = ({
 		fontSize: 14
 	},
 	subheadStyle: {
-		fontFamily: 'HelveticaNeue-Medium',
-		color: 'grey',
-		fontSize: 14
+		fontFamily: 'SFProText-Regular',
+		color: '#737373',
+		fontSize: 18
 	},
 	dateStyle: {
 		fontFamily: 'HelveticaNeue-Medium',
@@ -93,7 +102,25 @@ const styles = ({
 		fontSize: 12
 	},
 	textStyle: {
-		fontSize: 14,
-		textAlign: 'left'
+		fontSize: 16,
+		color: '#737373',
+		textAlign: 'left',
+		fontFamily: 'SFProText-Regular'
+	},
+	buttonStyle: {
+		width: 100,
+		height: 30,
+		paddingVertical: 7,
+		paddingHorizontal: 16,
+		borderRadius: 10,
+		backgroundColor: 'rgb(0, 122, 255)',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	buttonTextStyle: {
+	    alignSelf: 'center',
+	    color: 'white',
+	    fontSize: 15,
+	    fontFamily: 'HelveticaNeue-Medium',
 	}
 })

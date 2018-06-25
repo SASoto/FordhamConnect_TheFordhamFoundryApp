@@ -45,7 +45,6 @@ export default class contacts_screen extends Component {
             //     { 'userID': '15', 'firstname': 'Allan', 'content': "guys"}//]}]
             // ],
 
-
         }
         //console.log("My Data is ", this.state.myData)
         // this.getCombinedContactList = this.getCombinedContactList.bind(this);
@@ -303,6 +302,29 @@ export default class contacts_screen extends Component {
         // console.log("STATE IS BEFORE: ", this.state.contactList);
 
 
+
+    }
+
+
+    changeFavoritedStatus(passedUID, removeOrAdd) {
+        //console.log('SOMEONE NEW HAS BEEN FAVORITED')
+        this.setState({contactList: []});
+        console.log("passed uid: ", passedUID);
+        console.log("passed value: ", removeOrAdd);
+
+        if(removeOrAdd) {
+            // HANDLES REMOVING FROM FAVORITED LIST
+            // add uid (object) to contact list
+            // remove uid (object) from favorited list
+            // call get CombinedContactList()
+
+        }
+        else {
+            // HANDLES ADDING TO FAVORITED LIST
+            // add uid to favorited list
+            // search for index of passed uid in contactlist
+            // call getCombinedContactList();
+        }   
 
     }
 

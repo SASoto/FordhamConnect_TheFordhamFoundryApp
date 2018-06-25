@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import {Dimensions, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 
+import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+
+import FavoriteButton from './FavoriteButton';
+
 const windowSize = Dimensions.get('window');
 export default class ProfileCard extends Component {
+
 	render() {
 		return (
 			<View style={styles.encompCont}>
@@ -12,6 +17,9 @@ export default class ProfileCard extends Component {
 						<View flexDirection="row">
 							<View justifyContent = "center" flexDirection="column">
 								<Text>{this.props.userfname}</Text>
+							</View>
+							<View justifyContent="center">
+								<FavoriteButton handleFavorites={this.props.handleFavorites} favorited={this.props.favorited} userID={this.props.userID}/>
 							</View>
 						</View>
 					</View>
@@ -32,6 +40,8 @@ export default class ProfileCard extends Component {
 		)
 	}
 }
+
+//<Button title="favor" onPress={this.props.handleFavorites}/>
 
 const styles = ({
 	encompCont: {
