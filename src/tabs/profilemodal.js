@@ -27,9 +27,11 @@ export default class profilemodal extends Component {
 	              	source={require('../../Images/plussilvergradient.png')}
 
 	            >
-				<ScrollView flex={1}>				
+								
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<View flex={1}>
+					
+					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]}>
+						<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
 							style={{
@@ -58,115 +60,132 @@ export default class profilemodal extends Component {
 							</View>
 						</View>
 						</ImageBackground>
-					<View flex={1} alignItems="flex-start" marginTop={20} marginLeft={28}>
-						<View alignItems="center">
-							<View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
 						</View>
-						<View marginTop={20}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
-					        <TextInput
-					          style = {styles.input}				        
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={false}
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FIRST NAME*</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={false}				  		         				       
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>LAST NAME*</Text></View>
-					        <TextInput
-					          style = {styles.input}				       
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={false}		     				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>PASSWORD*</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={false}			      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>PERSONAL HEADLINE</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}
-					          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>						
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>WEBSITE LINK</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}		
-					          placeholder="ex. LinkedIn/a personal site"	      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>						
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>LOCATION</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}			      				          
-					          placeholder="ex. Greater New York City Area"
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>						
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>BIO</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}
-					          multiline={true}
-					          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
-					        />
-					        </View>						
+					<View flex={1} alignItems="flex-start" backgroundColor="rgba(106,46,52,0.1)">
+						<View paddingTop={20} paddingLeft={28}>
+							<View flexDirection="row">
+								<View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
+								<View marginLeft={16} justifyContent="center">
+									<Text>HELLO</Text>
+								</View>
+							</View>
+							<View marginTop={32}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
+							        <View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				        
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={false}
+							        />
+							        </View>
+						        </View>
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>FIRST NAME*</Text></View>
+							        <View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={false}				  		         				       
+							        />
+							        </View>
+						        </View>
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>LAST NAME*</Text></View>
+							        <View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				       
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={false}		     				          
+							        />
+							        </View>
+						        </View>
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>PASSWORD*</Text></View>
+						        	<View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={false}			      				          
+							        />
+							        </View>					
+						        </View>
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>PERSONAL HEADLINE</Text></View>
+						        	<View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={true}
+							          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
+							        />
+							        </View>						    
+						        </View>						
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>WEBSITE LINK</Text></View>
+							        <View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={true}		
+							          placeholder="ex. LinkedIn/a personal site"	      				          
+							        />
+							        </View>
+						        </View>						
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>LOCATION</Text></View>
+							        <View style={styles.inputBackground}>
+							        <TextInput
+							          style = {styles.input}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={true}			      				          
+							          placeholder="ex. Greater New York City Area"
+							        />
+							       </View>
+						        </View>						
+							</View>
+							<View marginTop={13}>
+								<View>
+						          <View backgroundColor="transparent"><Text style={styles.textStyle}>BIO</Text></View>
+							        <View style={styles.inputBackground4Bio}>
+							        <TextInput
+							          style = {styles.input4Bio}				          
+							          autoCapitalize = 'none'
+							          autoCorrect = {false}
+							          editable={true}
+							          multiline={true}
+							          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
+							        />
+							        </View>
+						        </View>						
 						</View>
 						<View backgroundColor="transparent" height={275}/>
 					</View>
 					</View>
+					</ScrollView>
+					
+					
 				</TouchableWithoutFeedback>
-				</ScrollView>
+				
 				</ImageBackground>
 				</View>
 			</Modal>
@@ -181,35 +200,66 @@ export default class profilemodal extends Component {
 //</View>
 
 const styles = ({
-	photoTxt: {
-		fontFamily: 'HelveticaNeue-Medium',
-		color:'#424242'
-	},
   textStyle: {
     fontFamily: 'SFProText-Light',
     color: 'rgb(115,115,115)',
-    fontWeight: '300',
-    fontSize: 13
+    fontSize: 12
   },
-  input:{
-    fontFamily: 'SFProText-Regular',
-    height: 40,
-    width: windowSize.width * .85,
-    color: 'rgb(115,115,115)',
-    fontSize: 15
-    //paddingHorizontal: 10
-  },
-  // multilineInput: {
-  // 	fontFamily: 'SFProText-Regular',
+  // input:{
+  //   fontFamily: 'SFProText-Light',
   //   height: 40,
   //   width: windowSize.width * .85,
   //   color: 'rgb(115,115,115)',
-  //   fontSize: 15
+  //   fontSize: 13
+  //   //paddingHorizontal: 10
   // },
-  fordhamAffilCont: {
-  	borderRadius: 4,
-  	borderWidth: 1,
-  	borderColor: 'grey'
+  input:{
+    fontFamily: 'SFProText-Light',
+    height: 37,
+    width: windowSize.width * .85,
+    color: 'rgb(115,115,115)',
+    fontSize: 13,
+    backgroundColor: 'transparent',
+    paddingLeft: 10,
+    //marginLeft: 10
+    //paddingHorizontal: 10
+  },
+  inputBackground: {
+    marginTop: 10,
+    height: 37,
+    width: windowSize.width * .85,
+    backgroundColor: 'rgba(106,46,52,0.1)',
+    borderRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1
+  },
+  input4Bio: {
+  	fontFamily: 'SFProText-Light',
+    height: 60,
+    width: windowSize.width * .85,
+    color: 'rgb(115,115,115)',
+    fontSize: 13,
+    backgroundColor: 'transparent',
+    paddingLeft: 10,
+  },
+  inputBackground4Bio: {
+  	marginTop: 10,
+    height: 60,
+    width: windowSize.width * .85,
+    backgroundColor: 'rgba(106,46,52,0.1)',
+    borderRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1
   },
   saveButtonCont: {
   	//width: 75,

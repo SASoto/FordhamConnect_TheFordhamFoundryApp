@@ -6,14 +6,16 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
-import {Dimensions, Alert, Text, View, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
+import {Dimensions, Alert, Text, View, ScrollView, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
 import {emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 
 import TextInputUnderline from '../../components/TextInputUnderline';
+import FilledTextInput from '../../components/FilledTextInput';
 import ButtonRounded from '../../components/ButtonRounded';
+import ButtonOutline from '../../components/ButtonOutline';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 
 const windowSize = Dimensions.get('window');
@@ -168,39 +170,42 @@ class signup_screen extends Component {
               source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
             <View alignItems="center">
-            <TitleFordhamConnect marginTop={(windowSize.width*2/10)}/>
+            <TitleFordhamConnect marginTop={(windowSize.width*1/10)}/>
             <View style={styles.signUpCont}>
-                <Text style={styles.signUpTxt}>First Time User</Text>
+                <Text style={styles.signUpTxt}>SIGN UP</Text>
             </View>
-            <View marginTop={(windowSize.height * 1/10)/2}>
+            <View marginTop={40}>
                 <View>
-                  <TextInputUnderline fieldName="FORDHAM EMAIL*" fontSize={11} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
+                  <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="FIRST NAME*" fontSize={11} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
+                  <FilledTextInput fieldName="FIRST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="LAST NAME*" fontSize={11} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
+                  <FilledTextInput fieldName="LAST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
                 </View>
                 <View marginTop={15}>
-                  <TextInputUnderline fieldName="PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
+                  <FilledTextInput fieldName="PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
                 </View>
                 <View marginTop={15}>
-                    <TextInputUnderline fieldName="CONFIRM PASSWORD*" fontSize={11} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
+                    <FilledTextInput fieldName="CONFIRM PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
                 </View>
             </View>
-            <View marginTop={(windowSize.height * 1/10) * .3}>
-              <ButtonRounded width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonRounded>
+            <View marginTop={26}>
+              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonOutline>
             </View>
-            <View marginTop={(windowSize.height * 1/10)*.75}>
+            <View marginTop={20}>
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                   <Text style={styles.signUpAccTxt}>
-                    I already have an account!
+                    Back to sign in
                   </Text>
                 </TouchableOpacity>
             </View>
         </View>
+        <View backgroundColor="transparent" height={200}/>
+        </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>
       {this.checkStuff()}
@@ -211,18 +216,20 @@ class signup_screen extends Component {
 
 const styles = StyleSheet.create({
     signUpCont: {
-        marginTop: 20,
-        alignItems: "center"
+        marginTop: 17,
+        alignItems: "center",
     },
     signUpTxt: {
-        color: 'white',
-        backgroundColor: 'transparent', 
+        color: 'rgb(255,255,255)',
+        //backgroundColor: 'transparent',
+        fontSize: 12,
+        fontFamily: 'SFProText-Light',
     },
     signUpAccTxt: {
     fontFamily: 'SFProText-Regular',
     color: 'white',
     fontWeight: '300',
-    fontSize: 15
+    fontSize: 12
     },
     disabledSignUp: {
         borderWidth: 2,

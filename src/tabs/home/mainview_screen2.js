@@ -10,9 +10,9 @@ export default class mainview_screen2 extends Component {
 	constructor(props) {
 		super(props)
 
-		// this.state = {
-		// 	hasScrolled: false
-		// }
+		this.state = {
+			touchDisabled: false
+		}
 
 		this.goToTop = this.goToTop.bind(this);
 		this.onTabButtonPress = this.onTabButtonPress.bind(this);
@@ -23,10 +23,15 @@ export default class mainview_screen2 extends Component {
 		this.refs._scrollView.scrollTo({x:0, y:0, animated: false});
 	}
 
+	handleScroll() {
+		console.log(this.refs.myScrollView.scrollProperties.offset);
+	}
+
 	onTabButtonPress() {
 		// if(!this.state.hasScrolled) {
 		// 	this.setState({hasScrolled: true});
-			this.refs._scrollView.scrollTo({x:0, y:219, animated: true});
+			this.setState({touchDisabled: true})
+			this.refs._scrollView.scrollTo({x:0, y:240, animated: true});
 		//}
 		// else {
 		// 	this.setState({hasScrolled: false});
@@ -39,23 +44,17 @@ export default class mainview_screen2 extends Component {
 
 	render() {
 		return (
-			
-			<ScrollView ref='_scrollView' flex={1} pagingEnabled={true} overScrollMode={"never"} showsVerticalScrollIndicator={false} stickyHeaderIndices={[1]}>
+			//pagingEnabled={true}
+			<ScrollView ref='_scrollView' flex={1}  pagingEnabled={true} overScrollMode={"never"} showsVerticalScrollIndicator={false} stickyHeaderIndices={[1]}>
 				
-				
+				<View flex={1} alignItems="center">
+					<Image resizeMode="cover" style={styles.imgCont} source={require('../../../Images/foundrydoorstretch.png')}/>
+				</View>
 					
-					<View flex={1} alignItems="center">
-						<Image resizeMode="cover" style={styles.imgCont} source={require('../../../Images/foundrydoorstretch.png')}/>
-					</View>
-					
-				
-				
-				
 				
 				<View flex={1} height={445*2}>
 					<MainViewTabNav/>
 				</View>
-				
 				
 			</ScrollView>
 			
