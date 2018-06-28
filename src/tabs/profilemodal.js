@@ -112,7 +112,14 @@ export default class profilemodal extends Component {
 						</View>
 						</ImageBackground>
 						</View>
-
+						<View flex={1} alignItems="flex-start" backgroundColor="rgba(106,46,52,0.1)">
+                        <View paddingTop={20} paddingLeft={28}>
+                           <View flexDirection="row">
+                               <View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
+                               <View marginLeft={16} justifyContent="center">
+                                   <Text>HELLO</Text>
+                               </View>
+                           </View>
 						<View marginTop={20}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
