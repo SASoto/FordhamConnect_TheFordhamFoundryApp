@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {StyleSheet, Dimensions, Text, View, ScrollView, Image, Button, TouchableWithoutFeedback} from 'react-native';
 
 // import { NavigationActions } from 'react-navigation';
+import {connect} from 'react-redux';
 
 import {MainViewTabNav} from '../router';
 
 const windowSize = Dimensions.get('window');
-export default class mainview_screen2 extends Component {
+class mainview_screen2 extends Component {
 	constructor(props) {
 		super(props)
 
@@ -43,6 +44,8 @@ export default class mainview_screen2 extends Component {
 	}
 
 	render() {
+		console.log("FROM MAINVIEW SCREEN: ",this.props.email)
+		//console.log("FROM MAINVIEW SCREEN: ",this.props.password)
 		return (
 			//pagingEnabled={true}
 			<ScrollView ref='_scrollView' flex={1}  pagingEnabled={true} overScrollMode={"never"} showsVerticalScrollIndicator={false} stickyHeaderIndices={[1]}>
@@ -91,3 +94,12 @@ const styles = StyleSheet.create({
 		// left: 0,
 	}
 })
+
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    user: state.auth.user,
+  }
+}
+
+export default connect(mapStateToProps)(mainview_screen2)

@@ -50,6 +50,6 @@ export default (state = INITIAL_STATE, action) => {
     case IS_EMPTY: 
       return {...state, ...INITIAL_STATE, password:'', loading: false}
     default:
-      return state;
+      return {...state};
   }
 }

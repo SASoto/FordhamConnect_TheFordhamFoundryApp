@@ -497,6 +497,7 @@ export default class feed_screen extends Component {
 
             source={require('../../../Images/plussilvergradient.png')}
         >
+        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
             <View marginTop={20} backgroundColor="transparent"/>
             
             <FlatList
@@ -545,7 +546,6 @@ export default class feed_screen extends Component {
   render() {
     return (
       <View style={styles.encompCont}>
-        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
         {this.renderFeed()}
       </View>
     );

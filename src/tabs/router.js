@@ -10,8 +10,9 @@ import CustomTabBarTop from './home/CustomTabBarTop';
 //import EntIcon from 'react-native-vector-icons/dist/Entypo';
 //import LogoutButton from './profile/LogoutButton';
 
-import firebase from 'firebase';
 import {connect} from 'react-redux';
+import firebase from 'firebase';
+// import { NavigationActions } from 'react-navigation';
 
 import App from '../App';
 import SplashScreen from './onboarding/splash_screen';
@@ -21,6 +22,7 @@ import ForgotPassScreen from './onboarding/forgotpassword_screen';
 import SignupScreen from './onboarding/signup_screen';
 import LogoutButton from './logoutbutton';
 
+import DrawerNavigatorComp from './drawernavigator';
 import MainViewScreen2 from './home/mainview_screen2';
 
 import ProfileModal from './profilemodal';
@@ -501,6 +503,7 @@ export const FoundryTabNav = createMaterialTopTabNavigator ({
 		tabBarOptions: {
 			//activeTintColor: 'red',
 			//margin: 0,
+			scrollEnabled: true,
 			upperCaseLabel: false,
 			labelStyle: {
 				fontSize: 14,
@@ -648,73 +651,82 @@ const FoundryStack = createStackNavigator ({
 
 
 //<TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
-class SideDrawer extends Component {
-	constructor(props) {
-		super(props)
+// class SideDrawer extends Component {
+// 	constructor(props) {
+// 		super(props)
 
-		this.state={
-			modalVisible: false
-		}
-	}
+// 		this.state={
+// 			modalVisible: false
+// 		}
+// 	}
 
-	setModalVisible() {
-		this.setState({modalVisible: false});
-	}
+// 	setModalVisible() {
+// 		this.setState({modalVisible: false});
+// 	}
 
-	// const userEmail = firebase.auth().currentUser.email;
-	render() {
-		const userEmail = this.props.email;
-		console.log("USER EMAIL FROM ROUTER: ", this.props.email);
-		console.log("USER PASSWORD FROM ROUTER", this.props.password);
-		const userFName = this.props.firstname;
-		//console.log("USER FIRSTNAME FROM ROUTER: ",userFName);
-		const userLName = this.props.lastname;
-		//console.log("USER LASTNAME FROM ROUTER: ",userLName);
+// 	// const userEmail = firebase.auth().currentUser.email;
+// 	render() {
+// 		const userEmail = this.props.email;
+// 		console.log("USER EMAIL FROM DRAWER: ", this.props.email);
+// 		//console.log("USER PASSWORD FROM ROUTER", this.props.password);
+// 		const userFName = this.props.firstname;
+// 		//console.log("USER FIRSTNAME FROM ROUTER: ",userFName);
+// 		const userLName = this.props.lastname;
+// 		//console.log("USER LASTNAME FROM ROUTER: ",userLName);
 
-	return (
-	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
-	<ImageBackground
-          resizeMode='cover'
-          style={{
-            flex: 1,
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}
+// 	return (
+// 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
+// 	<ImageBackground
+//           resizeMode='cover'
+//           style={{
+//             flex: 1,
+//             position: 'absolute',
+//             width: '100%',
+//             height: '100%',
+//           }}
 
-            source={require('../../Images/background_splash.jpg')}
-        >
-		<SafeAreaView flexDirection="column">
-			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-				<View flexDirection="column" marginLeft={30} marginTop={40}>
+//             source={require('../../Images/background_splash.jpg')}
+//         >
+// 		<SafeAreaView flexDirection="column">
+// 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+// 				<View flexDirection="column" marginLeft={30} marginTop={40}>
 					
-						<View style={styles.profPic}/>
-						<View marginTop={20}>
-							<Text style={styles.accountInfoTxtStyle}>Hello There</Text>
-						</View>
-					</View>
+// 						<View style={styles.profPic}/>
+// 						<View marginTop={20}>
+// 							<Text style={styles.accountInfoTxtStyle}>Hello There</Text>
+// 						</View>
+// 					</View>
 				
-			</TouchableOpacity>
+// 			</TouchableOpacity>
 
-			<ProfileModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
+// 			<ProfileModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
 
-			<View marginTop={37} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>
-				<View marginTop={20}>
-					<DrawerItems 
-					{...this.props}
-					labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
-					//items={items.filter((item) => item.routeName !== 'Profile')}
-					/>
-				</View>
-			<TouchableOpacity style={styles.logoutCont}>
-				<LogoutButton {...this.props} />
-			</TouchableOpacity>
-		</SafeAreaView>
-		</ImageBackground>
-	</View>
-	);
-	}
-};
+// 			<View marginTop={37} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>
+// 				<View marginTop={20}>
+// 					<DrawerItems 
+// 					{...this.props}
+// 					labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
+// 					//items={items.filter((item) => item.routeName !== 'Profile')}
+// 					/>
+// 				</View>
+// 			<TouchableOpacity style={styles.logoutCont}>
+// 				<LogoutButton {...this.props} />
+// 			</TouchableOpacity>
+// 		</SafeAreaView>
+// 		</ImageBackground>
+// 	</View>
+// 	);
+// 	}
+// };
+
+// const mapStateToProps = state => {
+//   return {
+//     email: state.auth.email,
+//     user: state.auth.user,
+//   }
+// }
+
+// export default connect(mapStateToProps)(SideDrawer)
 
 const DrawerRoutes = {
   Profile: {
@@ -765,7 +777,7 @@ const DrawerRoutes = {
 
 const DrawerOptions = {
   initialRouteName: 'MainView',
-  contentComponent: SideDrawer,
+  contentComponent: DrawerNavigatorComp,
   contentOptions: {
   	activeTintColor: 'rgb(255,255,255)',
   	activeBackgroundColor: '#6A2E34',
@@ -847,18 +859,3 @@ const styles = ({
 		marginTop: 10
 	}
 })
-
-const mapStateToProps = state => {
-  return {
-  	firstname: state.auth.firstname,
-  	lastname: state.auth.lastname,
-    email: state.auth.email,
-    user: state.auth.user,
-    // password: state.auth.password,
-    // error: state.auth.error,
-    // loading: state.auth.loading,
-    //loggedIn: state.auth.loggedIn
-  }
-}
-
-export default connect(mapStateToProps)(SideDrawer)

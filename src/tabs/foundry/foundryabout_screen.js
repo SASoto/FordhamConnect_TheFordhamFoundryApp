@@ -19,9 +19,9 @@ export default class foundryabout_screen extends Component {
 
 		            source={require('../../../Images/plussilvergradient.png')}
 		        >
+		    <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
 			<ScrollView flex={1}>
 				<View flex={1}>
-		        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
 		        <View flex={1} alignItems='center'>
 
 		        	<Image style={styles.imgCont} source={require('../../../Images/FirstOval2.png')}/>
@@ -81,18 +81,21 @@ Co-working space
 
 		        	<View flex={1} marginTop={20}>
 						<TouchableOpacity onPress={() => console.log('do nothing')}>
-							<LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 1}}colors={['rgb(254,218,117)', 'rgb(250,126,30)', 'rgb(214,41,118)', 'rgb(150,47,191)', 'rgb(79,91,213)']} style={styles.mediaButtonStyle} backgroundColor="red">
+							<LinearGradient style={styles.mediaButtonStyle} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['rgb(254,218,117)', 'rgb(250,126,30)', 'rgb(214,41,118)', 'rgb(150,47,191)', 'rgb(79,91,213)']}>								
+								
 							</LinearGradient>
 						</TouchableOpacity>
 						<View marginTop={11}>
 						<TouchableOpacity onPress={() => console.log('do nothing')}>
 							<View style={styles.mediaButtonStyle} backgroundColor="rgb(91,158,255)">
+								
 							</View>
 						</TouchableOpacity>
 						</View>
 						<View marginTop={11}>
 						<TouchableOpacity  onPress={() => console.log('do nothing')}>
 							<View style={styles.mediaButtonStyle} backgroundColor="rgb(68,109,176)">
+								
 							</View>
 						</TouchableOpacity>
 						</View>
