@@ -78,9 +78,11 @@ export default class profilemodal extends Component {
 	              	source={require('../../Images/plussilvergradient.png')}
 
 	            >
-				<ScrollView flex={1}>				
+								
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<View flex={1}>
+					
+					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]}>
+						<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
 							style={{
@@ -109,10 +111,8 @@ export default class profilemodal extends Component {
 							</View>
 						</View>
 						</ImageBackground>
-					<View flex={1} alignItems="flex-start" marginTop={20} marginLeft={28}>
-						<View alignItems="center">
-							<View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
 						</View>
+
 						<View marginTop={20}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
@@ -223,8 +223,11 @@ export default class profilemodal extends Component {
 						<View backgroundColor="transparent" height={275}/>
 					</View>
 					</View>
+					</ScrollView>
+					
+					
 				</TouchableWithoutFeedback>
-				</ScrollView>
+				
 				</ImageBackground>
 				</View>
 			</Modal>
@@ -239,35 +242,66 @@ export default class profilemodal extends Component {
 //</View>
 
 const styles = ({
-	photoTxt: {
-		fontFamily: 'HelveticaNeue-Medium',
-		color:'#424242'
-	},
   textStyle: {
     fontFamily: 'SFProText-Light',
     color: 'rgb(115,115,115)',
-    fontWeight: '300',
-    fontSize: 13
+    fontSize: 12
   },
-  input:{
-    fontFamily: 'SFProText-Regular',
-    height: 40,
-    width: windowSize.width * .85,
-    color: 'rgb(115,115,115)',
-    fontSize: 15
-    //paddingHorizontal: 10
-  },
-  // multilineInput: {
-  // 	fontFamily: 'SFProText-Regular',
+  // input:{
+  //   fontFamily: 'SFProText-Light',
   //   height: 40,
   //   width: windowSize.width * .85,
   //   color: 'rgb(115,115,115)',
-  //   fontSize: 15
+  //   fontSize: 13
+  //   //paddingHorizontal: 10
   // },
-  fordhamAffilCont: {
-  	borderRadius: 4,
-  	borderWidth: 1,
-  	borderColor: 'grey'
+  input:{
+    fontFamily: 'SFProText-Light',
+    height: 37,
+    width: windowSize.width * .85,
+    color: 'rgb(115,115,115)',
+    fontSize: 13,
+    backgroundColor: 'transparent',
+    paddingLeft: 10,
+    //marginLeft: 10
+    //paddingHorizontal: 10
+  },
+  inputBackground: {
+    marginTop: 10,
+    height: 37,
+    width: windowSize.width * .85,
+    backgroundColor: 'rgba(106,46,52,0.1)',
+    borderRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1
+  },
+  input4Bio: {
+  	fontFamily: 'SFProText-Light',
+    height: 60,
+    width: windowSize.width * .85,
+    color: 'rgb(115,115,115)',
+    fontSize: 13,
+    backgroundColor: 'transparent',
+    paddingLeft: 10,
+  },
+  inputBackground4Bio: {
+  	marginTop: 10,
+    height: 60,
+    width: windowSize.width * .85,
+    backgroundColor: 'rgba(106,46,52,0.1)',
+    borderRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1
   },
   saveButtonCont: {
   	//width: 75,

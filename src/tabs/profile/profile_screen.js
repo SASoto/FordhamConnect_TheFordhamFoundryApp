@@ -25,7 +25,7 @@ export default class profile_screen extends Component {
 	            >
 				<ScrollView flex={1} height={500}>				
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<View alignItems="flex-start" marginTop={20} marginLeft={28}>
+					<View flex={1} alignItems="flex-start" marginTop={20} marginLeft={28}>
 						<View alignItems="center">
 							<View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
 						</View>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Keyboard, Dimensions, Text, TextInput, View, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {Keyboard, Dimensions, Text, TextInput, View, ScrollView, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
@@ -8,7 +8,9 @@ import { NavigationActions } from 'react-navigation';
 import {SkypeIndicator} from 'react-native-indicators';
 
 import TextInputUnderline from '../../components/TextInputUnderline';
+import FilledTextInput from '../../components/FilledTextInput';
 import ButtonRounded from '../../components/ButtonRounded';
+import ButtonOutline from '../../components/ButtonOutline';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 // import {Button, Spinner} from '../../Components/Common';
 // import ViewContainer from '../../Components/Common/ViewContainer';
@@ -37,38 +39,39 @@ class login_screen extends Component {
   onLoginPress(){
     const {email, password} = this.props;
     this.props.loginUser({ email, password })
-    console.log("THE USER EMAIL: ", this.props.email)
+    // console.log("THE USER EMAIL: ", this.props.email)
     //console.log("THE USER firstname: ", this.props.firstname)
   }
 
   // Sends a password reset email to the user via Firebase
-  onResetPress(){
-    var auth = firebase.auth()
-    const {email} = this.props
-    var emailAddress = email
+  // onResetPress(){
+  //   var auth = firebase.auth()
+  //   const {email} = this.props
+  //   var emailAddress = email
 
-    auth.sendPasswordResetEmail(emailAddress).then(function() {
-    // Email sent.
-      alert('An email with a password reset link has been sent to your email address.')
-    }).catch(function(error) {
-      // An error happened.
-      alert(error)
-    });
-  }
+  //   auth.sendPasswordResetEmail(emailAddress).then(function() {
+  //   // Email sent.
+  //     alert('An email with a password reset link has been sent to your email address.')
+  //   }).catch(function(error) {
+  //     // An error happened.
+  //     alert(error)
+  //   });
+  // }
+
   // Checks if loggedIn value has changed to true
   checkFlag() {
     if(this.props.loggedIn === null) {
       setTimeout(this.checkFlag.bind(this), 1000)
+    } 
+    else if (this.props.loggedIn == false) {
+
     }
-    else {
-      this.props.navigation.navigate("SignedIn")
-    //   const resetAction = NavigationActions.reset({
-    //     index:0,
-    //     actions: [
-    //       NavigationActions.navigate("SignedIn")
-    //     ]
-    //   })
-    //   this.props.navigation.dispatch(resetAction)
+    else { //if loggedin is true
+      if(this.props.loading === true) {
+        setTimeout(this.checkFlag.bind(this), 1000)
+      } else {
+        this.props.navigation.navigate("SignedIn")
+      }
      }
   }
 
@@ -100,6 +103,7 @@ class login_screen extends Component {
 
   render(){
     return(
+      
       <View flex={1}>
         <ImageBackground
           resizeMode='cover'
@@ -113,19 +117,29 @@ class login_screen extends Component {
           source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <View alignItems="center">
           <TitleFordhamConnect marginTop={(windowSize.width*3/10)}/>
           <View style={styles.signInCont}>
             <Text style={styles.signInTxt}>SIGN IN</Text>
           </View>
-        <View marginTop={(windowSize.height * 2/10)*.75}>
+        <View marginTop={152}>
           <View>
-          <TextInputUnderline fieldName="EMAIL" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
+          <FilledTextInput fieldName="EMAIL*" fillColor="rgba(106,46,52,0.68)" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
           </View>
-          <View marginTop={25}>
-          <View>
-            <View backgroundColor="transparent"><Text style={styles.passTxtStyle}>PASSWORD</Text></View>
-               <View flexDirection="row" justifyContent="space-between">
+          <View marginTop={13}>
+          
+            <View flexDirection="row" justifyContent="space-between">
+              <View backgroundColor="transparent">
+                <Text style={styles.passTxtStyle}>PASSWORD*</Text>
+              </View>
+              <View justifyContent="center">  
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPass')}>             
+                <Text style={styles.forgotPassTxtStyle}>Forgot?</Text>
+              </TouchableOpacity>
+              </View>
+            </View>
+              <View style={styles.inputBackground}>
                 <TextInput
                   style = {styles.passInputStyle}
                   secureTextEntry={true}
@@ -134,18 +148,14 @@ class login_screen extends Component {
                   onChangeText= {this.onPasswordChange.bind(this)}
                   value = {this.props.password}
                 />
-                <TouchableOpacity onPress={this.onResetPress.bind(this)}>
-                  <Text style={styles.forgotPassTxtStyle}>forgot?</Text>
-                </TouchableOpacity>
               </View>
-              <View borderBottomWidth={1} borderColor="#979797"/>
             </View>
-          </View>
+          
         </View>
-        <View marginTop={(windowSize.height * 1/10)/2}>
-          <ButtonRounded width={windowSize.width*.85} fillWithColor='#007AFF' onPress={this.onLoginPress.bind(this)}>SIGN IN</ButtonRounded>
+        <View marginTop={23}>
+          <ButtonOutline width={windowSize.width*.85} onPress={this.onLoginPress.bind(this)}>SIGN IN</ButtonOutline>
         </View>
-        <View marginTop={(windowSize.height * 1/10)/2}>
+        <View marginTop={23}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("SignUp")}>
               <Text style={styles.createAcc}>
                 First time user?
@@ -154,6 +164,8 @@ class login_screen extends Component {
         </View>
         
         </View>
+        <View backgroundColor="transparent" height={200}/>
+        </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>
         {this.renderErrorMess()}
@@ -162,41 +174,59 @@ class login_screen extends Component {
     );
   }
 }
+//#6A2E34
 
 const styles = ({
   signInCont: {
-    marginTop: 20,
-    alignItems: "center"
+    marginTop: 17,
+    alignItems: "center",
   },
   signInTxt: {
-    color: 'white',
-    backgroundColor: 'transparent', 
+    color: 'rgb(255,255,255)',
+    backgroundColor: 'transparent',
+    fontSize: 12,
+    fontFamily: 'SFProText-Light',
   },
   createAcc: {
     fontFamily: 'SFProText-Regular',
-    color: 'white',
-    fontWeight: '300',
-    fontSize: 15
+    color: 'rgb(255,255,255)',
+    //fontWeight: '300',
+    fontSize: 12
   },
   passTxtStyle: {
-    fontFamily: 'SFProText-Regular',
-    color: 'white',
+    fontFamily: 'SFProText-Light',
+    color: 'rgb(255,255,255)',
     fontWeight: '300',
     fontSize: 13
   },
   passInputStyle:{
-    fontFamily: 'SFProText-Regular',
-    height: 40,
-    width: windowSize.width * .65,
-    color: 'white',
-    fontSize: 16
-    //paddingHorizontal: 10
+    fontFamily: 'SFProText-Light',
+    height: 37,
+    width: windowSize.width * .85,
+    color: 'rgb(255,255,255)',
+    fontSize: 16,
+    // backgroundColor: 'rgba(106,46,52,0.68)',
+    paddingLeft: 10,
+  },
+  inputBackground: {
+    marginTop: 10,
+    height: 37,
+    width: windowSize.width * .85,
+    backgroundColor: 'rgba(106,46,52,0.68)',
+    borderRadius: 8,
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1
   },
   forgotPassTxtStyle: {
     fontFamily: 'SFProText-Regular',
     color: 'white',
-    fontSize: 13,
-    paddingTop: 10
+    fontSize: 11,
+    //
   },
   loadingOverlay: {
     position: 'absolute',

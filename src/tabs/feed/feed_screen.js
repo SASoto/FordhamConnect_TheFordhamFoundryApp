@@ -137,7 +137,7 @@ export default class feed_screen extends Component {
       // var NeworOld = null //0 for new 1 for old
 
       // if(this.state.maxId == null && this.state.sinceId == null) {
-        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1`;
+        var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1&tweet_mode=extended`;
       // }
       // else if (this.state.getOlderTweets) {
       //   var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
@@ -188,7 +188,7 @@ export default class feed_screen extends Component {
     if(!this.state.loading)
         this.setState({loading: true})
 
-      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1`;
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
         Authorization: 'Bearer ' + this.state.retToken.access_token,
@@ -230,7 +230,7 @@ export default class feed_screen extends Component {
     if(!this.state.loading)
         this.setState({loading: true})
 
-      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1`;
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
         Authorization: 'Bearer ' + this.state.retToken.access_token,
@@ -314,30 +314,43 @@ export default class feed_screen extends Component {
     var dateArr = newDate = newDate.split(' ');
     date = dateArr[1] + ' ' + dateArr[2] + ' ' + dateArr[3];
 
-    var tweettext = tweet.item.text;
-    var urlPresentAtStart = tweettext.split(' ');
+    var tweettext = tweet.item.full_text;//text
+    var tweettextsplit = tweettext.split(' ');
 
+    var imageUrlPresentAtStart = tweettextsplit;
+    var newsUrlPresentAtStart = tweettextsplit;
     //if url present
       //if in second position there is a ...
       //add https:// to
 
-    if(urlPresentAtStart[0] != 'From') {
-      tweettext = tweettext.split(' ');
-      tweettext = tweettext.slice(1,(tweettext.length));
-      tweettext = tweettext.join(' ');
-      urlPresentAtStart = urlPresentAtStart[0];
+    if(imageUrlPresentAtStart[0] != 'From') {
+      if(newsUrlPresentAtStart[1] != 'From') {
+        newsUrlPresentAtStart = newsUrlPresentAtStart[1];
+        tweettext = tweettextsplit;
+        tweettext = tweettext.slice(2,(tweettext.length));
+        tweettext = tweettext.join(' ');
+      } else {
+        newsUrlPresentAtStart = null;
+        tweettext = tweettextsplit;
+        tweettext = tweettext.slice(1,(tweettext.length));
+        tweettext = tweettext.join(' ');
+      }
+      imageUrlPresentAtStart = imageUrlPresentAtStart[0];
     } else {
-      urlPresentAtStart = null;
+      imageUrlPresentAtStart = null;
     }
 
     var urlPresentAtEnd = tweettext.search("https://")
     if(urlPresentAtEnd != -1) {
-      tweettext = tweettext.split(' ');
+      tweettext = tweettextsplit;
       tweettext = tweettext.slice(0,(tweettext.length -1 ));
       tweettext = tweettext.join(' ');
-    }
+    } 
 
-    var link = tweettext[tweettext.length-1];
+    if(tweettext[tweettext.length-1] != '.')
+      tweettext = tweettext + '...';
+
+    //var link = tweettext[tweettext.length-1];
     //console.log("After slice: ", tweettext)
     // TWEET.ITEM.EXTENDED_ENTITIES.MEDIA DOES NOT WORK
     var entities = JSON.stringify(tweet.item.extended_entities);
@@ -360,8 +373,8 @@ export default class feed_screen extends Component {
       var image_url = image_parsed.slice(0,5) + ':' + image_parsed.slice(5,image_parsed.length);
     } else {
       var final_type = 'photo';
-      if(urlPresentAtStart != null) {
-        var image_url = urlPresentAtStart;
+      if(imageUrlPresentAtStart != null) {
+        var image_url = imageUrlPresentAtStart;
         console.log("IMAGE URL AT START: ",image_url);
       }
     }
@@ -371,7 +384,7 @@ export default class feed_screen extends Component {
       //image = (<Image style={styles.imageContainer} source={{uri: image_url}}/>);
       return (
        // <TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={null}>
-            <FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageurl={image_url} descortweet={tweettext}/>
+            <FeedCard titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageurl={image_url} descortweet={tweettext}/>
         //</TransitionPanel>
       );
 
@@ -388,7 +401,7 @@ export default class feed_screen extends Component {
       // );
       return (
          //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-         	<FeedCard titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
+         	<FeedCard titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
        // </TransitionPanel>
       );
 
@@ -404,13 +417,13 @@ export default class feed_screen extends Component {
       // );
       return (
         //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-        	<FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
+        	<FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
         //</TransitionPanel>
       );
 
     } else {
       return (
-          <FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} link={link} profileimage={profileimage} descortweet={tweettext}/>
+          <FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} descortweet={tweettext}/>
       )
     }
   }
@@ -459,8 +472,8 @@ export default class feed_screen extends Component {
       <View
         style={{
           height: 17,
-          width: windowSize.width,
-          backgroundColor: "rgb(221, 215, 218)",
+          //width: windowSize.width,
+          backgroundColor: "transparent",
         }}
       />
     );
@@ -484,12 +497,15 @@ export default class feed_screen extends Component {
 
             source={require('../../../Images/plussilvergradient.png')}
         >
+            <View marginTop={20} backgroundColor="transparent"/>
+            
             <FlatList
               ItemSeparatorComponent={this.renderSeparator}
               data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
-              <View alignItems="center">
+                <View alignItems="center">
               	{this.parseFeedData({item})}
-              </View>
+                </View>
+                
           	}
              ListFooterComponent={this.renderFooter}
              onEndReached={this.loadOlderTweets}
@@ -507,6 +523,7 @@ export default class feed_screen extends Component {
                 />
               }
             />
+            
             </ImageBackground>
             </View>
         

@@ -1,44 +1,55 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import {Dimensions, Linking, ImageBackground, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 
 import Video from 'react-native-af-video-player'
 import ButtonRounded from './ButtonRounded';
 
 const windowSize = Dimensions.get('window');
 export default class LogoutButton extends Component {
-	render() {
 
+
+	renderCard() {
 		if(this.props.imageurl != null) { // A photo
 			var media = (<Image style={styles.imageContainer} source={{uri: this.props.imageurl}}/>);
 		} else if(this.props.imageonlineurl != null) { //A video/gif url
 			var media = (
-					
-					<Video url={this.props.imageonlineurl} inlineOnly={true} logo={null}/>
-					
+				<Video url={this.props.imageonlineurl} inlineOnly={true} logo={null}/>
 			);
 		} else { //No media
 			var media = null;
 		}
-		console.log("TEXT: ", this.props.descortweet)
 
-		return (
-			<View style={styles.encompCont}>
-				
-				<View flexDirection="row">
-						
-						<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
-						
-						<View flexDirection="column" justifyContent="center">							
-							<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
-						</View>
-				</View>
-				<View flex={1} paddingHorizontal={16} marginBottom={10}>
-					<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
-				</View>
-				{media}
-				<View borderWidth={1} borderColor="rgb(191,187,187)"/>
-				<View justifyContent="center" marginVertical={16} marginLeft={23} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>
+		if(this.props.newsUrl != null) {
+			return (
+				<View style={styles.encompCont}>
+				<TouchableOpacity onPress={() => Linking.openURL(this.props.newsUrl)}>
+				<ImageBackground
+					resizeMode='cover'
+					style={{
+						flex: 1,
+						//position: 'absolute',
+						// width: '100%',
+						// height: '100%',
+					}}
+
+					source={require('../../Images/plussilvergradient.png')}
+					//need purple brown white gradient
+				>
 					
+					<View flexDirection="row" marginBottom={6} marginLeft={13} marginTop={9}>
+							
+							<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
+							
+							<View flexDirection="column" justifyContent="center">							
+								<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
+							</View>
+					</View>
+					{media}
+					
+					<View flex={1} marginHorizontal={16} marginTop={8} marginBottom={5}>
+						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
+					</View>
+					<View alignItems="flex-end" justifyContent="center" marginTop={6} paddingRight={19} marginBottom={14} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>					
 					<TouchableOpacity onPress={() => console.log("do nothing")}>
 						<View style={styles.buttonStyle}>
 							<Text style={styles.buttonTextStyle}>
@@ -46,8 +57,63 @@ export default class LogoutButton extends Component {
 							</Text>
 						</View>
 					</TouchableOpacity>
-				</View>	
-			</View>
+					</View>
+					</ImageBackground>
+					</TouchableOpacity>
+				</View>
+			);
+		} else {
+			return (
+				<View style={styles.encompCont}>
+				<ImageBackground
+					resizeMode='cover'
+					style={{
+						flex: 1,
+						//position: 'absolute',
+						// width: '100%',
+						// height: '100%',
+					}}
+
+					source={require('../../Images/plussilvergradient.png')}
+					//need purple brown white gradient
+				>
+					
+					<View flexDirection="row" marginBottom={6} marginLeft={13} marginTop={9}>
+							
+							<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
+							
+							<View flexDirection="column" justifyContent="center">							
+								<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
+							</View>
+					</View>
+					{media}
+					
+					<View flex={1} marginHorizontal={16} marginTop={8} marginBottom={5}>
+						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
+					</View>
+					<View alignItems="flex-end" justifyContent="center" marginTop={6} paddingRight={19} marginBottom={14} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>					
+					<TouchableOpacity onPress={() => console.log("do nothing")}>
+						<View style={styles.buttonStyle}>
+							<Text style={styles.buttonTextStyle}>
+							DISCUSS
+							</Text>
+						</View>
+					</TouchableOpacity>
+					</View>
+					</ImageBackground>
+				</View>
+			);
+		}
+
+
+	}
+
+	render() {
+
+		console.log("TEXT: ", this.props.descortweet)
+
+		return (
+			this.renderCard()
 		)
 	}
 }
@@ -60,26 +126,31 @@ const styles = ({
 		flex: 1,
 		//width: windowSize.width*.9,
 		flexDirection: 'column',
-		width: 370,
+		width: 375,
 		//height: 250,
-		backgroundColor: "rgba(106, 46, 52, 0.1)"//#E9E4E4"//6A2E34",
+		//backgroundColor: "rgba(106, 46, 52, 0.1)",
+		borderRadius: 6,
+		borderWidth: 0.3,
+		borderRightWidth: 2,
+		borderBottomWidth: 2,
+		borderColor: 'darkgrey'
 		//borderRadius: 3,
 		//marginBottom: 1
 		//alignItems: 'center'
 	},
 	profilePicCont: {
 		//backgroundColor: 'black',
-		borderRadius: 23,
-		width: 46,
-		height: 46,
-		marginLeft: 16,
-		marginTop:16,
-		marginBottom: 16, marginRight: 10
+		borderRadius: 14,
+		width: 28,
+		height: 28,
+		//marginLeft: 13,
+		//marginTop: 9,
+		marginRight: 7.5
 		//justifyContent: 'center'
 	},
 	imageContainer: {
 		flex: 1,
-		height: 258,
+		height: 114,
 		//width: windowSize.width * .75//344
 	},
 	textCont: {
@@ -88,13 +159,14 @@ const styles = ({
 		margin: 16
 	},
 	titleStyle: {
-		fontFamily: 'HelveticaNeue-Medium',
-		fontSize: 14
+		fontFamily: 'SFProText-Medium',
+		fontSize: 15,
+		color: 'rgb(115,115,115)'
 	},
 	subheadStyle: {
 		fontFamily: 'SFProText-Regular',
-		color: '#737373',
-		fontSize: 18
+		color: 'rgb(115,115,115)',
+		fontSize: 16
 	},
 	dateStyle: {
 		fontFamily: 'HelveticaNeue-Medium',
@@ -103,9 +175,9 @@ const styles = ({
 	},
 	textStyle: {
 		fontSize: 16,
-		color: '#737373',
+		color: 'rgb(115,115,115)',
 		textAlign: 'left',
-		fontFamily: 'SFProText-Regular'
+		fontFamily: 'SFProText-Light'
 	},
 	buttonStyle: {
 		width: 100,

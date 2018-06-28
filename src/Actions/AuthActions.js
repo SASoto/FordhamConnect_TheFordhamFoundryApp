@@ -50,25 +50,36 @@ export const loginUser = ({email, password}) => {
   return (dispatch) => {
     dispatch({type: LOGIN_USER})
     firebase.auth().signInWithEmailAndPassword(email,password)
-      .then(user => loginUserSuccess(dispatch, user))
-      //.then(()=> {
-        //console.log("Trying to read the names from the database...")
-        //var database = firebase.database()
-        //this.usersRef = firebase.database().ref('users').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
-        // Make sure we remove all previous listeners.
-        //this.usersRef.off();
-        //usersRef.on('value', function(snapshot) {
-          //snapshot.forEach(function(childSnapshot) {
-            //console.log("Another first name...")
-            //var childData = childSnapshot.val();
-            //console.log(childData.firstname + ' ' + childData.lastname)
-          //});
-        //});        
-      
-      .catch( ()=> loginUserFail(dispatch)
-        )
-    }
-  }
+    .then(user =>
+      firebase.auth().onAuthStateChanged(function (user) {
+        if(user) {
+          loginUserSuccess(dispatch, user)
+        } else {
+          loginUserFail(dispatch)
+        }
+      })
+     )
+    .catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      loginUserFail(dispatch);
+      alert(errorMessage);
+    })
+
+   // console.log('RETURNED RESPONSE: ',foo)
+      // firebase.auth().onAuthStateChanged(function (user) {
+      //   if(user) {
+      //     loginUserSuccess(dispatch, user)
+      //   } else {
+      //     loginUserFail(dispatch)
+      //   }
+      // })
+      //)
+
+    //CHECK THAT PROMISE CONTAINS A CERTAIN VALUE      
+    
+    .catch(()=> loginUserFail(dispatch))
+  }}
 }
 
 //Add the new user to the 'users' database branch.
@@ -246,6 +257,7 @@ export const loginUserFail = (dispatch) => {
 }
 
 export const loginUserSuccess = (dispatch, user) => {
+  //console.log("THIS IS THE USER: ", user)
   dispatch({
     type: LOGIN_USER_SUCCESS,
     payload: user

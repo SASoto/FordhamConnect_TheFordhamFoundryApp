@@ -17,6 +17,7 @@ import App from '../App';
 import SplashScreen from './onboarding/splash_screen';
 import OnboardScreen from './onboarding/onboarding_screen';
 import LoginScreen from './onboarding/login_screen';
+import ForgotPassScreen from './onboarding/forgotpassword_screen';
 import SignupScreen from './onboarding/signup_screen';
 import LogoutButton from './logoutbutton';
 
@@ -31,6 +32,7 @@ import FeedScreen from './feed/feed_screen';
 import FoundryScreen from './foundry/foundry_screen';
 import FoundryEventsScreen from './foundry/foundryevents_screen';
 import FoundryAboutScreen from './foundry/foundryabout_screen';
+import FoundryConnectScreen from './foundry/foundryconnect_screen';
 
 
 import TweetScreen from './feed/tweet_screen';
@@ -76,6 +78,12 @@ export const Onboard_Stack = createStackNavigator ({
 		navigationOptions: {
 			headerVisible: false,
   		}
+	},
+	ForgotPass: {
+		screen: ForgotPassScreen,
+		navigationOptions: {
+			headerVisible: false
+		}
 	},
 	SignUp: {
 		screen: SignupScreen,
@@ -213,6 +221,15 @@ export const FoundryEventsStack = createStackNavigator ({
 export const FoundryAboutStack = createStackNavigator ({
 	About: {
 		screen: FoundryAboutScreen,
+		navigationOptions: {
+			header: null
+		}
+	}
+})
+
+export const FoundryConnectStack = createStackNavigator ({
+	Connect: {
+		screen: FoundryConnectScreen,
 		navigationOptions: {
 			header: null
 		}
@@ -371,7 +388,7 @@ export const ChatStack = createStackNavigator ({
 
 /*createMaterialTopTabNavigator*/ 
 export const MainViewTabNav = createMaterialTopTabNavigator ({
-	Discussion: {
+	Discuss: {
 		screen: DiscussionStack,
 		// navigationOptions: ({ navigation }) => ({
 		// 	// gesturesEnabled: false,
@@ -384,6 +401,9 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 		//         //jumpToIndex(1);
 	 //        }
 		// })
+	},
+	Events: {
+		screen: FoundryEventsStack
 	},
 	News: {
 		screen: FeedStack,
@@ -400,9 +420,12 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 	 //        }
 		// }),
 	},
+	About: {
+		screen: FoundryAboutStack
+	}
 },
 	{
-		initialRouteName: 'Discussion',
+		initialRouteName: 'Discuss',
 		// navigationOptions: {
 		// 	swipeEnabled: false
 		// },
@@ -420,7 +443,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 			},
 			tabStyle: {
 				height: 50,
-				width: 110,
+				width: 90,
 
 			},
 			indicatorStyle: {
@@ -465,6 +488,9 @@ export const FoundryTabNav = createMaterialTopTabNavigator ({
 	 //        }
 		// }),
 	},
+	Connect: {
+		screen: FoundryConnectStack
+	}
 },
 	{
 		initialRouteName: 'Events',
@@ -637,19 +663,16 @@ class SideDrawer extends Component {
 
 	// const userEmail = firebase.auth().currentUser.email;
 	render() {
-		// console.log("IS THE USER LOGGEDIN? ",this.props.loggedIn)
-		// console.log("THE USER THAT JUST LOGGED IN: ", this.props.user)
-		// console.log("IS THE USER STILL LOADING: ", this.props.loading)
-		// const userEmail = this.props.email;
-		// console.log("USER EMAIL: ", userEmail);
-			
-		// const userFName = this.props.firstname;
-		// console.log("USER FIRSTNAME: ",userFName)
-		// const userLName = this.props.lastname;
-		// console.log("USER LASTNAME: ",userLName)
-		//#5B1728
+		const userEmail = this.props.email;
+		console.log("USER EMAIL FROM ROUTER: ", this.props.email);
+		console.log("USER PASSWORD FROM ROUTER", this.props.password);
+		const userFName = this.props.firstname;
+		//console.log("USER FIRSTNAME FROM ROUTER: ",userFName);
+		const userLName = this.props.lastname;
+		//console.log("USER LASTNAME FROM ROUTER: ",userLName);
+
 	return (
-	<View flex={1}>
+	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
 	<ImageBackground
           resizeMode='cover'
           style={{
@@ -663,20 +686,23 @@ class SideDrawer extends Component {
         >
 		<SafeAreaView flexDirection="column">
 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-				<View flexDirection="column" marginLeft={18}>
-					<View marginTop={40}>
+				<View flexDirection="column" marginLeft={30} marginTop={40}>
+					
 						<View style={styles.profPic}/>
+						<View marginTop={20}>
+							<Text style={styles.accountInfoTxtStyle}>Hello There</Text>
+						</View>
 					</View>
-				</View>
+				
 			</TouchableOpacity>
 
 			<ProfileModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
 
-			<View marginTop={50} borderTopWidth={1} borderColor='rgba(255,255,255,0.58)'/>
+			<View marginTop={37} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>
 				<View marginTop={20}>
 					<DrawerItems 
 					{...this.props}
-					labelStyle={{color: 'rgb(255,255,255)', fontFamily: 'HelveticaNeue-Medium', fontSize: 14}}
+					labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
 					//items={items.filter((item) => item.routeName !== 'Profile')}
 					/>
 				</View>
@@ -705,13 +731,15 @@ const DrawerRoutes = {
       drawerIcon: <MatIcon name="home" size={20} color="rgb(255,255,255)"/> //Icon goes here
     },
   },
-  TheFoundry: {
-  	screen: FoundryStack,
-  	navigationOptions: {
-      title: 'Fordham Foundry',
-      drawerIcon: <Image source={require('../../Images/foundrybulbwhite.png')}/> //Icon goes here
-    }
-  },
+  // TheFoundry: {
+  // 	screen: FoundryStack,
+  // 	navigationOptions: {
+  //     title: 'Fordham Foundry',
+  //     drawerIcon: <Image source={require('../../Images/foundrylightbulbdrawer.png')}/> //Icon goes here
+
+  //     //({tintColor, focused}) => <Icon name = {focused ? "ios-home":"ios-home-outline"} size = {30} color = {focused? "gold":"white"}/>
+  //   }
+  // },
   Network: {
     screen: NetworkStack,
     navigationOptions: {
@@ -740,11 +768,12 @@ const DrawerOptions = {
   contentComponent: SideDrawer,
   contentOptions: {
   	activeTintColor: 'rgb(255,255,255)',
-  	activeBackgroundColor: 'darkred',
+  	activeBackgroundColor: '#6A2E34',
+  	inactiveTintColor: 'lightgrey',
 	// labelStyle: {
-	// 	fontSize: 14,
-	// 	fontFamily: 'HelveticaNeue-Medium'//'SFProText-Regular',
-	// //color: 'grey',
+	// 	//fontSize: 14,
+	// 	//fontFamily: 'HelveticaNeue-Medium',//'SFProText-Regular',
+	// 	color: 'rgb(255,255,255)',
 	// //activeTintColor: 'white',
 	// },
 	  // itemsContainerStyle: {
@@ -802,10 +831,15 @@ const styles = ({
 		color: 'white'
 	},
 	profPic: {
-		width: 76,
-		height: 76,
-		borderRadius: 38,
+		width: 46,
+		height: 46,
+		borderRadius: 23,
 		backgroundColor: 'grey'
+	},
+	accountInfoTxtStyle: {
+		fontFamily: 'SFProText-Regular',
+		fontSize: 14,
+		color: 'white'
 	},
 	logoutCont: {
 		alignItems: "flex-start",
@@ -814,7 +848,7 @@ const styles = ({
 	}
 })
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
   	firstname: state.auth.firstname,
   	lastname: state.auth.lastname,
@@ -823,7 +857,7 @@ const mapStateToProps = (state) => {
     // password: state.auth.password,
     // error: state.auth.error,
     // loading: state.auth.loading,
-    loggedIn: state.auth.loggedIn
+    //loggedIn: state.auth.loggedIn
   }
 }
 
