@@ -44,6 +44,7 @@ export default (state = INITIAL_STATE, action) => {
     case NO_USER:
       return {...state, user: null, error: "User Does Not Exist", loading: false}
     case NEW_USER:
+      console.log("NEW USER FIRSTNAME IS: ", state.firstname)
       return {...state, ...INITIAL_STATE, loading: true}//, email: '', password: ''}
     case EXISTS_FAIL:
       return {...state, error: "User Exists Already", password: '', loading: false} 

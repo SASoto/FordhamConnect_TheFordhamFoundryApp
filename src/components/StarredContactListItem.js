@@ -27,7 +27,7 @@ export default class StarredContactListItem extends Component {
 		}
 
 		return (
-			<TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.destination, {userID: this.props.userID, favorited: this.props.favorited, userfname: this.props.userfname, handleFavorites: this.props.handleFavorites})}>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate(this.props.destination, {userID: this.props.userID, favorited: this.props.favorited, userfname: this.props.userfname, changeFavoritedStatus: this.props.changeFavoritedStatus})}>
 				<View style={styles.encompCont}>
 					<View height={55} justifyContent="center">
 						<View flexDirection="row">

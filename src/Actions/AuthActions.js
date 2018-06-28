@@ -85,18 +85,24 @@ export const loginUser = ({email, password}) => {
 //Add the new user to the 'users' database branch.
 function writeNewUserData(userId, email,firstname,lastname) {
   var initials = parseInitials(firstname,lastname)
+  //Ensure that first and last name are capitalized.
+  var firstnameCap = firstname[0].toUpperCase() + firstname.slice(1)
+  var lastnameCap = lastname[0].toUpperCase() + lastname.slice(1)
+
   firebase.database().ref('users/' + userId).set({
     email: email,
-    firstname: firstname,
-    lastname: lastname,
+    firstname: firstnameCap,
+    lastname: lastnameCap,
     initials: initials,
+    headline: "",
     bio: "I'm a human who is associated with Fordham University, but I haven't updated my bio yet.",
     website: "",
-    affiliation1: "",
-    affiliation2: "",
-    affiliation3: "",
-    affiliation4: "",
-    affiliation5: "",
+    location: "",
+    //affiliation1: "",
+    //affiliation2: "",
+    //affiliation3: "",
+    //affiliation4: "",
+    //affiliation5: "",
   })
   initCampuses(userId)
   initFavorite_Users(userId)

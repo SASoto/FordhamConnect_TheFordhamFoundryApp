@@ -12,7 +12,7 @@ export default class contactprofile_screen extends Component {
 	render() {		
 		return (
 			<View marginTop={20} alignItems="center">
-				<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} handleFavorites={this.props.navigation.state.params.handleFavorites}/>
+				<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>
 			</View>
   		);
 	}

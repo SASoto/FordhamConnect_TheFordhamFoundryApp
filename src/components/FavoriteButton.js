@@ -23,12 +23,12 @@ export default class FavoriteButton extends Component {
 
 	changefavoritedstatus_tofalse() {
 		this.setState({contactIsFavorited: !this.state.contactIsFavorited});
-		this.props.handleFavorites(this.props.userID, 0);
+		this.props.changeFavoritedStatus(this.props.userID, 1);
 	}
 
 	changefavoritedstatus_totrue() {
 		this.setState({contactIsFavorited: !this.state.contactIsFavorited});
-		this.props.handleFavorites(this.props.userID, 1);
+		this.props.changeFavoritedStatus(this.props.userID, 0);
 	}
 
 	renderIcon() {

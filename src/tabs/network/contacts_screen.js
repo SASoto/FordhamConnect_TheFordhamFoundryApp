@@ -309,21 +309,64 @@ export default class contacts_screen extends Component {
     changeFavoritedStatus(passedUID, removeOrAdd) {
         //console.log('SOMEONE NEW HAS BEEN FAVORITED')
         this.setState({contactList: []});
-        console.log("passed uid: ", passedUID);
-        console.log("passed value: ", removeOrAdd);
+        //console.log("passed uid: ", passedUID);
+        //console.log("passed value: ", removeOrAdd);
 
         if(removeOrAdd) {
             // HANDLES REMOVING FROM FAVORITED LIST
+            var currentUserId = firebase.auth().currentUser.uid;
             // add uid (object) to contact list
+            console.log("Adding the contact " + passedUID + " back to the full contact list.")
+            
             // remove uid (object) from favorited list
-            // call get CombinedContactList()
-
+            firebase.database().ref('favorite_users/' + currentUserId + '/' + passedUID).remove()
+            .then(() => {   
+                var fullContactsArr = this.state.myData;
+                //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+                return firebase.database().ref('/users/' + passedUID).once('value')
+                .then(function(snapshot) {
+                    //console.log("Another person in da list...")
+                    var userKey = snapshot.key;
+                    var userData = snapshot.val();
+                    var contactObj = {'userID':userKey, 'fullname':userData.firstname + ' ' + userData.lastname};//, 'initials': childData.initials};
+                    //console.log("OBJECT: ", contactObj);
+                    fullContactsArr.push(contactObj);
+                    //testArray.push("foo")
+                })
+                .then(() => {
+                    this.setState({myData: fullContactsArr})
+                })
+                .then(() => {
+                    console.log(passedUID + " was removed from the favorites of user " + currentUserId + " on the server")
+                // call get CombinedContactList()
+                this.getCombinedContactList()  
+                })
+            })
         }
         else {
             // HANDLES ADDING TO FAVORITED LIST
-            // add uid to favorited list
-            // search for index of passed uid in contactlist
+            var currentUserId = firebase.auth().currentUser.uid;
+            // add passeduid to favorited list
+            console.log("Adding the contact " + passedUID + " back to the favorites list.")
+            firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
+                var fullName = (snapshot.val().firstname + " " + snapshot.val().lastname);
+                console.log("Fullname is initially " + fullName)
+                firebase.database().ref('favorite_users/' + currentUserId + '/' + passedUID).set(fullName)
+                // ...
+            })
+            // .then(() => {
+            //     console.log("Fullname is now" + fullName)
+                
+              
+            // })
             // call getCombinedContactList();
+            .then(() => {
+                this.getCombinedContactList()
+            })
+            //var fullName = firebase.database().ref('users/' + passedUID + '/firstname/') + " " + firebase.database().ref('users/' + passedUID + '/lastname/')
+            //var lastName = firebase.database().ref('/users/' + passedUID + '/lastname/')
+            // search for index of passed uid in contactlist
+            
         }   
 
     }
@@ -333,14 +376,14 @@ export default class contacts_screen extends Component {
         if(isFavorited) {
             return (
                 <View flex={1} marginTop={25}>
-                <StarredContactListItem favorited={true} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.fullname} usercontent={item.content}/>
+                <StarredContactListItem favorited={true} destination="ContactProfile" navigation={this.props.navigation} changeFavoritedStatus={this.changeFavoritedStatus.bind(this)} userID={item.userID} userfname={item.fullname} usercontent={item.content}/>
                 </View>
             )
 
         } else {
             return (
                 <View flex={1} marginTop={15}>
-                <StarredContactListItem favorited={false} destination="ContactProfile" navigation={this.props.navigation} userID={item.userID} userfname={item.fullname} usercontent={item.content}/>
+                <StarredContactListItem favorited={false} destination="ContactProfile" navigation={this.props.navigation} changeFavoritedStatus={this.changeFavoritedStatus.bind(this)} userID={item.userID} userfname={item.fullname} usercontent={item.content}/>
                 </View>
            )
         }
