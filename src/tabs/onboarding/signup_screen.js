@@ -119,20 +119,20 @@ class signup_screen extends Component {
 
     }
 
-    verifyPassword(password) {
+    verifyPassword() {
         // this.setState({validPassword: null});
         //console.log("PASSWORD IS: ", password);
 
         // CHECK THAT PASSWORD IS VALID
         // IF TRUE
-        if(password.length > 6) {
-            this.setState({validPassword: true})
-            this.setState({password: password})
-        } else {
-        // IF FALSE
-            this.setState({validPassword: false});
-            this.setState({cantSignUp: true})
-        }
+        // if(password.length > 6) {
+        //     this.setState({validPassword: true})
+        //     this.setState({password: password})
+        // } else {
+        // // IF FALSE
+        //     this.setState({validPassword: false});
+        //     this.setState({cantSignUp: true})
+        // }
     }
 
     // checkPasswordsMatch(text) {
@@ -188,6 +188,9 @@ class signup_screen extends Component {
                 </View>
                 <View marginTop={15}>
                   <FilledTextInput fieldName="PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
+                </View>
+                <View marginTop={2}>
+                    {this.verifyPassword()}
                 </View>
                 <View marginTop={15}>
                     <FilledTextInput fieldName="CONFIRM PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>

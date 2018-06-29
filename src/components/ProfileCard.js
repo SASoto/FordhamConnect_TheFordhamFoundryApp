@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import {Dimensions, ImageBackground, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import {SkypeIndicator} from 'react-native-indicators';
 
 import FavoriteButton from './FavoriteButton';
 
@@ -50,51 +51,120 @@ export default class ProfileCard extends Component {
 		})
 	}
 
+	checkStuff() {
+		if(this.state.bio == "" || this.state.headline == "")
+		{
+		    return (
+		      <View style={styles2.loadingOverlay}>
+		        <SkypeIndicator color='white' size={35}/>
+		      </View>
+		    )
+		}
+	}
+
 	render() {
-		//this.fetchProfileData(this.props.userID)
-		// .then(() =>{
-		// 	console.log("state info is now... ", this.state.headline)
-		// })
+		const styles =({
+			encompCont: {
+				//flex: 1,
+				borderRadius: 8,
+				shadowColor: 'rgba(0, 0, 0, 0.5)',
+				shadowOffset: {
+					width: 0,height: 2
+				},
+				height: 260,
+				shadowRadius: 4,
+				shadowOpacity: 1,
+				width: windowSize.width * .9,
+				//height: 260
+			},
+			nameStyle: {
+				fontFamily: 'SFProText-Regular',
+				fontSize: 15,
+				color: 'rgb(115,115,115)'
+			},
+			headlineStyle: {
+				fontFamily: 'SFProText-Light',
+				fontSize: 12,
+				color: 'rgb(115,115,115)'
+			},
+			locationStyle: {
+				fontFamily: 'SFProText-Light',
+				fontSize: 12,
+				color: 'rgb(115,115,115)'
+			},
+			bioStyle: {
+				fontFamily: 'SFProText-Light',
+				fontSize: 12,
+				color: 'rgb(115,115,115)'
+			}
+
+		})
 		
 		return (
 			<View style={styles.encompCont}>
-				<View padding={20}>
+				<ImageBackground
+		          resizeMode='cover'
+		          style={{
+		            flex: 1,
+		            //borderRadius: 8	      
+		          }}
+
+		            source={require('../../Images/plussilvergradient.png')}
+		        >
+		        <View padding={23} flexDirection="column">
+					<View alignItems="flex-end">
+						<FavoriteButton changeFavoritedStatus={this.props.changeFavoritedStatus} favorited={this.props.favorited} userID={this.props.userID}/>
+					</View>
 					<View flexDirection="row">
-						<View width={60} height={60} borderRadius={30} backgroundColor="grey" marginRight={15}/>
+						<View width={60} height={60} borderRadius={30} backgroundColor="grey" marginRight={14}/>
 						<View flexDirection="row">
 							<View justifyContent = "center" flexDirection="column">
-								<Text>{this.props.userfname}</Text>
-							</View>
-							<View justifyContent="center">
-								<FavoriteButton changeFavoritedStatus={this.props.changeFavoritedStatus} favorited={this.props.favorited} userID={this.props.userID}/>
+								<Text style={styles.nameStyle}>{this.props.userfname}</Text>
+								<Text style={styles.headlineStyle}>{this.state.headline}</Text> 
 							</View>
 						</View>
 					</View>
+					
+					<View marginTop={15}>
+						<Text>SAMPLE TEXT</Text> 
+					</View>
+					<View marginVertical={7} borderBottomWidth={1} borderColor="black"/>
 					<View>
-						<View>
-							<Text>{this.state.headline}</Text> 
-						</View>
-						<View borderBottomWidth={1} borderColor="black"/>
-						<View>
-							<Text>{this.state.bio}</Text> 
-						</View>
-						<View>
-							<Button title="Email" onPress={() => console.log('do nothing')}/> 
-						</View>
+						<Text style={styles.bioStyle}>{this.state.bio}</Text> 
 					</View>
+													
 				</View>
+				<View marginTop={10} paddingRight={23} alignItems="flex-end">
+					<TouchableOpacity onPress={() => console.log('do nothing')}>
+						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
+					</TouchableOpacity> 
+				</View>
+				</ImageBackground>
+				{this.checkStuff()}
 			</View>
 		)
 	}
 }
 
-//<Button title="favor" onPress={this.props.handleFavorites}/>
-
-const styles = ({
-	encompCont: {
-		flexDirection: "column",
-		width: windowSize.width * .9,
-		borderWidth: 1,
-		borderRadius: 3,
-	}
+const styles2 = ({
+	loadingOverlay: {
+	    position: 'absolute',
+	    left: 0,
+	    right: 0,
+	    top: 0,
+	    bottom: 0,
+	    alignItems: 'center',
+	    justifyContent: 'center',
+	    backgroundColor: 'rgba(0,0,0,0.3)'
+   }
 })
+
+
+
+// const styles = ({
+// 	encompCont: {
+// 		flex: 1,
+// 		flexDirection: "column",
+		
+// 	}
+// })

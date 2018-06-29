@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Dimensions, Text, View, ScrollView, Image, Button, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, Linking, Text, View, ScrollView, Image, Button, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
 // import { NavigationActions } from 'react-navigation';
 import {connect} from 'react-redux';
@@ -43,15 +43,67 @@ class mainview_screen2 extends Component {
 		//this.state.scrollState = false
 	}
 
+	checkIfConnected(url) {
+		Linking.canOpenURL(url).then(supported => {
+		  if (supported) {
+		    return Linking.openURL(url);
+		  }
+		}).catch(err => {});
+	}
+
 	render() {
-		console.log("FROM MAINVIEW SCREEN: ",this.props.email)
+		//console.log("FROM MAINVIEW SCREEN: ",this.props.email)
 		//console.log("FROM MAINVIEW SCREEN: ",this.props.password)
 		return (
 			//pagingEnabled={true}
 			<ScrollView ref='_scrollView' flex={1}  pagingEnabled={true} overScrollMode={"never"} showsVerticalScrollIndicator={false} stickyHeaderIndices={[1]}>
 				
-				<View flex={1} alignItems="center">
-					<Image resizeMode="cover" style={styles.imgCont} source={require('../../../Images/foundrydoorstretch.png')}/>
+				<View flex={1}>
+					<ImageBackground 
+					resizeMode="cover"
+					style={{
+			            flex: 1,
+			            //position: 'absolute',
+			            width: '100%',
+			            height: 235,
+			            alignItems: "center",
+			            justifyContent: 'center'
+			          }}
+			           source={require('../../../Images/mainviewfoundryimage.jpg')}
+			        >
+			        <View style={{flex: 1, flexDirection: 'column', justifyContent: "center", backgroundColor: 'rgba(78,9,14,.55)', alignItems: "center", width: '100%'}}>
+			        <View justifyContent="center">
+						<Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>FORDHAM FOUNDRY</Text>
+					</View>
+					<View  justifyContent='center' flexDirection="row" marginTop={36}>
+						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.facebook.com/fordhamfoundry/')}>
+							<View style={styles.circleButton} marginRight={20}>
+								<Image source={require('../../../Images/facebookcircle.png')}/>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => this.checkIfConnected('https://twitter.com/FordhamFoundry')}>
+							<View style={styles.circleButton} marginRight={20}>
+								<Image source={require('../../../Images/twittercircle.png')}/>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => this.checkIfConnected('https://www.instagram.com/fordhamfoundry/')}>
+							<View style={styles.circleButton} marginRight={20}>
+								<Image source={require('../../../Images/instagramcircle.png')}/>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.linkedin.com/company/fordham-foundry')}>
+							<View style={styles.circleButton} marginRight={20}>
+								<Image source={require('../../../Images/linkedincircle.png')}/>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => console.log('its raining')}>
+							<View style={styles.circleButton}>
+								<Image source={require('../../../Images/chimpcircle.png')}/>
+							</View>
+						</TouchableOpacity>
+					</View>
+					</View>
+					</ImageBackground>
 				</View>
 					
 				
@@ -92,6 +144,17 @@ const styles = StyleSheet.create({
 		// position: 'absolute',
 		// top: 40,
 		// left: 0,
+	},
+	circleButton: {
+		flex: 1,
+		backgroundColor: 'transparent',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+	    shadowOffset: {
+	      width: 5,
+	      height: 4
+	    },
+	    //shadowRadius: 8,
+	    shadowOpacity: 1
 	}
 })
 

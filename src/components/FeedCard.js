@@ -7,6 +7,13 @@ import ButtonRounded from './ButtonRounded';
 const windowSize = Dimensions.get('window');
 export default class LogoutButton extends Component {
 
+	checkIfConnected(url) {
+		Linking.canOpenURL(url).then(supported => {
+		  if (supported) {
+		    return Linking.openURL(url);
+		  }
+		}).catch(err => {});
+	}
 
 	renderCard() {
 		if(this.props.imageurl != null) { // A photo
@@ -22,7 +29,7 @@ export default class LogoutButton extends Component {
 		if(this.props.newsUrl != null) {
 			return (
 				<View style={styles.encompCont}>
-				<TouchableOpacity onPress={() => Linking.openURL(this.props.newsUrl)}>
+				<TouchableOpacity onPress={() => this.checkIfConnected(this.props.newsUrl)}>
 				<ImageBackground
 					resizeMode='cover'
 					style={{

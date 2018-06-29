@@ -49,10 +49,15 @@ export default class createpost_modal extends Component {
 							<View flex={1} marginTop={35} justifyContent="center">
 								<View flex={1} flexDirection="row" justifyContent="space-between">
 									<TouchableOpacity onPress={() => this.props.modalFunc()}>
-										<View flex={1} paddingLeft={30} paddingTop={2}>
+										<View justifyContent="center" paddingLeft={30}>
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 										</View>
 									</TouchableOpacity>
+									<View justifyContent="center" marginRight={32}>
+										<TouchableOpacity onPress={() => console.log('do nothing')}>
+											<Text style={styles.postButtonStyle}>Post</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
 							</View>
 							</ImageBackground>
@@ -66,10 +71,7 @@ export default class createpost_modal extends Component {
 									<View>
 										<Text>Headline</Text>
 									</View>
-								</View>
-								
-									<Button title="post" onPress={() => console.log('do nothing')}/>
-								
+								</View>															
 							</View>
 							<View marginTop={21} marginLeft={36}>
 								<TextInput
@@ -77,7 +79,8 @@ export default class createpost_modal extends Component {
 									autoCapitalize = 'none'
 	          						autoCorrect = {false}
 	          						multiline={true}
-	          						placeholder="Post description"
+	          						placeholder="Post to the discussion board about job opportunities, Fordham events, news articles and more!"
+									placeholderTextColor="rgba(99,96,96,0.21)"
 								/>						
 							</View>
 							<View height={500}/>
@@ -110,6 +113,11 @@ const styles = ({
 		//paddingLeft: 10,
 		//marginLeft: 10
 		//paddingHorizontal: 10
+	},
+	postButtonStyle: {
+		fontFamily: 'SFProText-Medium',
+		fontSize: 16,
+		color: 'rgb(255,255,255)'
 	}
 })
 

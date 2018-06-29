@@ -333,4 +333,3 @@ const styles = ({
   }
 });
 
-//<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

@@ -35,14 +35,14 @@ export default class FavoriteButton extends Component {
 		if(this.state.contactIsFavorited) {
 			return (
 				<TouchableOpacity onPress={() => this.changefavoritedstatus_tofalse()}>
-				<MatIcon name="star" size={25} color="black"/>
+				<MatIcon name="star" size={25} color="rgb(106,46,52)"/>
 				</TouchableOpacity>
 			)
 		}
 
 		return (
 			<TouchableOpacity onPress={() => this.changefavoritedstatus_totrue()}>
-			<MatIcon name="star-border" size={25} color="black"/>
+			<MatIcon name="star-border" size={25} color="rgb(106,46,52)"/>
 			</TouchableOpacity>
 		)
 	}

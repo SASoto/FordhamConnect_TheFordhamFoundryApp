@@ -433,13 +433,14 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 		// },
 		//tabBarComponent: props => <CustomTabBarTop {...props}/>,
 		tabBarOptions: {
-			//activeTintColor: 'red',
+			activeTintColor: 'rgb(106,46,52)',
+			inactiveTintColor: 'rgb(115,115,115)',
 			//margin: 0,
 			upperCaseLabel: false,
 			labelStyle: {
 				fontSize: 14,
 				fontFamily: 'SFProText-Regular',
-				color: '#737373',
+				//color: '#737373',
 				//activeTintColor: 'red'
 
 			},
@@ -449,7 +450,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 
 			},
 			indicatorStyle: {
-				backgroundColor: 'rgb(0, 122, 255)'
+				backgroundColor: 'rgb(106,46,52)'
 			},
 			style: {
 				backgroundColor: 'rgb(221, 215, 218)',
@@ -776,7 +777,7 @@ const DrawerRoutes = {
 };
 
 const DrawerOptions = {
-  initialRouteName: 'MainView',
+  initialRouteName: 'Network',
   contentComponent: DrawerNavigatorComp,
   contentOptions: {
   	activeTintColor: 'rgb(255,255,255)',
