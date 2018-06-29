@@ -1,10 +1,15 @@
-import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, LOGIN_USER_SUCCESS, NO_USER, IS_EMPTY, NEW_USER, EXISTS_FAIL, LOGIN_USER_FAIL,LOGIN_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from '../Actions/types'
+import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, INITIALS_CHANGED, HEADLINE_CHANGED, WEBSITE_CHANGED, LOCATION_CHANGED, BIO_CHANGED, LOGIN_USER_SUCCESS, NO_USER, IS_EMPTY, NEW_USER, EXISTS_FAIL, LOGIN_USER_FAIL,LOGIN_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from '../Actions/types'
 const INITIAL_STATE = {
   email: '', 
   password: '',
   confirm: '', 
   firstname: '',
   lastname: '',
+  initials: '',
+  headline: '',
+  website: '',
+  location: '',
+  bio: '',
   user: null, 
   error: '', 
   loading: false,
@@ -21,19 +26,38 @@ export default (state = INITIAL_STATE, action) => {
     case CONFIRM_CHANGED:
       return {...state, confirm: action.payload}
     case FIRSTNAME_CHANGED:
+      console.log("Ran FIRSTNAME_CHANGED:", state.firstname)
       return {...state, firstname: action.payload}
     case LASTNAME_CHANGED:
+      console.log("Ran LASTNAME_CHANGED:", state.lastname)
       return {...state, lastname: action.payload}
+    case INITIALS_CHANGED:
+      console.log("Ran INITIALS_CHANGED:", state.initials)
+      return {...state, initials: action.payload}
+    case HEADLINE_CHANGED:
+      console.log("Ran HEADLINE_CHANGED:", state.headline)
+      return {...state, headline: action.payload}
+    case WEBSITE_CHANGED:
+      console.log("Ran WEBSITE_CHANGED:", state.website)
+      return {...state, website: action.payload}
+    case LOCATION_CHANGED:
+      console.log("Ran LOCATION_CHANGED:", state.location)
+      return {...state, location: action.payload}
+    case BIO_CHANGED:
+      console.log("Ran BIO_CHANGED:", state.bio)
+      return {...state, bio: action.payload}
     case LOGIN_USER:
       console.log("EMAIL IS FROM REDUCER:", state.email)
       console.log("password IS FROM REDUCER:", state.password)
-      console.log("firstname IS FROM REDUCER:", state.firstname)
+      //console.log("firstname IS FROM REDUCER:", state.firstname)
       return {...state, /*...INITIAL_STATE,*/ loading: true, error: ''}
     case LOGIN_USER_SUCCESS:
       //console.log("USER PAYLOAD IS: ", INITIAL_STATE.email)
       console.log("EMAIL IS FROM SUCCESS TYPE:", state.email)
       console.log("password IS FROM SUCCESS TYPE:", state.password)
       console.log("firstname IS FROM SUCCESS TYPE:", state.firstname)
+      console.log("lastname IS FROM SUCCESS TYPE:" , state.lastname)
+      console.log("website IS FROM SUCCESS TYPE:" , state.website)
       return {...state, /*...INITIAL_STATE,*/ user: action.payload, loading: false, loggedIn: true}
     case LOGIN_USER_FAIL:
       return {...INITIAL_STATE, error: 'Authentication Failed.'}

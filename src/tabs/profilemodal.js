@@ -1,58 +1,59 @@
 import React, {Component} from 'react';
 import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
 import firebase from 'firebase';
+import {connect} from 'react-redux';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
 const windowSize = Dimensions.get('window');
-export default class profilemodal extends Component {
+class profilemodal extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			userEmail: "",
-			userFirstName: "",
-			userLastName: "",
-			userPersonalHeadline: "",
-			userWebsite: "",
-			userLocation: "",
-			userBio: "",
-		}
+		// this.state = {
+		// 	userEmail: "",
+		// 	userFirstName: "",
+		// 	userLastName: "",
+		// 	userPersonalHeadline: "",
+		// 	userWebsite: "",
+		// 	userLocation: "",
+		// 	userBio: "",
+		// }
 		//console.log("Construction complete!")
 	}
 
 	componentWillMount() {
 		//console.log("componentWillMount is running!")
-        this.fetchuserProfileData()       
+        // this.fetchuserProfileData()       
     }
 
     fetchuserProfileData() {
-		var userID = firebase.auth().currentUser.uid;
-		var contactInfo = {email: "", firstname: "", lastname: "", headline: "", website: "", location: "", bio: ""}
+		// var userID = firebase.auth().currentUser.uid;
+		// var contactInfo = {email: "", firstname: "", lastname: "", headline: "", website: "", location: "", bio: ""}
 
-		firebase.database().ref('/users/' + userID).once('value').then(function(snapshot) {
-  			var contactEmail = snapshot.val().email
-  			var contactFirstName = snapshot.val().firstname
-  			var contactLastName = snapshot.val().lastname
-  			var contactHeadline = (snapshot.val().headline || "")
-  			var contactWebsite = (snapshot.val().website || "")
-  			var contactLocation = (snapshot.val().location || "")
-  			var contactBio = snapshot.val().bio
+		// firebase.database().ref('/users/' + userID).once('value').then(function(snapshot) {
+  // 			var contactEmail = snapshot.val().email
+  // 			var contactFirstName = snapshot.val().firstname
+  // 			var contactLastName = snapshot.val().lastname
+  // 			var contactHeadline = (snapshot.val().headline || "")
+  // 			var contactWebsite = (snapshot.val().website || "")
+  // 			var contactLocation = (snapshot.val().location || "")
+  // 			var contactBio = snapshot.val().bio
 
-  			//console.log("User headline is ...", contactHeadline)
-  			//console.log("User bio is ...", contactBio)
-  			contactInfo = {email: contactEmail, firstname: contactFirstName, lastname: contactLastName, headline: contactHeadline, website: contactWebsite, location: contactLocation, bio: contactBio}
-  			console.log("ContactInfo is ", contactInfo)
-  			console.log("ContactInfo bio is ", contactInfo.bio)
-  			//console.log("state headline is ", this.state.headline)
+  // 			//console.log("User headline is ...", contactHeadline)
+  // 			//console.log("User bio is ...", contactBio)
+  // 			contactInfo = {email: contactEmail, firstname: contactFirstName, lastname: contactLastName, headline: contactHeadline, website: contactWebsite, location: contactLocation, bio: contactBio}
+  // 			console.log("ContactInfo is ", contactInfo)
+  // 			console.log("ContactInfo bio is ", contactInfo.bio)
+  // 			//console.log("state headline is ", this.state.headline)
 
-  			//return contactInfo
-  			// ...
-		})
-		.then(() => {
-			this.setState({userEmail: contactInfo.email, userFirstName: contactInfo.firstname, userLastName: contactInfo.lastname, userPersonalHeadline: contactInfo.headline, userWebsite: contactInfo.website, userLocation: contactInfo.location, userBio: contactInfo.bio})
-			console.log("And now this.state has bio " + this.state.userBio)
-		})
+  // 			//return contactInfo
+  // 			// ...
+		// })
+		// .then(() => {
+		// 	this.setState({userEmail: contactInfo.email, userFirstName: contactInfo.firstname, userLastName: contactInfo.lastname, userPersonalHeadline: contactInfo.headline, userWebsite: contactInfo.website, userLocation: contactInfo.location, userBio: contactInfo.bio})
+		// 	console.log("And now this.state has bio " + this.state.userBio)
+		// })
 	}
 
 	render () {
@@ -127,7 +128,7 @@ export default class profilemodal extends Component {
 					        <TextInput
 					          style = {styles.input}				        
 					          autoCapitalize = 'none'
-					          value = {this.state.userEmail}
+					          value = {this.props.email}
 					          autoCorrect = {false}
 					          editable={true}
 					        />
@@ -140,7 +141,7 @@ export default class profilemodal extends Component {
 					        <TextInput
 					          style = {styles.input}				          
 					          autoCapitalize = 'none'
-					          value = {this.state.userFirstName}
+					          value = {this.props.firstname}
 					          autoCorrect = {false}
 					          editable={true}				  		         				       
 					        />
@@ -153,7 +154,7 @@ export default class profilemodal extends Component {
 					        <TextInput
 					          style = {styles.input}				       
 					          autoCapitalize = 'none'
-					          value = {this.state.userLastName}
+					          value = {this.props.lastname}
 					          autoCorrect = {false}
 					          editable={true}		     				          
 					        />
@@ -177,7 +178,7 @@ export default class profilemodal extends Component {
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>PERSONAL HEADLINE</Text></View>
 					        <TextInput
 					          style = {styles.input}
-					          value = {this.state.userPersonalHeadline}				          
+					          value = {this.props.headline}			          
 					          autoCapitalize = 'none'
 					          autoCorrect = {false}
 					          editable={true}
@@ -191,7 +192,7 @@ export default class profilemodal extends Component {
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>WEBSITE LINK</Text></View>
 					        <TextInput
 					          style = {styles.input}	
-					          value = {this.state.userWebsite}			          
+					          value = {this.props.website}			          
 					          autoCapitalize = 'none'
 					          autoCorrect = {false}
 					          editable={true}		
@@ -205,7 +206,7 @@ export default class profilemodal extends Component {
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>LOCATION</Text></View>
 					        <TextInput
 					          style = {styles.input}
-					          value = {this.state.userLocation}				          
+					          value = {this.props.location}			          
 					          autoCapitalize = 'none'
 					          autoCorrect = {false}
 					          editable={true}			      				          
@@ -219,7 +220,7 @@ export default class profilemodal extends Component {
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>BIO</Text></View>
 					        <TextInput
 					          style = {styles.input}
-					          value = {this.state.userBio}				          
+					          value = {this.props.bio}			          
 					          autoCapitalize = 'none'
 					          autoCorrect = {false}
 					          editable={true}
@@ -332,5 +333,21 @@ const styles = ({
     // fontWeight: '300',
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    firstname: state.auth.firstname,
+    lastname: state.auth.lastname,
+    initials: state.auth.initials,
+    headline: state.auth.headline,
+    website: state.auth.website,
+    location: state.auth.location,
+    bio: state.auth.bio,
+    //user: state.auth.user,
+  }
+}
+
+export default connect(mapStateToProps)(profilemodal)
 
 //<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>
