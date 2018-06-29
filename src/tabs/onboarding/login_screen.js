@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Keyboard, Dimensions, Text, TextInput, View, ScrollView, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
-import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
+import {emailChanged, passwordChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
@@ -26,21 +26,29 @@ class login_screen extends Component {
 
 
   // Tracks change in email prop value
-   onEmailChange(text){
-     this.props.emailChanged(text)
-   }
+  onEmailChange(text){
+    this.props.emailChanged(text)
+  }
 
-   // Tracks change in password prop value
-   onPasswordChange(text){
-     this.props.passwordChanged(text)
-   }
+  // Tracks change in password prop value
+  onPasswordChange(text){
+    this.props.passwordChanged(text)
+  }
+
+  onFirstNameChange(text){
+  console.log("Ran oFNC from login screen")
+      this.props.firstnameChanged(text)
+  }
+
+  onLastNameChange(text){
+    console.log("Ran oLNC from login screen")
+      this.props.lastnameChanged(text)
+  }
 
    // Logs in user with current email and password prop value
   onLoginPress(){
     const {email, password} = this.props;
-    this.props.loginUser({ email, password })
-    // console.log("THE USER EMAIL: ", this.props.email)
-    //console.log("THE USER firstname: ", this.props.firstname)
+      this.props.loginUser({ email, password})
   }
 
   // Sends a password reset email to the user via Firebase
@@ -246,6 +254,11 @@ const mapStateToProps = state => {
     user: state.auth.user,
     email: state.auth.email,
     password: state.auth.password,
+    initials: state.auth.initials,
+    headline: state.auth.headline,
+    website: state.auth.website,
+    location: state.auth.location,
+    bio: state.auth.bio,
     error: state.auth.error,
     loading: state.auth.loading,
     loggedIn: state.auth.loggedIn

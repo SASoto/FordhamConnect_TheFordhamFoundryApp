@@ -22,13 +22,18 @@ class drawernavigator extends Component {
 
 	// const userEmail = firebase.auth().currentUser.email;
 	render() {
-		const userEmail = this.props.email;
+		//const userEmail = this.props.email;
 		console.log("USER EMAIL FROM DRAWER: ", this.props.email);
 		//console.log("USER PASSWORD FROM ROUTER", this.props.password);
-		const userFName = this.props.firstname;
-		//console.log("USER FIRSTNAME FROM ROUTER: ",userFName);
-		const userLName = this.props.lastname;
-		//console.log("USER LASTNAME FROM ROUTER: ",userLName);
+		//const userFName = this.props.firstname;
+		console.log("USER FIRSTNAME FROM ROUTER: ",this.props.firstname);
+		//const userLName = this.props.lastname;
+		console.log("USER LASTNAME FROM ROUTER: ",this.props.lastname);
+		console.log("USER INITIALS FROM ROUTER: ",this.props.initials);
+		console.log("USER HEADLINE FROM ROUTER: ",this.props.headline);
+		console.log("USER WEBSITE FROM ROUTER: ",this.props.website);
+		console.log("USER LOCATION FROM ROUTER: ",this.props.location);
+		console.log("USER BIO FROM ROUTER: ",this.props.bio);
 
 	return (
 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
@@ -98,6 +103,13 @@ const mapStateToProps = state => {
   return {
     email: state.auth.email,
     user: state.auth.user,
+    firstname: state.auth.firstname,
+    lastname: state.auth.lastname,
+    initials: state.auth.initials,
+    headline: state.auth.headline,
+    website: state.auth.website,
+    location: state.auth.location,
+    bio: state.auth.bio
   }
 }
 

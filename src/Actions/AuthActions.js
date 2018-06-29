@@ -1,4 +1,4 @@
-import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, IS_EMPTY,LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,LOGIN_USER, EXISTS_FAIL, NO_USER, NEW_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from './types' 
+import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, INITIALS_CHANGED, HEADLINE_CHANGED, WEBSITE_CHANGED, LOCATION_CHANGED, BIO_CHANGED, IS_EMPTY,LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,LOGIN_USER, EXISTS_FAIL, NO_USER, NEW_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from './types' 
 import {Actions} from 'react-native-router-flux'
 import firebase from 'firebase'
 
@@ -24,6 +24,7 @@ export const confirmChanged = (text) => {
 }
 
 export const firstnameChanged = (text) => {
+  console.log("firstnameChanged was called in AuthActions with text ", text)
   return {
     type: FIRSTNAME_CHANGED,
     payload: text
@@ -31,14 +32,31 @@ export const firstnameChanged = (text) => {
 }
 
 export const lastnameChanged = (text) => {
+  console.log("lastnameChanged was called in AuthActions with text ", text)
   return {
     type: LASTNAME_CHANGED,
     payload: text
   }
 }
 
+function setuserStore (firstname, lastname, initials, headline, website, location, bio) {
+  console.log("setuserStore was called!")
+  return (dispatch) => {
+    console.log("Sending dispatches...")
+    dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+    dispatch({type: LASTNAME_CHANGED, payload: lastname})
+    dispatch({type: INITIALS_CHANGED, payload: initials})
+    dispatch({type: HEADLINE_CHANGED, payload: headline})
+    dispatch({type: WEBSITE_CHANGED, payload: website})
+    dispatch({type: LOCATION_CHANGED, payload: location})
+    dispatch({type: BIO_CHANGED, payload: bio})
+    console.log("All dispatches sent.")
+  }
+}
+
 //Pass the second part a "newUser" prop to display "Account created!"
 export const loginUser = ({email, password}) => {
+    console.log("loginUser was run!!!")
     if (email == '', password == '') {
     return(dispatch) =>{
       isEmpty(email,password),
@@ -48,12 +66,70 @@ export const loginUser = ({email, password}) => {
   else
   {
   return (dispatch) => {
+    //console.log("In loginUser, Firstname and lastname are " + firstname + " " + lastname)
     dispatch({type: LOGIN_USER})
+    
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then(user =>
       firebase.auth().onAuthStateChanged(function (user) {
         if(user) {
-          loginUserSuccess(dispatch, user)
+          console.log("The AuthState has Changed!")
+          var userID = firebase.auth().currentUser.uid
+          var firstname = ""
+          var lastname = ""
+          var initials = ""
+          var headline = ""
+          var website = ""
+          var location = ""
+          var bio = ""
+          //var contactInfo = {email: "", firstname: "", lastname: ""}
+
+          firebase.database().ref('/users/' + userID).once('value')
+          .then(function(snapshot) {
+            //var contactEmail = snapshot.val().email
+            //console.log("Snapshot is", snapshot)
+            firstname = snapshot.val().firstname
+            lastname = snapshot.val().lastname
+            email = snapshot.val().email
+            initials = snapshot.val().initials
+            headline = (snapshot.val().headline || "")
+            website = (snapshot.val().website || "")
+            location = (snapshot.val().location || "")
+            bio = snapshot.val().bio
+            console.log("website from firebase is ", website)
+            console.log("bio from firebase is ", bio)
+            //console.log("contactLastName is ", contactLastName)
+            //contactInfo = {email: "", firstname: contactFirstName, lastname: contactLastName}       
+          })
+          .then(() => {
+              dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+              dispatch({type: LASTNAME_CHANGED, payload: lastname})
+              dispatch({type: EMAIL_CHANGED, payload: email})
+              dispatch({type: INITIALS_CHANGED, payload: initials})
+              dispatch({type: HEADLINE_CHANGED, payload: headline})
+              dispatch({type: WEBSITE_CHANGED, payload: website})
+              dispatch({type: LOCATION_CHANGED, payload: location})
+              dispatch({type: BIO_CHANGED, payload: bio})
+              //setuserStore({firstname, lastname, initials, headline, headline, website, location, bio})
+              //console.log("User headline is ...", contactHeadline)
+              //console.log("User bio is ...", contactBio)
+              //contactInfo = {email: contactEmail, firstname: contactFirstName, lastname: contactLastName, headline: contactHeadline, website: contactWebsite, location: contactLocation, bio: contactBio}
+              //console.log("ContactInfo is ", contactInfo)
+              //console.log("ContactInfo bio is ", contactInfo.bio)
+              //console.log("state headline is ", this.state.headline)
+
+              //return contactInfo
+              // ...
+            // })
+            // .then(() => {
+              loginUserSuccess(dispatch, user)
+          })
+          // .then(() => {
+          //   this.props.email: 
+            //setState({userEmail: contactInfo.email, userFirstName: contactInfo.firstname, userLastName: contactInfo.lastname, userPersonalHeadline: contactInfo.headline, userWebsite: contactInfo.website, userLocation: contactInfo.location, userBio: contactInfo.bio})
+            //console.log("And now this.state has bio " + this.state.userBio)
+            //console.log("Now after Login, this.props.firstname = ", this.props.firstname)
+          //})
         } else {
           loginUserFail(dispatch)
         }
@@ -85,36 +161,60 @@ export const loginUser = ({email, password}) => {
 //Add the new user to the 'users' database branch.
 function writeNewUserData(userId, email,firstname,lastname) {
   var initials = parseInitials(firstname,lastname)
+  //Ensure that first and last name are capitalized.
+  var firstnameCap = firstname[0].toUpperCase() + firstname.slice(1)
+  var lastnameCap = lastname[0].toUpperCase() + lastname.slice(1)
+
+  var headline = ""
+  var website = ""
+  var location = ""
+  var bio = ""
+
   firebase.database().ref('users/' + userId).set({
     email: email,
     firstname: firstname,
     lastname: lastname,
     initials: initials,
+    headline: headline,
+    website: website,
+    location: location,
     bio: "I'm a human who is associated with Fordham University, but I haven't updated my bio yet.",
-    website: "",
-    affiliation1: "",
-    affiliation2: "",
-    affiliation3: "",
-    affiliation4: "",
-    affiliation5: "",
+    //affiliation1: "",
+    //affiliation2: "",
+    //affiliation3: "",
+    //affiliation4: "",
+    //affiliation5: "",
   })
-  initCampuses(userId)
+  // .then(() => {
+  //setuserStore(firstnameCap, lastnameCap, initials, headline, headline, website, location, bio)
+
+    // dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+    // dispatch({type: LASTNAME_CHANGED, payload: lastname})
+    // dispatch({type: INITIALS_CHANGED, payload: initials})
+    // dispatch({type: HEADLINE_CHANGED, payload: headline})
+    // dispatch({type: WEBSITE_CHANGED, payload: website})
+    // dispatch({type: LOCATION_CHANGED, payload: location})
+    // dispatch({type: BIO_CHANGED, payload: bio})
   initFavorite_Users(userId)
+  console.log("Wrote with writeNewUserData!")
+  
+  //initCampuses(userId)
+  
 }
 
 
 
-//Initialize campus associations to false
-function initCampuses(userId) {
-  firebase.database().ref('users/' + userId + '/campuses/').set({
-    rhcamp: false,
-    lccamp: false,
-    westcamp: false,
-  })
-  firebase.database().ref('campuses/rhcamp/members/' + userId).set(false)
-  firebase.database().ref('campuses/lccamp/members/' + userId).set(false)
-  firebase.database().ref('campuses/westcamp/members/' + userId).set(false)
-}
+// //Initialize campus associations to false
+// function initCampuses(userId) {
+//   firebase.database().ref('users/' + userId + '/campuses/').set({
+//     rhcamp: false,
+//     lccamp: false,
+//     westcamp: false,
+//   })
+//   firebase.database().ref('campuses/rhcamp/members/' + userId).set(false)
+//   firebase.database().ref('campuses/lccamp/members/' + userId).set(false)
+//   firebase.database().ref('campuses/westcamp/members/' + userId).set(false)
+// }
 
 //Initialize favorites list, including the Fordham Foundry as a favorite for all new users.
 //In addition to the plain userId stored, 
@@ -164,33 +264,39 @@ export const newUser = ({email, password, confirm, firstname, lastname}) => {
     dispatch({type: NEW_USER})
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
-        //console.log('Trying to fetch userId of current user')
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        var userId = firebase.auth().currentUser.uid;
+        console.log('Trying to fetch userId of current user')
+        var userId = firebase.auth().currentUser.uid
+        writeNewUserData(userId,email,firstname,lastname)
+      })
+      .then(() => {
+        console.log("Running loginUser with props " + email + " " + password)  //const {email, password} = this.props;
+        loginUser({ email, password})
+      })
+      .then(() => {
+          //firebase.auth().signInWithEmailAndPassword(email, password)
         var user = firebase.auth().currentUser;
         console.log("Trying to send email verification...")
 
         user.sendEmailVerification()
-        .then(function(){
-          alert("Your Account Was Created! We have sent you a verification email to your email address. Please make sure you received it!")
-          console.log("Email verification was sent!!")
-          writeNewUserData(userId,email,firstname,lastname)
-        })
-        .catch(function(error) {
-          alert(error)
-        })
-        .then (() => {
-          //alert ('Your Account Was Created!');
-          this.props({
-            email,
-            password,
-            firstname,
-            lastname,
-            loading
-          })
-        })
-        .catch(() => existsFail(dispatch))
       })
+      .then(function(){
+        alert("Your Account Was Created! We have sent you a verification email to your email address. Please make sure you received it!")
+        console.log("Email verification was sent!!")
+      })
+      .catch(function(error) {
+        alert(error)
+      })
+      .then (() => {
+          //alert ('Your Account Was Created!');
+        this.props({
+          email,
+          password,
+          firstname,
+          lastname,
+          loading
+        })
+      })
+      .catch(() => existsFail(dispatch))
       .catch(function(error) {
         //Handling Errors...
         var errorCode = error.code;
@@ -207,6 +313,7 @@ export const newUser = ({email, password, confirm, firstname, lastname}) => {
         }
         console.log(error);
       })
+
     // .then (() => {
     //   alert ('Your Account Was Created!');
     //   this.props({
