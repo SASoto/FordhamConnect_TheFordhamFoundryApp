@@ -140,7 +140,7 @@ export default class ProfileCard extends Component {
 													
 				</View>
 				<View flex={1} marginTop={10} paddingRight={23} alignItems="flex-end">
-					<TouchableOpacity onPress={() => console.log('do nothing')}>
+					<TouchableOpacity onPress={() => console.log("This person's email is ", this.state.email)}>
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
 				</View>
