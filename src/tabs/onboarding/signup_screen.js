@@ -38,13 +38,13 @@ class signup_screen extends Component {
 
     // Checks when a user has successfuly signed up and allows 
     // for transition to the rest of the app
-    componentWillMount() {
-        firebase.auth().onAuthStateChanged((user) => {
-          if(user) {
-            this.props.loggedInUser();
-          }
-        });
-    }
+    // componentWillMount() {
+    //     firebase.auth().onAuthStateChanged((user) => {
+    //       if(user) {
+    //         this.props.loggedInUser();
+    //       }
+    //     });
+    // }
 
     onEmailChange(text){
         this.props.emailChanged(text)
@@ -66,74 +66,74 @@ class signup_screen extends Component {
         this.props.confirmChanged(text)
     }
 
-    onNewHere() {
-        const {email, password, confirm, firstname, lastname} = this.props
-        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '',})
-    }
+    // onNewHere() {
+    //     const {email, password, confirm, firstname, lastname} = this.props
+    //     this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '',})
+    // }
 
-    checkFlag() {
-        if(this.props.loggedIn === null) {
-          setTimeout(this.checkFlag.bind(this), 1000)
-        }
-        else {
-          this.props.navigation.navigate("SignedIn")
-         }
-    }
+    // checkFlag() {
+    //     if(this.props.loggedIn === null) {
+    //       setTimeout(this.checkFlag.bind(this), 1000)
+    //     }
+    //     else {
+    //       this.props.navigation.navigate("SignedIn")
+    //      }
+    // }
 
-    checkIfFordhamEmail(email) {
-        // var tempEmailArr = email.split('');
-        // console.log("EMAIL IS: ", email)
-        // console.log("AFTER SPLICE: ", tempEmailArr.splice((tempEmailArr.length - 12),tempEmailArr.length - 1))
-        // var fordhamSignArr = tempEmailArr.splice((tempEmailArr.length - 12),tempEmailArr.length - 1)
-        var fordhamSign = email.substring(email.length-12, email.length);
+    // checkIfFordhamEmail(email) {
+    //     // var tempEmailArr = email.split('');
+    //     // console.log("EMAIL IS: ", email)
+    //     // console.log("AFTER SPLICE: ", tempEmailArr.splice((tempEmailArr.length - 12),tempEmailArr.length - 1))
+    //     // var fordhamSignArr = tempEmailArr.splice((tempEmailArr.length - 12),tempEmailArr.length - 1)
+    //     var fordhamSign = email.substring(email.length-12, email.length);
 
-        console.log("NEWLY JOINED: ",fordhamSign);
+    //     console.log("NEWLY JOINED: ",fordhamSign);
 
-        if(fordhamSign == '@fordham.edu') {
-            return true
-        }
+    //     if(fordhamSign == '@fordham.edu') {
+    //         return true
+    //     }
 
-        return false
-    }
+    //     return false
+    // }
 
-    verifyEmail(email) {
-        // this.setState({validEmail: null})
-        console.log("EMAIL IS: ", email)
-        // don't remember from where i copied this code, but this works.
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // verifyEmail(email) {
+    //     // this.setState({validEmail: null})
+    //     console.log("EMAIL IS: ", email)
+    //     // don't remember from where i copied this code, but this works.
+    //     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        var isFordhamEmail = this.checkIfFordhamEmail(email);
+    //     var isFordhamEmail = this.checkIfFordhamEmail(email);
 
-        if (re.test(email) && isFordhamEmail) {
-            // this is a valid email address
-            // call setState({email: email}) to update the email
-            // or update the data in redux store.
-            this.setState({validEmail: true});
-            this.onEmailChange.bind(this);
-        }
-        else {
-            // invalid email, maybe show an error to the user.
-            this.setState({validEmail: false})
-            this.setState({cantSignUp: true})
-        }
+    //     if (re.test(email) && isFordhamEmail) {
+    //         // this is a valid email address
+    //         // call setState({email: email}) to update the email
+    //         // or update the data in redux store.
+    //         this.setState({validEmail: true});
+    //         this.onEmailChange.bind(this);
+    //     }
+    //     else {
+    //         // invalid email, maybe show an error to the user.
+    //         this.setState({validEmail: false})
+    //         this.setState({cantSignUp: true})
+    //     }
 
-    }
+    // }
 
-    verifyPassword() {
-        // this.setState({validPassword: null});
-        //console.log("PASSWORD IS: ", password);
+    // verifyPassword() {
+    //     // this.setState({validPassword: null});
+    //     //console.log("PASSWORD IS: ", password);
 
-        // CHECK THAT PASSWORD IS VALID
-        // IF TRUE
-        // if(password.length > 6) {
-        //     this.setState({validPassword: true})
-        //     this.setState({password: password})
-        // } else {
-        // // IF FALSE
-        //     this.setState({validPassword: false});
-        //     this.setState({cantSignUp: true})
-        // }
-    }
+    //     // CHECK THAT PASSWORD IS VALID
+    //     // IF TRUE
+    //     // if(password.length > 6) {
+    //     //     this.setState({validPassword: true})
+    //     //     this.setState({password: password})
+    //     // } else {
+    //     // // IF FALSE
+    //     //     this.setState({validPassword: false});
+    //     //     this.setState({cantSignUp: true})
+    //     // }
+    // }
 
     // checkPasswordsMatch(text) {
     //     // this.setState({passwordsMatch: false});
@@ -149,11 +149,11 @@ class signup_screen extends Component {
     //     }
     // }
 
-    checkStuff() {
-        if(this.props.loading) {
-          {this.checkFlag()}
-        }
-    }
+    // checkStuff() {
+    //     if(this.props.loading) {
+    //       {this.checkFlag()}
+    //     }
+    // }
 
     render() {
     return (
@@ -190,7 +190,6 @@ class signup_screen extends Component {
                   <FilledTextInput fieldName="PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
                 </View>
                 <View marginTop={2}>
-                    {this.verifyPassword()}
                 </View>
                 <View marginTop={15}>
                     <FilledTextInput fieldName="CONFIRM PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
@@ -211,7 +210,6 @@ class signup_screen extends Component {
         </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>
-      {this.checkStuff()}
       </View>
     );
     }

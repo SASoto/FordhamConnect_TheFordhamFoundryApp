@@ -39,49 +39,57 @@ export const lastnameChanged = (text) => {
   }
 }
 
-// export const headlineChanged = (text) => {
-//   console.log("lastnameChanged was called in AuthActions with text ", text)
-//   return {
-//     type: HEADLINE_CHANGED,
-//     payload: text
-//   }
-// }
-
-// export const bioChanged = (text) => {
-//   console.log("lastnameChanged was called in AuthActions with text ", text)
-//   return {
-//     type: BIO_CHANGED,
-//     payload: text
-//   }
-// }
-
-// export const loctionChanged = (text) => {
-//   console.log("lastnameChanged was called in AuthActions with text ", text)
-//   return {
-//     type: LOCATION_CHANGED,
-//     payload: text
-//   }
-// }
-
-function setuserStore (firstname, lastname, initials, headline, website, location, bio) {
-  console.log("setuserStore was called!")
-  return (dispatch) => {
-    console.log("Sending dispatches...")
-    dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
-    dispatch({type: LASTNAME_CHANGED, payload: lastname})
-    dispatch({type: INITIALS_CHANGED, payload: initials})
-    dispatch({type: HEADLINE_CHANGED, payload: headline})
-    dispatch({type: WEBSITE_CHANGED, payload: website})
-    dispatch({type: LOCATION_CHANGED, payload: location})
-    dispatch({type: BIO_CHANGED, payload: bio})
-    console.log("All dispatches sent.")
+export const headlineChanged = (text) => {
+  console.log("headlineChanged was called in AuthActions with text ", text)
+  return {
+    type: HEADLINE_CHANGED,
+    payload: text
   }
 }
 
+export const websiteChanged = (text) => {
+  console.log("websiteChanged was called in AuthActions with text ", text)
+  return {
+    type: WEBSITE_CHANGED,
+    payload: text
+  }
+}
+
+export const bioChanged = (text) => {
+  console.log("bioChanged was called in AuthActions with text ", text)
+  return {
+    type: BIO_CHANGED,
+    payload: text
+  }
+}
+
+export const locationChanged = (text) => {
+  console.log("locationChanged was called in AuthActions with text ", text)
+  return {
+    type: LOCATION_CHANGED,
+    payload: text
+  }
+}
+
+// function setuserStore (firstname, lastname, initials, headline, website, location, bio) {
+//   console.log("setuserStore was called!")
+//   return (dispatch) => {
+//     console.log("Sending dispatches...")
+//     dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+//     dispatch({type: LASTNAME_CHANGED, payload: lastname})
+//     dispatch({type: INITIALS_CHANGED, payload: initials})
+//     dispatch({type: HEADLINE_CHANGED, payload: headline})
+//     dispatch({type: WEBSITE_CHANGED, payload: website})
+//     dispatch({type: LOCATION_CHANGED, payload: location})
+//     dispatch({type: BIO_CHANGED, payload: bio})
+//     console.log("All dispatches sent.")
+//   }
+// }
+
 //Pass the second part a "newUser" prop to display "Account created!"
 export const loginUser = ({email, password}) => {
-    console.log("loginUser was run!!!")
-    if (email == '', password == '') {
+  console.log("loginUser was run!!!")
+  if (email == '', password == '') {
     return(dispatch) =>{
       isEmpty(email,password),
       alert ("Sign In By Entering an Email and Password!")
@@ -89,75 +97,61 @@ export const loginUser = ({email, password}) => {
   }
   else
   {
-  return (dispatch) => {
-    //console.log("In loginUser, Firstname and lastname are " + firstname + " " + lastname)
-    dispatch({type: LOGIN_USER})
-    
-    firebase.auth().signInWithEmailAndPassword(email,password)
-    .then(user =>
-      firebase.auth().onAuthStateChanged(function (user) {
-        if(user) {
-          console.log("The AuthState has Changed!")
-          var userID = firebase.auth().currentUser.uid
-          var firstname = ""
-          var lastname = ""
-          var initials = ""
-          var headline = ""
-          var website = ""
-          var location = ""
-          var bio = ""
-          //var contactInfo = {email: "", firstname: "", lastname: ""}
+    console.log("Made it to the else!")
+    return (dispatch) => {
+      //console.log("In loginUser, Firstname and lastname are " + this.props.firstname + " " + this.props.lastname)
+      console.log("Sending dispatch to LOGIN_USER")
+      dispatch({type: LOGIN_USER})
+      console.log("Sent dispatch to LOGIN_USER")
+      firebase.auth().signInWithEmailAndPassword(email,password)
+      .then(user =>
+        firebase.auth().onAuthStateChanged(function (user) {
+          if(user) {
+            console.log("The AuthState has Changed!")
+            var userID = firebase.auth().currentUser.uid
+            var firstname = ""
+            var lastname = ""
+            var initials = ""
+            var headline = ""
+            var website = ""
+            var location = ""
+            var bio = ""
+            //var contactInfo = {email: "", firstname: "", lastname: ""}
 
-          firebase.database().ref('/users/' + userID).once('value')
-          .then(function(snapshot) {
-            //var contactEmail = snapshot.val().email
-            //console.log("Snapshot is", snapshot)
-            firstname = snapshot.val().firstname
-            lastname = snapshot.val().lastname
-            email = snapshot.val().email
-            initials = snapshot.val().initials
-            headline = (snapshot.val().headline || "")
-            website = (snapshot.val().website || "")
-            location = (snapshot.val().location || "")
-            bio = snapshot.val().bio
-            console.log("website from firebase is ", website)
-            console.log("bio from firebase is ", bio)
-            //console.log("contactLastName is ", contactLastName)
-            //contactInfo = {email: "", firstname: contactFirstName, lastname: contactLastName}       
-          })
-          .then(() => {
-              dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
-              dispatch({type: LASTNAME_CHANGED, payload: lastname})
-              dispatch({type: EMAIL_CHANGED, payload: email})
-              dispatch({type: INITIALS_CHANGED, payload: initials})
-              dispatch({type: HEADLINE_CHANGED, payload: headline})
-              dispatch({type: WEBSITE_CHANGED, payload: website})
-              dispatch({type: LOCATION_CHANGED, payload: location})
-              dispatch({type: BIO_CHANGED, payload: bio})
-              //setuserStore({firstname, lastname, initials, headline, headline, website, location, bio})
-              //console.log("User headline is ...", contactHeadline)
-              //console.log("User bio is ...", contactBio)
-              //contactInfo = {email: contactEmail, firstname: contactFirstName, lastname: contactLastName, headline: contactHeadline, website: contactWebsite, location: contactLocation, bio: contactBio}
-              //console.log("ContactInfo is ", contactInfo)
-              //console.log("ContactInfo bio is ", contactInfo.bio)
-              //console.log("state headline is ", this.state.headline)
+            firebase.database().ref('/users/' + userID).once('value')
+            .then(function(snapshot) {
+              //var contactEmail = snapshot.val().email
+              //console.log("Snapshot is", snapshot)
+              firstname = snapshot.val().firstname
+              lastname = snapshot.val().lastname
+              email = snapshot.val().email
+              initials = snapshot.val().initials
+              headline = (snapshot.val().headline || "")
+              website = (snapshot.val().website || "")
+              location = (snapshot.val().location || "")
+              bio = snapshot.val().bio
+              console.log("website from firebase is ", website)
+              console.log("bio from firebase is ", bio)
+              //console.log("contactLastName is ", contactLastName)
+              //contactInfo = {email: "", firstname: contactFirstName, lastname: contactLastName}       
+            })
+            .then(() => {
+                dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+                dispatch({type: LASTNAME_CHANGED, payload: lastname})
+                dispatch({type: EMAIL_CHANGED, payload: email})
+                dispatch({type: INITIALS_CHANGED, payload: initials})
+                dispatch({type: HEADLINE_CHANGED, payload: headline})
+                dispatch({type: WEBSITE_CHANGED, payload: website})
+                dispatch({type: LOCATION_CHANGED, payload: location})
+                dispatch({type: BIO_CHANGED, payload: bio})
 
-              //return contactInfo
-              // ...
-            // })
-            // .then(() => {
-              loginUserSuccess(dispatch, user)
-          })
-          // .then(() => {
-          //   this.props.email: 
-            //setState({userEmail: contactInfo.email, userFirstName: contactInfo.firstname, userLastName: contactInfo.lastname, userPersonalHeadline: contactInfo.headline, userWebsite: contactInfo.website, userLocation: contactInfo.location, userBio: contactInfo.bio})
-            //console.log("And now this.state has bio " + this.state.userBio)
-            //console.log("Now after Login, this.props.firstname = ", this.props.firstname)
-          //})
-        } else {
-          loginUserFail(dispatch)
-        }
-      })
+                loginUserSuccess(dispatch, user)
+            })
+          
+          } else {
+            loginUserFail(dispatch)
+          }
+        })
      )
     .catch(function(error) {
       var errorCode = error.code;
@@ -182,17 +176,69 @@ export const loginUser = ({email, password}) => {
   }}
 }
 
+//Pass the second part a "newUser" prop to display "Account created!"
+export const loginNewUser = ({email, password}) => {
+  console.log("loginNewUser was run!!!")
+  return (dispatch) => {
+    console.log("Sending dispatch to LOGIN_USER")
+    dispatch({type: LOGIN_USER})
+    console.log("Sent dispatch to LOGIN_USER")
+    firebase.auth().signInWithEmailAndPassword(email,password)
+    .then(user =>
+      firebase.auth().onAuthStateChanged(function (user) {
+        if(user) {
+          console.log("The AuthState has Changed!")
+          var userID = firebase.auth().currentUser.uid
+          var initials = ""
+          var website = ""
+
+          firebase.database().ref('/users/' + userID).once('value')
+          .then(function(snapshot) {
+            website = (snapshot.val().website || "")
+            bio = snapshot.val().bio
+            console.log("website from firebase is ", website)
+            console.log("bio from firebase is ", bio)     
+          })
+          .then(() => {
+            dispatch({type: INITIALS_CHANGED, payload: initials})
+            dispatch({type: WEBSITE_CHANGED, payload: website})
+
+            loginUserSuccess(dispatch, user)
+          })
+          
+        } else {
+          loginUserFail(dispatch)
+        }
+      })
+    )
+    .catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      loginUserFail(dispatch);
+      alert(errorMessage);
+    })
+    //CHECK THAT PROMISE CONTAINS A CERTAIN VALUE      
+    .catch(()=> loginUserFail(dispatch))
+  }
+}
+
 //Add the new user to the 'users' database branch.
-function writeNewUserData(userId, email,firstname,lastname) {
+function writeNewUserData(userId, email,firstname,lastname, headline, location, bio) {
   var initials = parseInitials(firstname,lastname)
+  console.log("Trying to 'writeNewUserData' to userId", userId)
   //Ensure that first and last name are capitalized.
   var firstnameCap = firstname[0].toUpperCase() + firstname.slice(1)
   var lastnameCap = lastname[0].toUpperCase() + lastname.slice(1)
 
-  var headline = ""
+  // var headline = ""
   var website = ""
-  var location = ""
-  var bio = ""
+  // var location = ""
+  // var bio = ""
+
+  console.log("headline is ", headline)
+  console.log("location is ", location)
+  console.log("website is (should be empty) ", website)
+  console.log("bio is ", bio)
 
   firebase.database().ref('users/' + userId).set({
     email: email,
@@ -202,7 +248,7 @@ function writeNewUserData(userId, email,firstname,lastname) {
     headline: headline,
     website: website,
     location: location,
-    bio: "I'm a human who is associated with Fordham University, but I haven't updated my bio yet.",
+    bio: bio,
     //affiliation1: "",
     //affiliation2: "",
     //affiliation3: "",
@@ -257,9 +303,10 @@ function parseInitials(firstname,lastname) {
   return(initials)
 }
 
-export const newUser = ({email, password, confirm, firstname, lastname}) => {
+export const newUser = ({email, password, confirm, firstname, lastname, headline, location, bio}) => {
   var testEmail = email.toLowerCase();
   var validFordham = testEmail.endsWith("@fordham.edu")
+  console.log("In newUser, location is...", location)
 
   if (email == '', password == '', confirm == '', firstname == '', lastname == '') {
     return(dispatch) => {
@@ -286,15 +333,25 @@ export const newUser = ({email, password, confirm, firstname, lastname}) => {
   {
    return (dispatch) => {
     dispatch({type: NEW_USER})
+    dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+    dispatch({type: LASTNAME_CHANGED, payload: lastname})
+    dispatch({type: EMAIL_CHANGED, payload: email})
+    // dispatch({type: INITIALS_CHANGED, payload: initials})
+    dispatch({type: HEADLINE_CHANGED, payload: headline})
+    // dispatch({type: WEBSITE_CHANGED, payload: website})
+    dispatch({type: LOCATION_CHANGED, payload: location})
+    dispatch({type: BIO_CHANGED, payload: bio})
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
         console.log('Trying to fetch userId of current user')
         var userId = firebase.auth().currentUser.uid
-        writeNewUserData(userId,email,firstname,lastname)
+        console.log("Current userID is ", userId)
+        writeNewUserData(userId,email,firstname,lastname, headline, location, bio)
       })
       .then(() => {
-        console.log("Running loginUser with props " + email + " " + password)  //const {email, password} = this.props;
-        loginUser({ email, password})
+        console.log("Running loginUser with props " + email + " " + password)  
+        //const {email, password} = this.props;
+        loginNewUser({ email, password})
       })
       .then(() => {
           //firebase.auth().signInWithEmailAndPassword(email, password)
