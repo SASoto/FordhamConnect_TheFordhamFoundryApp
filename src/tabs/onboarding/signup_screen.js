@@ -197,7 +197,7 @@ class signup_screen extends Component {
                 </View>
             </View>
             <View marginTop={26}>
-              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonOutline>
+              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={() => this.props.navigation.navigate('ExtraInfo')}>CONTINUE</ButtonOutline>
             </View>
             <View marginTop={20}>
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -219,7 +219,7 @@ class signup_screen extends Component {
 
 const styles = StyleSheet.create({
     signUpCont: {
-        marginTop: 17,
+        marginTop: -5,
         alignItems: "center",
     },
     signUpTxt: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     },
     signUpAccTxt: {
     fontFamily: 'SFProText-Regular',
-    color: 'white',
+    color: 'rgb(255,255,255)',
     fontWeight: '300',
     fontSize: 12
     },

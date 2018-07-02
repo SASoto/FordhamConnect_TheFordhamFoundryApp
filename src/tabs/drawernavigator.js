@@ -23,17 +23,17 @@ class drawernavigator extends Component {
 	// const userEmail = firebase.auth().currentUser.email;
 	render() {
 		//const userEmail = this.props.email;
-		console.log("USER EMAIL FROM DRAWER: ", this.props.email);
-		//console.log("USER PASSWORD FROM ROUTER", this.props.password);
-		//const userFName = this.props.firstname;
-		console.log("USER FIRSTNAME FROM ROUTER: ",this.props.firstname);
-		//const userLName = this.props.lastname;
-		console.log("USER LASTNAME FROM ROUTER: ",this.props.lastname);
-		console.log("USER INITIALS FROM ROUTER: ",this.props.initials);
-		console.log("USER HEADLINE FROM ROUTER: ",this.props.headline);
-		console.log("USER WEBSITE FROM ROUTER: ",this.props.website);
-		console.log("USER LOCATION FROM ROUTER: ",this.props.location);
-		console.log("USER BIO FROM ROUTER: ",this.props.bio);
+		// console.log("USER EMAIL FROM DRAWER: ", this.props.email);
+		// //console.log("USER PASSWORD FROM ROUTER", this.props.password);
+		// //const userFName = this.props.firstname;
+		// console.log("USER FIRSTNAME FROM ROUTER: ",this.props.firstname);
+		// //const userLName = this.props.lastname;
+		// console.log("USER LASTNAME FROM ROUTER: ",this.props.lastname);
+		// console.log("USER INITIALS FROM ROUTER: ",this.props.initials);
+		// console.log("USER HEADLINE FROM ROUTER: ",this.props.headline);
+		// console.log("USER WEBSITE FROM ROUTER: ",this.props.website);
+		// console.log("USER LOCATION FROM ROUTER: ",this.props.location);
+		// console.log("USER BIO FROM ROUTER: ",this.props.bio);
 
 	return (
 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
@@ -54,7 +54,8 @@ class drawernavigator extends Component {
 					
 						<View style={styles.profPic}/>
 						<View marginTop={20}>
-							<Text style={styles.accountInfoTxtStyle}>SAMPLE TEXT</Text>
+							<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
+							<Text style={styles.headlineTxtStyle}>{this.props.headline}</Text>
 						</View>
 					</View>
 				
@@ -70,6 +71,7 @@ class drawernavigator extends Component {
 					//items={items.filter((item) => item.routeName !== 'Profile')}
 					/>
 				</View>
+			<View marginTop={20} marginBottom={17} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>	
 			<TouchableOpacity style={styles.logoutCont}>
 				<LogoutButton {...this.props} />
 			</TouchableOpacity>
@@ -87,9 +89,14 @@ const styles = ({
 		borderRadius: 23,
 		backgroundColor: 'grey'
 	},
-	accountInfoTxtStyle: {
+	userNameTxtStyle: {
 		fontFamily: 'SFProText-Regular',
 		fontSize: 16,
+		color: 'rgb(255,255,255)'
+	},
+	headlineTxtStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 13,
 		color: 'rgb(255,255,255)'
 	},
 	logoutCont: {

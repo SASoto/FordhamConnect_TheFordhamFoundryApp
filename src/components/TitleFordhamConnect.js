@@ -9,7 +9,7 @@ export default class TitleFordhamConnect extends Component {
     return (
       <View>
         <View marginTop={this.props.marginTop}>
-          <Image style={styles.imgCont} source={require('../../Images/foundrylogowhite.png')} resizeMode="cover"/>
+          <Image style={styles.imgCont} source={require('../../Images/foundrylogoonboarding.png')} resizeMode="cover"/>
         </View>
       </View>
     );
@@ -19,8 +19,8 @@ export default class TitleFordhamConnect extends Component {
 const styles = ({
   imgCont: {
     //flex: 1,
-    height: 65, 
-    width: 185
+    height: 100, 
+    width: 325
   },
   fordhamCont: {
     marginTop: -15

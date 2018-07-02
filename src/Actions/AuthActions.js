@@ -39,6 +39,30 @@ export const lastnameChanged = (text) => {
   }
 }
 
+// export const headlineChanged = (text) => {
+//   console.log("lastnameChanged was called in AuthActions with text ", text)
+//   return {
+//     type: HEADLINE_CHANGED,
+//     payload: text
+//   }
+// }
+
+// export const bioChanged = (text) => {
+//   console.log("lastnameChanged was called in AuthActions with text ", text)
+//   return {
+//     type: BIO_CHANGED,
+//     payload: text
+//   }
+// }
+
+// export const loctionChanged = (text) => {
+//   console.log("lastnameChanged was called in AuthActions with text ", text)
+//   return {
+//     type: LOCATION_CHANGED,
+//     payload: text
+//   }
+// }
+
 function setuserStore (firstname, lastname, initials, headline, website, location, bio) {
   console.log("setuserStore was called!")
   return (dispatch) => {

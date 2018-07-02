@@ -87,29 +87,6 @@ Co-working space
 		        		<Text style={styles.descTxtStyle}>Mentoring, consulting on launch and growth</Text>
 		        		<Text style={styles.descTxtStyle}>Co-working space</Text>
 		        	</View>
-
-		        	<View flex={1} marginTop={20}>
-						<TouchableOpacity onPress={() => this.checkIfConnected('https://www.instagram.com/fordhamfoundry/')}>
-							<LinearGradient style={styles.mediaButtonStyle} start={{x: 0, y: 0}} end={{x: 1, y: 1}} colors={['rgb(254,218,117)', 'rgb(250,126,30)', 'rgb(214,41,118)', 'rgb(150,47,191)', 'rgb(79,91,213)']}>								
-								
-							</LinearGradient>
-						</TouchableOpacity>
-						<View marginTop={11}>
-						<TouchableOpacity onPress={() => this.checkIfConnected('https://twitter.com/FordhamFoundry')}>
-							<View style={styles.mediaButtonStyle} backgroundColor="rgb(91,158,255)">
-								
-							</View>
-						</TouchableOpacity>
-						</View>
-						<View marginTop={11}>
-						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.facebook.com/fordhamfoundry/')}>
-							<View style={styles.mediaButtonStyle} backgroundColor="rgb(68,109,176)">
-								
-							</View>
-						</TouchableOpacity>
-						</View>
-					</View>
-
 		        	<View flex={1} marginTop={20} flexDirection="column">
 		        		<Text style={styles.siteTxtStyle}>Learn more on our website!</Text>
 		        		<TouchableOpacity onPress={() => this.checkIfConnected('https://www.fordhamfoundry.org')}>
