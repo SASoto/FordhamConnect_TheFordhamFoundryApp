@@ -13,7 +13,9 @@ export default class ProfileCard extends Component {
 		super(props);
 
 		this.state = {
+			email: "",
 			headline: "",
+			location: "",
 			bio: "",
 		}
 		
@@ -29,15 +31,17 @@ export default class ProfileCard extends Component {
 
 	fetchProfileData(passedUID) {
 		//var userId = firebase.auth().currentUser.uid;
-		var contactInfo = {headline: "", bio: ""}
+		var contactInfo = {email: "", headline: "", location: "", bio: ""}
 
 		firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
+  			var contactEmail = snapshot.val().email
   			var contactHeadline = (snapshot.val().headline || " ")
+  			var contactLocation = (snapshot.val().location || " ")
   			var contactBio = snapshot.val().bio
 
   			//console.log("User headline is ...", contactHeadline)
   			//console.log("User bio is ...", contactBio)
-  			contactInfo = {headline: contactHeadline, bio: contactBio}
+  			contactInfo = {email: contactEmail, headline: contactHeadline, location: contactLocation, bio: contactBio}
   			console.log("ContactInfo is ", contactInfo)
   			console.log("ContactInfo bio is ", contactInfo.bio)
   			//console.log("state headline is ", this.state.headline)
@@ -46,8 +50,9 @@ export default class ProfileCard extends Component {
   			// ...
 		})
 		.then(() => {
-			this.setState({headline: contactInfo.headline, bio: contactInfo.bio})
+			this.setState({email: contactInfo.email, headline: contactInfo.headline, location: contactInfo.location, bio: contactInfo.bio})
 			console.log("And now this.state has bio " + this.state.bio)
+			console.log("And email is... ", this.state.email)
 		})
 	}
 
@@ -126,7 +131,7 @@ export default class ProfileCard extends Component {
 					</View>
 					
 					<View marginTop={15}>
-						<Text>LOCATION</Text> 
+						<Text>{this.state.location}</Text> 
 					</View>
 					<View marginVertical={7} borderBottomWidth={1} borderColor="black"/>
 					<View>
@@ -135,7 +140,7 @@ export default class ProfileCard extends Component {
 													
 				</View>
 				<View flex={1} marginTop={10} paddingRight={23} alignItems="flex-end">
-					<TouchableOpacity onPress={() => console.log('do nothing')}>
+					<TouchableOpacity onPress={() => console.log("This person's email is ", this.state.email)}>
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
 				</View>

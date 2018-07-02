@@ -35,9 +35,8 @@ class signup_screen extends Component {
             cantSignUp: true
         }
     }
-
-    // // Checks when a user has successfuly signed up and allows 
-    // // for transition to the rest of the app
+    // Checks when a user has successfuly signed up and allows 
+    // for transition to the rest of the app
     // componentWillMount() {
     //     firebase.auth().onAuthStateChanged((user) => {
     //       if(user) {
@@ -154,6 +153,14 @@ class signup_screen extends Component {
     //       {this.checkFlag()}
     //     }
     // }
+
+
+    // checkStuff() {
+    //     if(this.props.loading) {
+    //       {this.checkFlag()}
+    //     }
+    // }
+
 
     render() {
     return (

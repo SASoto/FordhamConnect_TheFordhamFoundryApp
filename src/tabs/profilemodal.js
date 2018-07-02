@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
+import {emailChanged, firstnameChanged, lastnameChanged, initialsChanged, headlineChanged, websiteChanged, locationChanged, bioChanged} from '../Actions';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
@@ -10,24 +11,91 @@ class profilemodal extends Component {
 	constructor(props) {
 		super(props);
 
-		// this.state = {
-		// 	userEmail: "",
-		// 	userFirstName: "",
-		// 	userLastName: "",
-		// 	userPersonalHeadline: "",
-		// 	userWebsite: "",
-		// 	userLocation: "",
-		// 	userBio: "",
-		// }
+		this.state = {
+		 	tempEmail: "",
+		 	tempFirstName: "",
+		 	tempLastName: "",
+		 	tempInitials: "",
+		 	tempHeadline: "",
+		 	tempWebsite: "",
+		 	tempLocation: "",
+		 	tempBio: "",
+		}
 		//console.log("Construction complete!")
 	}
 
+	onEmailChange(text){
+        this.props.emailChanged(text)
+    }
+
+    onFirstNameChange(text){
+        this.props.firstnameChanged(text)
+    }
+
+    onLastNameChange(text){
+        this.props.lastnameChanged(text)
+    }
+
+    onHeadlineChange(text){
+        this.props.headlineChanged(text)
+    }
+
+    onWebsiteChange(text){
+        this.props.websiteChanged(text)
+    }
+
+    onLocationChange(text){
+        this.props.locationChanged(text)
+    }
+
+    onBioChange(text){
+        this.props.bioChanged(text)
+    }
+
 	componentWillMount() {
-		//console.log("componentWillMount is running!")
+		console.log("componentWillMount is running!")
+		this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
         // this.fetchuserProfileData()       
     }
 
-    fetchuserProfileData() {
+    resetProfileModal() {
+    	console.log("resetProfileModal was run!!")
+    	this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
+    	this.props.modalFunc()
+    }
+
+    setNewProfileData() {
+    	console.log("Trying to set new profile data.")
+    	console.log("localheadline is now...", this.state.tempHeadline)
+    	console.log("storeheadline is now...", this.props.headline)
+    	console.log("Trying to set to firebase...")
+
+    	var userID = firebase.auth().currentUser.uid
+
+    	firebase.database().ref('users/' + userID).set({
+    		email: this.state.tempEmail,
+    		firstname: this.state.tempFirstName,
+    		lastname: this.state.tempLastName,
+    		initials: this.state.tempInitials,
+    		headline: this.state.tempHeadline,
+    		website: this.state.tempWebsite,
+    		location: this.state.tempLocation,
+    		bio: this.state.tempBio,
+  		})
+  		.then(() => {
+  			this.onEmailChange(this.state.tempEmail)
+  			this.onFirstNameChange(this.state.tempFirstName)
+  			this.onLastNameChange(this.state.tempLastName)
+  			this.onHeadlineChange(this.state.tempHeadline)
+  			this.onWebsiteChange(this.state.tempWebsite)
+  			this.onLocationChange(this.state.tempLocation)
+  			this.onBioChange(this.state.tempBio)
+
+  		})
+  		.then(() =>{
+  			console.log("Completed firebase calls.")
+  			alert("Success! Your profile information has been updated.")
+  		})
 		// var userID = firebase.auth().currentUser.uid;
 		// var contactInfo = {email: "", firstname: "", lastname: "", headline: "", website: "", location: "", bio: ""}
 
@@ -57,7 +125,7 @@ class profilemodal extends Component {
 	}
 
 	render () {
-		//console.log("Rendering...")
+		console.log("Rendering profilemodal for ..." + this.props.firstname + " " + this.props.lastname)
 		return (
 			<Modal
 				animationType="slide"
@@ -101,13 +169,13 @@ class profilemodal extends Component {
 						>
 						<View flex={1} marginTop={35} justifyContent="center">
 							<View flex={1} flexDirection="row" justifyContent="space-between">
-								<TouchableOpacity onPress={() => this.props.modalFunc()}>
+								<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
 									<View flex={1} paddingLeft={30} paddingTop={2}>
 										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 									</View>
 								</TouchableOpacity>
 								<View paddingRight={20} paddingBottom={5} justifyContent='center'>
-									<TouchableOpacity onPress={() => console.log('do nothing')}>
+									<TouchableOpacity onPress={this.setNewProfileData.bind(this)}>
 										<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
 									</TouchableOpacity>
 								</View>
@@ -147,7 +215,9 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          value = {this.props.firstname}
 						          autoCorrect = {false}
-						          editable={false}				  		         				       
+						          editable={true}
+						          onChangeText={(text) => this.setState({tempFirstName: text})}
+        						  value={this.state.tempFirstName}				  		         				       
 						        />
 						        </View>
 					        </View>
@@ -161,7 +231,9 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          value = {this.props.lastname}
 						          autoCorrect = {false}
-						          editable={false}		     				          
+						          editable={true}	
+						          onChangeText={(text) => this.setState({tempLastName: text})}
+        						  value={this.state.tempLastName}		     				          
 						        />
 						        </View>
 					        </View>
@@ -176,6 +248,8 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
 						          editable={true}
+						          onChangeText={(text) => this.setState({tempHeadline: text})}
+        						  value={this.state.tempHeadline}	
 						          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
 						        />
 						        </View>				       
@@ -191,6 +265,8 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
 						          editable={true}		
+						          onChangeText={(text) => this.setState({tempWebsite: text})}
+        						  value={this.state.tempWebsite}	
 						          placeholder="ex. LinkedIn/a personal site"	      				          
 						        />	
 						        </View>				        
@@ -205,7 +281,9 @@ class profilemodal extends Component {
 						          value = {this.props.location}			          
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
-						          editable={true}			      				          
+						          editable={true}			
+						          onChangeText={(text) => this.setState({tempLocation: text})}
+        						  value={this.state.tempLocation}	      				          
 						          placeholder="ex. Greater New York City Area"
 						        />
 						        </View>				        
@@ -222,6 +300,8 @@ class profilemodal extends Component {
 						          autoCorrect = {false}
 						          editable={true}
 						          multiline={true}
+						          onChangeText={(text) => this.setState({tempBio: text})}
+        						  value={this.state.tempBio}	
 						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
 						        />
 						        </View>
@@ -352,6 +432,6 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(profilemodal)
+export default connect(mapStateToProps, {emailChanged, firstnameChanged, lastnameChanged, initialsChanged, headlineChanged, websiteChanged, locationChanged, bioChanged})(profilemodal)
 
 //<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

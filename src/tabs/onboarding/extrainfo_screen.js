@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, Alert, Text, View, ScrollView, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
-import {newUser} from '../../Actions';
+import {headlineChanged, locationChanged, bioChanged, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 
@@ -36,9 +36,22 @@ class extrainfo_screen extends Component {
         }
     }
 
+    onHeadlineChange(text){
+        this.props.headlineChanged(text)
+    }
+
+    onLocationChange(text){
+        this.props.locationChanged(text)
+    }
+
+    onBioChange(text){
+        this.props.bioChanged(text)
+    }
+
     onNewHere() {
-        const {email, password, confirm, firstname, lastname} = this.props
-        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '',})
+        const {email, password, confirm, firstname, lastname, headline, location, bio} = this.props
+        console.log("In onNewHere email is " + email + ", password is " + password + ", firstname is " + firstname + ", headline is " + headline + ", location is " + location + ", bio is " + bio)
+        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || '', headline: headline || '', location: location || '', bio: bio || '' })
     }
 
     checkFlag() {
@@ -87,7 +100,9 @@ class extrainfo_screen extends Component {
                           value = {null}                    
                           autoCapitalize = 'none'
                           autoCorrect = {false}
-                          editable={true}                          
+                          editable={true}           
+                          onChangeText={this.onHeadlineChange.bind(this)}
+                          passedVal={this.props.headline}               
                           placeholder="ex. FCRH ’15 or Gabelli ‘87"
                           placeholderTextColor="lightgrey"                            
                         />
@@ -103,7 +118,9 @@ class extrainfo_screen extends Component {
                           value = {null}                    
                           autoCapitalize = 'none'
                           autoCorrect = {false}
-                          editable={true}                          
+                          editable={true}      
+                          onChangeText={this.onLocationChange.bind(this)}
+                          passedVal={this.props.location}                      
                           placeholder="ex. Greater New York City Area"
                           placeholderTextColor="lightgrey"                            
                         />
@@ -120,6 +137,8 @@ class extrainfo_screen extends Component {
                           autoCapitalize = 'none'
                           autoCorrect = {false}
                           editable={true}
+                          onChangeText={this.onBioChange.bind(this)}
+                          passedVal={this.props.bio}   
                           multiline={true}
                           placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"
                           placeholderTextColor="lightgrey"                            
@@ -133,7 +152,7 @@ class extrainfo_screen extends Component {
                     <Text style={{fontSize: 12, fontFamily: 'SFProText-Light', color:'rgb(155,155,155)'}}>optional fields</Text> 
                 </View>
                 <View marginTop={10}>
-                    <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={() => this.onNewHere.bind(this)}>SIGN UP</ButtonOutline>
+                    <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonOutline>
                 </View>
             </View>
             <View marginTop={20}>
@@ -238,13 +257,13 @@ const mapStateToProps = state => {
     confirm: state.auth.confirm,
     firstname: state.auth.firstname,
     lastname: state.auth.lastname,
-    // headline: state.auth.headline,
+    headline: state.auth.headline,
     bio: state.auth.bio,
-    // location: state.auth.headline,
+    location: state.auth.location,
     error: state.auth.error,
     loading: state.auth.loading,
     loggedIn: state.auth.loggedIn
   }
 }
 
-export default connect(mapStateToProps,{newUser})(extrainfo_screen)
+export default connect(mapStateToProps,{headlineChanged, locationChanged, bioChanged, newUser})(extrainfo_screen)
