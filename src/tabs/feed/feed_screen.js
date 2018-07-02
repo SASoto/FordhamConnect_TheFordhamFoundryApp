@@ -372,8 +372,8 @@ export default class feed_screen extends Component {
       var image_parsed = entities_parsed_media_4.slice(3,entities_parsed_media_4.length - 2);
       var image_url = image_parsed.slice(0,5) + ':' + image_parsed.slice(5,image_parsed.length);
     } else {
-      var final_type = 'photo';
       if(imageUrlPresentAtStart != null) {
+        var final_type = 'photo';
         var image_url = imageUrlPresentAtStart;
         console.log("IMAGE URL AT START: ",image_url);
       }

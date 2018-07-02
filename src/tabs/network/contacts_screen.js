@@ -1,9 +1,51 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, ImageBackground, View, Text, Image, Button, FlatList} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, View, Text, Image, SectionList, Button, FlatList, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
+import {Header} from 'react-navigation';
 
 import StarredContactListItem from '../../components/StarredContactListItem';
 import ContactListItem from '../../components/ContactListItem';
+
+import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+
+class SectionListItem extends Component {
+    render () {
+        return (
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ContactProfile', {userID: this.props.item.userID, favorited: this.props.item.favorited, userfname: this.props.item.fullname, changeFavoritedStatus: this.props.changeFavoritedStatus})}>
+                <View style={styles.sectionListItemEncompCont}>
+                    <View height={55} justifyContent="center">
+                        <View flexDirection="row">
+                            <View flex={1} flexDirection="row">
+                                <View style={styles.sectionlistItemUserBubble} marginRight={15}/>
+                                <View justifyContent="center">
+                                <Text style={styles.sectionListItemUserName}>{this.props.item.fullname}</Text>                         
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+}
+
+class SectionHeader extends Component {
+    render() {
+
+        if(this.props.section.title == "Favorited") {
+            return (
+                <View flex={1} marginLeft={30} marginTop={26}>
+                    <MatIcon name="star" size={29} color="rgb(106,46,52)"/>
+                </View>
+            )
+        }
+        return (
+            <View flex={1} marginLeft={38} marginTop={26}>
+                <Text style={{fontFamily: 'SFProText-Medium', fontSize: 22, color: 'rgb(106,46,52)'}}>{this.props.section.title}</Text>
+            </View>
+        )
+    }
+}
 
 const windowSize = Dimensions.get('window');
 export default class contacts_screen extends Component {
@@ -97,10 +139,10 @@ export default class contacts_screen extends Component {
         }
     }
 
-    getFavoritedContacts() {
+    getFavoritedContacts(passedfavoritedContactsArr) {
 
         //var removeKeysArr = [];
-        var favoritedContactsArr = [];
+        var favoritedContactsArr = passedfavoritedContactsArr;
         // for(var i=0; i<this.state.starredContacts.length; i++) {
         //    //var indexOfUser =  this.searchForUserID(this.state.starredContacts[i].userID, this.state.myData);
         //    //var contactUID = this.state.myData[indexOfUser].userID;
@@ -111,44 +153,44 @@ export default class contacts_screen extends Component {
         //    //favoritedContactsArr.push(contactObj);
         //    //this.setState({myData: this.state.myData.splice(indexOfUser,1)})
         // }
-        console.log("Once again, MyData is ", this.state.myData)
-        console.log("Trying to get the favorites for this user...")
+        // console.log("Once again, MyData is ", this.state.myData)
+        // console.log("Trying to get the favorites for this user...")
 
-        var currentUserId = firebase.auth().currentUser.uid;
-        //usersFavs = firebase.database().ref('favorite_users/' + currentUserId).orderByValue();//.startAt('Cha').endAt('Cha\uf8ff');
-        return firebase.database().ref('favorite_users/' + currentUserId).once('value').then(function(snapshot) {
-        //console.log("Pulled a reference to userFavs.")
-        //console.log("usersFavs is ", usersFavs)
-        // Make sure we remove all previous listeners..?
-        //usersFavs.off();
+        // var currentUserId = firebase.auth().currentUser.uid;
+        // //usersFavs = firebase.database().ref('favorite_users/' + currentUserId).orderByValue();//.startAt('Cha').endAt('Cha\uf8ff');
+        // return firebase.database().ref('favorite_users/' + currentUserId).once('value').then(function(snapshot) {
+        // //console.log("Pulled a reference to userFavs.")
+        // //console.log("usersFavs is ", usersFavs)
+        // // Make sure we remove all previous listeners..?
+        // //usersFavs.off();
 
-        //usersFavs.on('value', function(snapshot) {
+        // //usersFavs.on('value', function(snapshot) {
 
-            //console.log("Testing...")
-          snapshot.forEach(function(childSnapshot) {
-            //console.log("Another name...")
-            var childKey = childSnapshot.key;
-            var childData = childSnapshot.val();
-            //console.log(childKey)
-            //console.log(childData)
-            //var favObj = {'userID':childKey, 'fullname':childData};
-            //console.log("Pushing OBJECT: " + childKey + ' ' + childData);
-            favoritedContactsArr.push({userID: childKey, fullname: childData});
-            console.log("After push, favoritedContactsArr is ", favoritedContactsArr)
-            //alert("Within forEach " + favoritedContactsArr.length);
-            //removeKeysArr.push(favObj.userID);
-            //console.log("Within forEach, My Data is ", this.state.myData)
-            //this.setState({myData: this.state.myData.splice(childKey,1)})        //Removes the contact from the full contact list since it's a favorite.
-          });
-        //console.log("Can we get myData here? ", this.state.myData)
+        //     //console.log("Testing...")
+        //   snapshot.forEach(function(childSnapshot) {
+        //     //console.log("Another name...")
+        //     var childKey = childSnapshot.key;
+        //     var childData = childSnapshot.val();
+        //     //console.log(childKey)
+        //     //console.log(childData)
+        //     //var favObj = {'userID':childKey, 'fullname':childData};
+        //     //console.log("Pushing OBJECT: " + childKey + ' ' + childData);
+        //     favoritedContactsArr.push({userID: childKey, fullname: childData});
+        //     console.log("After push, favoritedContactsArr is ", favoritedContactsArr)
+        //     //alert("Within forEach " + favoritedContactsArr.length);
+        //     //removeKeysArr.push(favObj.userID);
+        //     //console.log("Within forEach, My Data is ", this.state.myData)
+        //     //this.setState({myData: this.state.myData.splice(childKey,1)})        //Removes the contact from the full contact list since it's a favorite.
+        //   });
+        // //console.log("Can we get myData here? ", this.state.myData)
         
-        }).then(() => {
-        //setTimeout(() => {     
-            //console.log("Favorites to remove are ", favoritedContactsArr)
-            //console.log("removeKeysArr is ", removeKeysArr)
-            //console.log("First element of favoritedContactsArr is ", favoritedContactsArr[0])
-            //alert("Within getFavoritedContacts, it has length " + favoritedContactsArr.length);
-            //console.log("favoritedContactsArr.length is ", Object.keys(favoritedContactsArr).length)
+        // }).then(() => {
+        // //setTimeout(() => {     
+        //     //console.log("Favorites to remove are ", favoritedContactsArr)
+        //     //console.log("removeKeysArr is ", removeKeysArr)
+        //     //console.log("First element of favoritedContactsArr is ", favoritedContactsArr[0])
+        //     //alert("Within getFavoritedContacts, it has length " + favoritedContactsArr.length);
+        //     //console.log("favoritedContactsArr.length is ", Object.keys(favoritedContactsArr).length)
             for(var i=0; i<favoritedContactsArr.length; i++) {
                 //console.log("Iteration number ", i)
                 //console.log("Here myData is ", this.state.myData)
@@ -165,11 +207,11 @@ export default class contacts_screen extends Component {
                 //this.setState({myData: this.state.myData.splice(favoritedContactsArr[i].userID,1)})
             }
         //},2000)
-            console.log("AFTER INITIAL REMOVE: ", this.state.myData)
+            // console.log("AFTER INITIAL REMOVE: ", this.state.myData)
         
             this.setState({starredContacts: favoritedContactsArr})
-            return favoritedContactsArr;
-        })
+            //return favoritedContactsArr;
+        //})
     }
 
     getCombinedContactList() {
@@ -191,18 +233,22 @@ export default class contacts_screen extends Component {
             //console.log(childData)
             //var favObj = {'userID':childKey, 'fullname':childData};
             console.log("Pushing yet another: " + childKey + ' ' + childData);
-            favoritedContactsArr.push({userID: childKey, fullname: childData});
+            favoritedContactsArr.push({userID: childKey, fullname: childData, favorited: true});
             console.log("After NEW push, favoritedContactsArr is ", favoritedContactsArr)
             //alert("Within forEach " + favoritedContactsArr.length);
             //removeKeysArr.push(favObj.userID);
             //console.log("Within forEach, My Data is ", this.state.myData)
             //this.setState({myData: this.state.myData.splice(childKey,1)})        //Removes the contact from the full contact list since it's a favorite.
           })
-        }); 
-        this.getFavoritedContacts()
+        }).then(() => {this.getFavoritedContacts(favoritedContactsArr)})
+        ////***************
+        ///COME BACK HERE
+        //this.getFavoritedContacts(favoritedContactsArr)
+        ////***************
         .then(() => {
         //console.log("Favs array is ", favoritedContactsArr)
         favoritedContactsArr = this.sortContactList(favoritedContactsArr)
+        console.log("FAVORITED CONTAXTS ARRAY OUTPUT",favoritedContactsArr);
         //console.log("And sorted, it is...")
         //  NEED THIS LATER favoritedContactsArr = this.sortContactList(favoritedContactsArr);
         // this.setState({lengthOfFavorites: favoritedContactsArr.length})
@@ -215,15 +261,25 @@ export default class contacts_screen extends Component {
         // }
         //setTimeout(() => {
         console.log("AFTER REMOVE: ", this.state.myData)
-        //console.log("FIRST ELEMENT OF myData is : ", this.state.myData[0])
+        
         this.state.myData = this.sortContactList(this.state.myData)
-        var joinedData = favoritedContactsArr.concat(this.state.myData);
-        this.setState({contactList: joinedData});
+        //var joinedData = favoritedContactsArr.concat(this.state.myData);
+
+
+
+        //********************************
+        // FINAL CONTACT LIST IS SET HERE
+        var sectionedList = this.createSectionedList(this.state.myData, favoritedContactsArr);
+        this.setState({contactList: sectionedList});
+        //********************************
+
+
+
         //joinedData = this.sortContactList(joinedData);
         //console.log("at the end of getCombinedContactList joinedData is ", joinedData)
         console.log("at the end of getCombinedContactList contactList is ", this.state.contactList)        
         // console.log("STATE IS AFTER: ", this.state.contactList);
-        return joinedData
+        //return joinedData
         //},4000)
         })
 
@@ -234,6 +290,45 @@ export default class contacts_screen extends Component {
 
     }
 
+    createFavoritedSection(objectArray) {
+        var usersBelongingToSection = [];
+        var onLetter = 'Favorited'
+        for(var i=0; i<objectArray.length; i++) {
+            usersBelongingToSection.push(objectArray[i]);
+        }
+
+        return usersBelongingToSection;
+    }
+
+    createSectionedList(setOfNormalContacts, setOfFavoritedContacts) {
+        var sectionedList = [];
+        var usersBelongingToSection = [];
+
+        var favoritedSection = this.createFavoritedSection(setOfFavoritedContacts);
+        sectionedList.push({title: 'Favorited', data: favoritedSection});
+
+        var onLetter = 'A'
+        for(var i=0; i<setOfNormalContacts.length; i++) {
+            // console.log('FULL NAME IS: ',objectArray[i].fullname)
+            // console.log("STARTING LETTER OF FULL NAME IS: ",objectArray[i].fullname.substring(0,1))
+            //Name starts with next letter in the alphabet
+            if(setOfNormalContacts[i].fullname[0] != onLetter) {
+                //Push previous letter as whole section to sectionedList
+                //var sectionObject = {title: onLetter, usersBelongingToSection};
+                sectionedList.push({title: onLetter, data: usersBelongingToSection});
+                onLetter = setOfNormalContacts[i].fullname.substring(0,1);
+                usersBelongingToSection = [];
+                usersBelongingToSection.push(setOfNormalContacts[i])
+            } else { //Name starts with the same letter we are currently on
+                usersBelongingToSection.push(setOfNormalContacts[i])
+            }
+
+            
+        }
+        sectionedList.push({title: onLetter, data: usersBelongingToSection});
+        console.log("SECTIONED LIST: ",sectionedList);
+        return(sectionedList);
+    }
 
     changeFavoritedStatus(passedUID, removeOrAdd) {
         //console.log('SOMEONE NEW HAS BEEN FAVORITED')
@@ -319,39 +414,29 @@ export default class contacts_screen extends Component {
     }
 
     whatIsRendered() {
-        //console.log("In whatIsRendered, My data is: ",this.state.myData);
-        //console.log("In whatIsRendered, the length of myData is: ", this.state.myData.length);
-        if(this.state.contactList.length > 0) {
-            //console.log("My Data is ", this.state.myData)
+        if(this.state.contactList == []) {
+            console.log("THE HEIGHT OF THE HEADER IS: ",Header.HEIGHT);
             return (
-                <View flex={1}>
-                    
-                    <FlatList
-                    data={this.state.contactList}
-                    //KEY COULD BE USERID
-                    renderItem={({item}) =>
-                        // console.log(item)
-                        <View>
-                        {this.renderListItem(item)}
-                        </View>
-                        
-                    }
-                    keyExtractor={(item, index) => item.userID}//{(x,i) => i.toString()} 
-                    />
-        
+                <View flex={1} justifyContent="center" alignItems="center">
+                    <Text> Loading contacts ... </Text>
                 </View>
-            );
+            )
+            
             // console.log("EMPTY: ",this.state.contactList)
         }
 
         return (
-            <View flex={1} justifyContent="center" alignItems="center">
-                <Text> Loading contacts ... </Text>
+            <View flex={1}>
+                <SectionList
+                    renderItem={({item, index}) => {
+                        return (<SectionListItem item={item} index={index} navigation={this.props.navigation} changeFavoritedStatus={this.changeFavoritedStatus.bind(this)}/>)
+                    }}
+                    renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
+                    sections={this.state.contactList}
+                    keyExtractor={(item, index) => index}
+                />
             </View>
-        )
-        // console.log("NOT EMPTY")
-        // console.log("STATE IS AFTER: ", this.state.contactList);
-        
+        );
     }
 
 	render() {
@@ -379,6 +464,28 @@ export default class contacts_screen extends Component {
 	}
 }
 
-// const styles = ({
-	
-// })
+const styles = ({
+    sectionListItemEncompCont: {
+        flex: 1,
+        marginLeft: 80
+        //alignItems: 'center'
+        // borderWidth: 1,
+        // borderColor: 'black'
+    },
+    nameStyle: {
+        fontFamily: 'HelveticaNeue-Medium',
+        color: 'black',
+        fontSize: 16
+    },
+    sectionlistItemUserBubble: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: 'grey'
+    },
+    sectionListItemUserName: {
+        fontFamily: 'SFProText-Light',
+        fontSize: 15,
+        color: 'rgb(115,115,115)'
+    }	
+})

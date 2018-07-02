@@ -72,33 +72,33 @@ class mainview_screen2 extends Component {
 			           source={require('../../../Images/mainviewfoundryimage.jpg')}
 			        >
 			        <View style={{flex: 1, flexDirection: 'column', justifyContent: "center", backgroundColor: 'rgba(78,9,14,.55)', alignItems: "center", width: '100%'}}>
-			        <View justifyContent="center" marginBottom={5}>
-						<Image source={require('../../../Images/foundrylogomainview.png')}/>
+			        <View justifyContent="center" marginBottom={30}>
+						<Image source={require('../../../Images/mainlogomainview.png')}/>
 					</View>
-					<View  justifyContent='center' flexDirection="row" marginBottom={20}>
+					<View  justifyContent='center' flexDirection="row" marginBottom={10}>
 						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.facebook.com/fordhamfoundry/')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image source={require('../../../Images/facebookcircle.png')}/>
+								<Image style={{height:35, width: 35}} source={require('../../../Images/facebookcircle.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => this.checkIfConnected('https://twitter.com/FordhamFoundry')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image source={require('../../../Images/twittercircle.png')}/>
+								<Image style={{height:35, width: 35}} source={require('../../../Images/twittercircle.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => this.checkIfConnected('https://www.instagram.com/fordhamfoundry/')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image source={require('../../../Images/instagramcircle.png')}/>
+								<Image style={{height:35, width: 35}} source={require('../../../Images/instagramcircle.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.linkedin.com/company/fordham-foundry')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image source={require('../../../Images/linkedincircle.png')}/>
+								<Image style={{height:35, width: 35}} source={require('../../../Images/linkedincircle.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => console.log('its raining')}>
 							<View style={styles.circleButton}>
-								<Image source={require('../../../Images/chimpcircle.png')}/>
+								<Image style={{height:35, width: 35}} source={require('../../../Images/chimpcircle.png')}/>
 							</View>
 						</TouchableOpacity>
 					</View>

@@ -8,9 +8,11 @@ const windowSize = Dimensions.get('window');
 export default class MenuButton extends Component {
 	render() {
 		return (
-			<TouchableOpacity onPress={this.props.onPress}>
-				<MatIcon name="menu" size={30} color="white"/>			
+			<View marginLeft={30} marginTop={10} flex={1}>
+			<TouchableOpacity onPress={this.props.onPress}>				
+				<MatIcon name="menu" size={24} color="white"/>							
 			</TouchableOpacity>
+			</View>			
   		);
 	}
 }

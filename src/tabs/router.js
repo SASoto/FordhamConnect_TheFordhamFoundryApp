@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Dimensions, Animated, Easing, Modal, View, Image, Button, Icon, ImageBackground, Text, TouchableOpacity} from 'react-native';
-import {TabNavigator, createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
+import {Header, TabNavigator, createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import MenuButton from '../components/MenuButton';
@@ -293,7 +293,7 @@ const NetworkStack = createStackNavigator ({
               source={require('../../Images/positionedblur.png')}
 
 			/>,
-			title: 'Fordham Contacts',
+			title: 'Fordham Network',
 			headerTintColor: 'white',
 			headerLeft: 
 				<View paddingLeft={5}>
@@ -564,7 +564,7 @@ const MainStack = createStackNavigator ({
 			    fontSize: 19,
 			    //marginRight:
   			},
-			title: 'Home',
+			// title: 'Home',
 			// fontFamily: 'Avenir',
 			titleStyle: {
 				//fontFamily: 'Arial Hebrew',
@@ -578,6 +578,7 @@ const MainStack = createStackNavigator ({
 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
 				</View>,
 			headerStyle: {
+				height: 64,
 				shadowOpacity: 1,
 				shadowColor: '#010000',
 				//elevation: 1,

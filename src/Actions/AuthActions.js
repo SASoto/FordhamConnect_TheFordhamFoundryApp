@@ -294,6 +294,7 @@ export const newUser = ({email, password, confirm, firstname, lastname}) => {
       })
       .then(() => {
         console.log("Running loginUser with props " + email + " " + password)  //const {email, password} = this.props;
+        //dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
         loginUser({ email, password})
       })
       .then(() => {
