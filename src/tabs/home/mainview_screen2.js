@@ -72,10 +72,10 @@ class mainview_screen2 extends Component {
 			           source={require('../../../Images/mainviewfoundryimage.jpg')}
 			        >
 			        <View style={{flex: 1, flexDirection: 'column', justifyContent: "center", backgroundColor: 'rgba(78,9,14,.55)', alignItems: "center", width: '100%'}}>
-			        <View justifyContent="center">
-						<Text style={{color: 'white', fontSize: 16, fontWeight: '500'}}>FORDHAM FOUNDRY</Text>
+			        <View justifyContent="center" marginBottom={5}>
+						<Image source={require('../../../Images/foundrylogomainview.png')}/>
 					</View>
-					<View  justifyContent='center' flexDirection="row" marginTop={36}>
+					<View  justifyContent='center' flexDirection="row" marginBottom={20}>
 						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.facebook.com/fordhamfoundry/')}>
 							<View style={styles.circleButton} marginRight={20}>
 								<Image source={require('../../../Images/facebookcircle.png')}/>

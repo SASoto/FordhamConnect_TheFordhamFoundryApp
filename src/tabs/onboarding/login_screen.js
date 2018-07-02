@@ -186,7 +186,7 @@ class login_screen extends Component {
 
 const styles = ({
   signInCont: {
-    marginTop: 17,
+    marginTop: -5,
     alignItems: "center",
   },
   signInTxt: {
@@ -232,7 +232,7 @@ const styles = ({
   },
   forgotPassTxtStyle: {
     fontFamily: 'SFProText-Regular',
-    color: 'white',
+    color: 'rgb(255,255,255)',
     fontSize: 11,
     //
   },

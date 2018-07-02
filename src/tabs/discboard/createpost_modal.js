@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
 
+import {connect} from 'react-redux';
+
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
 const windowSize = Dimensions.get('window');
-export default class createpost_modal extends Component {
+class createpost_modal extends Component {
 	render () {
 		return (
 			<Modal
@@ -66,10 +68,10 @@ export default class createpost_modal extends Component {
 								<View style={styles.profPic} marginRight={16}/>
 								<View flexDirection="column" justifyContent="center" marginRight={26}>
 									<View>
-										<Text style={styles.accountInfoTxtStyle}>User Name</Text>
+										<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
 									</View>
 									<View>
-										<Text>Headline</Text>
+										<Text style={styles.headerTxtStyle}>{this.props.headline}</Text>
 									</View>
 								</View>															
 							</View>
@@ -80,7 +82,7 @@ export default class createpost_modal extends Component {
 	          						autoCorrect = {false}
 	          						multiline={true}
 	          						placeholder="Post to the discussion board about job opportunities, Fordham events, news articles and more!"
-									placeholderTextColor="rgba(99,96,96,0.21)"
+									placeholderTextColor="grey"
 								/>						
 							</View>
 							<View height={500}/>
@@ -118,7 +120,28 @@ const styles = ({
 		fontFamily: 'SFProText-Medium',
 		fontSize: 16,
 		color: 'rgb(255,255,255)'
+	},
+	userNameTxtStyle: {
+		fontFamily: 'SFProText-Regular',
+		fontSize: 16,
+		color: 'rgb(115,115,115)'
+	},
+	headerTxtStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 14,
+		color: 'rgb(115,115,115)'
 	}
 })
+
+const mapStateToProps = state => {
+  return {
+    firstname: state.auth.firstname,
+    lastname: state.auth.lastname,
+    initials: state.auth.initials,
+    headline: state.auth.headline,
+  }
+}
+
+export default connect(mapStateToProps)(createpost_modal)
 
 //<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

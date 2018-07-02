@@ -20,6 +20,7 @@ import OnboardScreen from './onboarding/onboarding_screen';
 import LoginScreen from './onboarding/login_screen';
 import ForgotPassScreen from './onboarding/forgotpassword_screen';
 import SignupScreen from './onboarding/signup_screen';
+import ExtraInfoScreen from './onboarding/extrainfo_screen';
 import LogoutButton from './logoutbutton';
 
 import DrawerNavigatorComp from './drawernavigator';
@@ -92,7 +93,13 @@ export const Onboard_Stack = createStackNavigator ({
 		navigationOptions: {
 			headerVisible: false,
   		}
-	} 
+	},
+	ExtraInfo: {
+		screen: ExtraInfoScreen,
+		navigationOptions: {
+			headerVisible: false,
+  		}
+	}
 
 }, {
 	initialRouteName: 'Login',
@@ -740,7 +747,7 @@ const DrawerRoutes = {
   MainView: {
   	screen: MainStack,
   	navigationOptions: {
-      title: 'Feed',
+      title: 'theHub',
       drawerIcon: <MatIcon name="home" size={20} color="rgb(255,255,255)"/> //Icon goes here
     },
   },
@@ -777,7 +784,7 @@ const DrawerRoutes = {
 };
 
 const DrawerOptions = {
-  initialRouteName: 'Network',
+  initialRouteName: 'MainView',
   contentComponent: DrawerNavigatorComp,
   contentOptions: {
   	activeTintColor: 'rgb(255,255,255)',

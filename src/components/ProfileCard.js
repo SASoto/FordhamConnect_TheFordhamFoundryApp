@@ -94,7 +94,7 @@ export default class ProfileCard extends Component {
 			},
 			bioStyle: {
 				fontFamily: 'SFProText-Light',
-				fontSize: 12,
+				fontSize: 14,
 				color: 'rgb(115,115,115)'
 			}
 
@@ -126,7 +126,7 @@ export default class ProfileCard extends Component {
 					</View>
 					
 					<View marginTop={15}>
-						<Text>SAMPLE TEXT</Text> 
+						<Text>LOCATION</Text> 
 					</View>
 					<View marginVertical={7} borderBottomWidth={1} borderColor="black"/>
 					<View>
@@ -134,7 +134,7 @@ export default class ProfileCard extends Component {
 					</View>
 													
 				</View>
-				<View marginTop={10} paddingRight={23} alignItems="flex-end">
+				<View flex={1} marginTop={10} paddingRight={23} alignItems="flex-end">
 					<TouchableOpacity onPress={() => console.log('do nothing')}>
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
@@ -158,13 +158,3 @@ const styles2 = ({
 	    backgroundColor: 'rgba(0,0,0,0.3)'
    }
 })
-
-
-
-// const styles = ({
-// 	encompCont: {
-// 		flex: 1,
-// 		flexDirection: "column",
-		
-// 	}
-// })

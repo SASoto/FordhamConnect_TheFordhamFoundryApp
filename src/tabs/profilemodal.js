@@ -82,7 +82,7 @@ class profilemodal extends Component {
 								
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 					
-					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]}>
+					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
 						<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
@@ -106,8 +106,10 @@ class profilemodal extends Component {
 										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 									</View>
 								</TouchableOpacity>
-								<View paddingRight={20} paddingBottom={10}>
-									<Button title="Save" color="#007AFF" onPress={() => console.log('do nothing')}/>
+								<View paddingRight={20} paddingBottom={5} justifyContent='center'>
+									<TouchableOpacity onPress={() => console.log('do nothing')}>
+										<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
+									</TouchableOpacity>
 								</View>
 							</View>
 						</View>
@@ -119,114 +121,110 @@ class profilemodal extends Component {
                             <View flexDirection="row">
                                 <View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
                                 <View marginLeft={16} justifyContent="center">
-                                    <Text>HELLO</Text>
+                                    <Text style={styles.userNameStyle}>{this.props.firstname} {this.props.lastname}</Text>
                                 </View>
                             </View>
 						<View marginTop={20}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
-					        <TextInput
-					          style = {styles.input}				        
-					          autoCapitalize = 'none'
-					          value = {this.props.email}
-					          autoCorrect = {false}
-					          editable={true}
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+						        <View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}				        
+						          autoCapitalize = 'none'
+						          value = {this.props.email}
+						          autoCorrect = {false}
+						          editable={false}
+						        />		
+						        </View>			        
 					        </View>
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FIRST NAME*</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          value = {this.props.firstname}
-					          autoCorrect = {false}
-					          editable={true}				  		         				       
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+					        	<View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}				          
+						          autoCapitalize = 'none'
+						          value = {this.props.firstname}
+						          autoCorrect = {false}
+						          editable={false}				  		         				       
+						        />
+						        </View>
 					        </View>
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>LAST NAME*</Text></View>
-					        <TextInput
-					          style = {styles.input}				       
-					          autoCapitalize = 'none'
-					          value = {this.props.lastname}
-					          autoCorrect = {false}
-					          editable={true}		     				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
-					        </View>
-						</View>
-						<View marginTop={15}>
-							<View>
-					          <View backgroundColor="transparent"><Text style={styles.textStyle}>PASSWORD*</Text></View>
-					        <TextInput
-					          style = {styles.input}				          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={false}			      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+						        <View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}				       
+						          autoCapitalize = 'none'
+						          value = {this.props.lastname}
+						          autoCorrect = {false}
+						          editable={false}		     				          
+						        />
+						        </View>
 					        </View>
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>PERSONAL HEADLINE</Text></View>
-					        <TextInput
-					          style = {styles.input}
-					          value = {this.props.headline}			          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}
-					          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+						        <View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}
+						          value = {this.props.headline}			          
+						          autoCapitalize = 'none'
+						          autoCorrect = {false}
+						          editable={true}
+						          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
+						        />
+						        </View>				       
 					        </View>						
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>WEBSITE LINK</Text></View>
-					        <TextInput
-					          style = {styles.input}	
-					          value = {this.props.website}			          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}		
-					          placeholder="ex. LinkedIn/a personal site"	      				          
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+						        <View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}	
+						          value = {this.props.website}			          
+						          autoCapitalize = 'none'
+						          autoCorrect = {false}
+						          editable={true}		
+						          placeholder="ex. LinkedIn/a personal site"	      				          
+						        />	
+						        </View>				        
 					        </View>						
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>LOCATION</Text></View>
-					        <TextInput
-					          style = {styles.input}
-					          value = {this.props.location}			          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}			      				          
-					          placeholder="ex. Greater New York City Area"
-					        />
-					        <View borderBottomWidth={1} borderColor="rgb(115,115,115)"/>
+						        <View style={styles.inputBackground}>
+						        <TextInput
+						          style = {styles.input}
+						          value = {this.props.location}			          
+						          autoCapitalize = 'none'
+						          autoCorrect = {false}
+						          editable={true}			      				          
+						          placeholder="ex. Greater New York City Area"
+						        />
+						        </View>				        
 					        </View>						
 						</View>
 						<View marginTop={15}>
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>BIO</Text></View>
-					        <TextInput
-					          style = {styles.input}
-					          value = {this.props.bio}			          
-					          autoCapitalize = 'none'
-					          autoCorrect = {false}
-					          editable={true}
-					          multiline={true}
-					          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
-					        />
+						        <View style={styles.inputBackground4Bio}>
+						        <TextInput
+						          style = {styles.input4Bio}
+						          value = {this.props.bio}			          
+						          autoCapitalize = 'none'
+						          autoCorrect = {false}
+						          editable={true}
+						          multiline={true}
+						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
+						        />
+						        </View>
 					        </View>						
 						</View>
 						<View backgroundColor="transparent" height={275}/>
@@ -251,6 +249,11 @@ class profilemodal extends Component {
 //</View>
 
 const styles = ({
+  userNameStyle: {
+ 	fontFamily: 'SFProText-Regular',
+ 	fontSize: 13,
+ 	color: 'rgb(115,115,115)'
+  },
   textStyle: {
     fontFamily: 'SFProText-Light',
     color: 'rgb(115,115,115)',
@@ -337,6 +340,7 @@ const styles = ({
 const mapStateToProps = state => {
   return {
     email: state.auth.email,
+    password: state.auth.password,
     firstname: state.auth.firstname,
     lastname: state.auth.lastname,
     initials: state.auth.initials,

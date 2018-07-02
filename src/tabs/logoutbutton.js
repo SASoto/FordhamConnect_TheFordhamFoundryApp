@@ -5,7 +5,8 @@ import {logoutUser, loggedInUser} from '../Actions';
 import {connect} from 'react-redux';
 //import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
-import  EntIcon from 'react-native-vector-icons/dist/Entypo';
+import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import EntIcon from 'react-native-vector-icons/dist/Entypo';
 import {handleLogout} from './handlelogout';
 
 const windowSize = Dimensions.get('window');
@@ -32,7 +33,8 @@ class LogoutButton extends Component {
 		return (
 			<TouchableOpacity onPress={this.onButtonPress.bind(this)}>
 				<View flexDirection="row">
-					<View marginLeft={55}>
+					<MatIcon name="exit-to-app" size={20} color="lightgrey"/>
+					<View marginLeft={35}>
 						<Text style={styles.buttonTxt}>Log Out</Text>
 					</View>
 				</View>
