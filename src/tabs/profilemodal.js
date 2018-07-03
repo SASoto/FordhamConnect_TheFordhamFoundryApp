@@ -149,14 +149,13 @@ class profilemodal extends Component {
 	            >
 								
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					
 					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
 						<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
 							style={{
 								flex: 1,
-								height: 75
+								height: 110
 								//position: 'absolute',
 								//top:0,
 
@@ -170,11 +169,11 @@ class profilemodal extends Component {
 						<View flex={1} marginTop={35} justifyContent="center">
 							<View flex={1} flexDirection="row" justifyContent="space-between">
 								<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
-									<View flex={1} paddingLeft={30} paddingTop={2}>
+									<View flex={1} paddingLeft={30} justifyContent='center'>
 										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 									</View>
 								</TouchableOpacity>
-								<View paddingRight={20} paddingBottom={5} justifyContent='center'>
+								<View paddingRight={20} justifyContent='center'>
 									<TouchableOpacity onPress={this.setNewProfileData.bind(this)}>
 										<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
 									</TouchableOpacity>

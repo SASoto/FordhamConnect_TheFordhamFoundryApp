@@ -3,6 +3,7 @@ import {Dimensions, Linking, ImageBackground, Text, View, Button, Image, Touchab
 
 import Video from 'react-native-af-video-player'
 import ButtonRounded from './ButtonRounded';
+import MatCommIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 const windowSize = Dimensions.get('window');
 export default class LogoutButton extends Component {
@@ -17,7 +18,8 @@ export default class LogoutButton extends Component {
 
 	renderCard() {
 		if(this.props.imageurl != null) { // A photo
-			var media = (<Image style={styles.imageContainer} source={{uri: this.props.imageurl}}/>);
+			var media = (
+				<Image style={styles.imageContainer} source={{uri: this.props.imageurl}}/>);
 		} else if(this.props.imageonlineurl != null) { //A video/gif url
 			var media = (
 				<Video url={this.props.imageonlineurl} inlineOnly={true} logo={null}/>
@@ -26,45 +28,41 @@ export default class LogoutButton extends Component {
 			var media = null;
 		}
 
+		if(this.props.tweetTitle != null) {
+			var tweetTitle = (<View flex={1} paddingTop={3}>
+								<Text style={styles.tweetTitleStyle}>{this.props.tweetTitle}</Text>
+							  </View>)
+		}
+
+		if(this.props.tweetDesc != null) {
+			var tweetDesc = (<View flex={1} marginTop={1}>
+								<Text style={styles.tweetTextStyle} /*textAlign='left'*/>{this.props.tweetDesc}</Text>
+							 </View>)
+		}
+
 		if(this.props.newsUrl != null) {
 			return (
 				<View style={styles.encompCont}>
-				<TouchableOpacity onPress={() => this.checkIfConnected(this.props.newsUrl)}>
-				<ImageBackground
-					resizeMode='cover'
-					style={{
-						flex: 1,
-						//position: 'absolute',
-						// width: '100%',
-						// height: '100%',
-					}}
-
-					source={require('../../Images/plussilvergradient.png')}
-					//need purple brown white gradient
-				>
-					
-					<View flexDirection="row" marginBottom={6} marginLeft={13} marginTop={9}>
-							
-							<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
-							
-							<View flexDirection="column" justifyContent="center">							
-								<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
-							</View>
-					</View>
+					<TouchableOpacity onPress={() => this.checkIfConnected(this.props.newsUrl)}>
+					<ImageBackground
+						resizeMode='cover'
+						style={{
+							flex: 1,
+						}}
+						source={require('../../Images/plussilvergradient.png')}
+					>				
 					{media}
-					
-					<View flex={1} marginHorizontal={16} marginTop={8} marginBottom={5}>
-						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
+					<View padding={8}>
+					{tweetTitle}
+					{tweetDesc}
+					<View marginTop={5}>
+						<Text style={styles.dateStyle}>{this.props.date}</Text>
 					</View>
-					<View alignItems="flex-end" justifyContent="center" marginTop={6} paddingRight={19} marginBottom={14} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>					
-					<TouchableOpacity onPress={() => console.log("do nothing")}>
-						<View style={styles.buttonStyle}>
-							<Text style={styles.buttonTextStyle}>
-							DISCUSS
-							</Text>
-						</View>
-					</TouchableOpacity>
 					</View>
+					<View paddingRight={5} alignItems="flex-end">
+						<MatCommIcon name="twitter" size={14} color="rgb(85,172,238)"/>
+					</View>
+					<View height={4} marginTop={1} backgroundColor="rgb(85,172,238)"/>
 					</ImageBackground>
 					</TouchableOpacity>
 				</View>
@@ -76,37 +74,21 @@ export default class LogoutButton extends Component {
 					resizeMode='cover'
 					style={{
 						flex: 1,
-						//position: 'absolute',
-						// width: '100%',
-						// height: '100%',
 					}}
-
 					source={require('../../Images/plussilvergradient.png')}
-					//need purple brown white gradient
 				>
-					
-					<View flexDirection="row" marginBottom={6} marginLeft={13} marginTop={9}>
-							
-							<Image style={styles.profilePicCont} source={{uri: this.props.profileimage}}/>
-							
-							<View flexDirection="column" justifyContent="center">							
-								<Text style={styles.subheadStyle}>@{this.props.scnameorsource}</Text>
-							</View>
-					</View>
 					{media}
-					
-					<View flex={1} marginHorizontal={16} marginTop={8} marginBottom={5}>
-						<Text style={styles.textStyle} /*textAlign='left'*/>{this.props.descortweet}</Text>
+					<View padding={8}>
+					{tweetTitle}
+					{tweetDesc}
+					<View marginTop={5} paddingLeft={5}>
+						<Text style={styles.dateStyle}>{this.props.date}</Text>
 					</View>
-					<View alignItems="flex-end" justifyContent="center" marginTop={6} paddingRight={19} marginBottom={14} shadowOpacity={0.3} shadowRadius={1} shadowOffset={{width: 0, height: 1}}>					
-					<TouchableOpacity onPress={() => console.log("do nothing")}>
-						<View style={styles.buttonStyle}>
-							<Text style={styles.buttonTextStyle}>
-							DISCUSS
-							</Text>
-						</View>
-					</TouchableOpacity>
 					</View>
+					<View paddingRight={5} alignItems="flex-end">
+						<MatCommIcon name="twitter" size={14} color="rgb(85,172,238)"/>
+					</View>
+					<View height={4} marginTop={1} backgroundColor="rgb(85,172,238)"/>
 					</ImageBackground>
 				</View>
 			);
@@ -133,7 +115,7 @@ const styles = ({
 		flex: 1,
 		//width: windowSize.width*.9,
 		flexDirection: 'column',
-		width: 375,
+		width: 370,
 		//height: 250,
 		//backgroundColor: "rgba(106, 46, 52, 0.1)",
 		borderRadius: 6,
@@ -164,7 +146,7 @@ const styles = ({
 	},
 	imageContainer: {
 		flex: 1,
-		height: 114,
+		height: 155,
 		//width: windowSize.width * .75//344
 	},
 	textCont: {
@@ -183,12 +165,17 @@ const styles = ({
 		fontSize: 16
 	},
 	dateStyle: {
-		fontFamily: 'HelveticaNeue-Medium',
-		color: 'grey',
-		fontSize: 12
+		fontFamily: 'SFProText-Light',
+		color: 'rgb(115,115,115)',
+		fontSize: 10
 	},
-	textStyle: {
-		fontSize: 16,
+	tweetTitleStyle: {
+		fontFamily: 'SFProText-Medium',
+		fontSize: 15,
+		color: 'rgb(115,115,115)'
+	},	
+	tweetTextStyle: {
+		fontSize: 13,
 		color: 'rgb(115,115,115)',
 		textAlign: 'left',
 		fontFamily: 'SFProText-Light'

@@ -37,7 +37,7 @@ class createpost_modal extends Component {
 								resizeMode='cover'
 								style={{
 									flex: 1,
-									height: 75
+									height: 110
 									//position: 'absolute',
 									//top:0,
 
@@ -51,7 +51,7 @@ class createpost_modal extends Component {
 							<View flex={1} marginTop={35} justifyContent="center">
 								<View flex={1} flexDirection="row" justifyContent="space-between">
 									<TouchableOpacity onPress={() => this.props.modalFunc()}>
-										<View justifyContent="center" paddingLeft={30}>
+										<View flex={1} justifyContent="center" paddingLeft={30}>
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 										</View>
 									</TouchableOpacity>
@@ -82,7 +82,7 @@ class createpost_modal extends Component {
 	          						autoCorrect = {false}
 	          						multiline={true}
 	          						placeholder="Post to the discussion board about job opportunities, Fordham events, news articles and more!"
-									placeholderTextColor="grey"
+									placeholderTextColor="rgba(99,96,96,0.21)"
 								/>						
 							</View>
 							<View height={500}/>

@@ -68,19 +68,19 @@ class login_screen extends Component {
 
   // Checks if loggedIn value has changed to true
   checkFlag() {
-    if(this.props.loggedIn === null) {
+    if(this.props.loggedIn == null) {
       setTimeout(this.checkFlag.bind(this), 1000)
-    } 
-    else if (this.props.loggedIn == false) {
-
     }
-    else { //if loggedin is true
-      if(this.props.loading === true) {
+    else if (this.props.loggedIn == true) { //if loggedin is true
+      if(this.props.loading == true) {
         setTimeout(this.checkFlag.bind(this), 1000)
       } else {
         this.props.navigation.navigate("SignedIn")
       }
      }
+    else {
+      //If props.loggedin is false
+    }
   }
 
   // Checks if loading value has changed to true
@@ -127,13 +127,13 @@ class login_screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView flex={1} showsVerticalScrollIndicator={false}>
         <View alignItems="center">
-          <TitleFordhamConnect marginTop={(windowSize.width*3/10)}/>
+          <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
           <View style={styles.signInCont}>
             <Text style={styles.signInTxt}>SIGN IN</Text>
           </View>
-        <View marginTop={152}>
+        <View marginTop={(windowSize.height * 2/10)}>
           <View>
-          <FilledTextInput fieldName="EMAIL*" fillColor="rgba(106,46,52,0.68)" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
+          <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
           </View>
           <View marginTop={13}>
           
@@ -186,7 +186,7 @@ class login_screen extends Component {
 
 const styles = ({
   signInCont: {
-    marginTop: -5,
+    marginTop: -12,
     alignItems: "center",
   },
   signInTxt: {
@@ -214,7 +214,7 @@ const styles = ({
     color: 'rgb(255,255,255)',
     fontSize: 16,
     // backgroundColor: 'rgba(106,46,52,0.68)',
-    paddingLeft: 10,
+    padding: 8,
   },
   inputBackground: {
     marginTop: 10,

@@ -5,6 +5,7 @@ import {Header} from 'react-navigation';
 
 import StarredContactListItem from '../../components/StarredContactListItem';
 import ContactListItem from '../../components/ContactListItem';
+import CustomTabButton from '../../components/CustomTabButton';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
@@ -457,6 +458,7 @@ export default class contacts_screen extends Component {
 
                     source={require('../../../Images/plussilvergradient.png')}
                 >
+                <CustomTabButton tabName="Network"/>
                 {this.whatIsRendered()}
                 </ImageBackground>
             </View>

@@ -19,8 +19,8 @@ export default class TitleFordhamConnect extends Component {
 const styles = ({
   imgCont: {
     //flex: 1,
-    height: 100, 
-    width: 325
+    height: 90, 
+    width: 265
   },
   fordhamCont: {
     marginTop: -15

@@ -98,6 +98,7 @@ export const Onboard_Stack = createStackNavigator ({
 		screen: ExtraInfoScreen,
 		navigationOptions: {
 			headerVisible: false,
+			gesturesEnabled: true
   		}
 	}
 
@@ -293,12 +294,15 @@ const NetworkStack = createStackNavigator ({
               source={require('../../Images/positionedblur.png')}
 
 			/>,
-			title: 'Fordham Network',
+			//title: 'Fordham Network',
 			headerTintColor: 'white',
 			headerLeft: 
 				<View paddingLeft={5}>
 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-				</View>
+				</View>,
+			headerStyle: {
+				height: 64,
+			}
 
 		})
 	},
@@ -320,12 +324,15 @@ const NetworkStack = createStackNavigator ({
               source={require('../../Images/positionedblur.png')}
 
 			/>,
-			title: 'Contact Profile',
+			//title: 'Contact Profile',
 			headerTintColor: 'white',
 			headerLeft: 
 				<View paddingLeft={5}>
 					<BackButton onPress={() => navigation.goBack()}/>
-				</View>
+				</View>,
+			headerStyle: {
+				height: 64,
+			}
 
 		})
 	}
@@ -384,12 +391,15 @@ export const ChatStack = createStackNavigator ({
               source={require('../../Images/positionedblur.png')}
 
 			/>,
-			title: 'Chat',
+			//title: 'Chat',
 			headerTintColor: 'white',
 			headerLeft: 
 				<View paddingLeft={5}>
 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-				</View>
+				</View>,
+			headerStyle: {
+				height: 64,
+			}
 
 		})
 	}
@@ -578,7 +588,7 @@ const MainStack = createStackNavigator ({
 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
 				</View>,
 			headerStyle: {
-				height: 64,
+				//height: 64,
 				shadowOpacity: 1,
 				shadowColor: '#010000',
 				//elevation: 1,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {StyleSheet, Dimensions, ImageBackground, View, Text, Image, Button, FlatList} from 'react-native';
 
 import ProfileCard from '../../components/ProfileCard';
+import CustomTabButton from '../../components/CustomTabButton';
 
 const windowSize = Dimensions.get('window');
 export default class contactprofile_screen extends Component {
@@ -13,21 +14,22 @@ export default class contactprofile_screen extends Component {
 		return (
 			<View flex={1}>
 			<ImageBackground
-                  resizeMode='cover'
-                  style={{
-                    flex: 1,
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                  }}
+        resizeMode='cover'
+        style={{
+          flex: 1,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
 
-                    source={require('../../../Images/plussilvergradient.png')}
-                >
-                <View flex={1} alignItems="center">
-                	<View marginTop={20}>
-						<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>					
-					</View>
-				</View>
+          source={require('../../../Images/plussilvergradient.png')}
+      >
+        <View flex={1} >
+          <CustomTabButton tabName="Profile"/>
+        	<View marginTop={20} alignItems="center">
+  						<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>					
+  				</View>
+  			</View>
 			</ImageBackground>
 			</View>
   		);
