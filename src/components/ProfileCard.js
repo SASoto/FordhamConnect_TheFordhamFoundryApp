@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, ImageBackground, Text, View, Button, Image, TouchableOpacity} from 'react-native';
+import {Dimensions, Linking, ImageBackground, Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
@@ -13,10 +13,10 @@ export default class ProfileCard extends Component {
 		super(props);
 
 		this.state = {
-			email: "",
-			headline: "",
-			location: "",
-			bio: "",
+			email: null,
+			headline: null,
+			location: null,
+			bio: null,
 		}
 		
 	}
@@ -57,7 +57,7 @@ export default class ProfileCard extends Component {
 	}
 
 	checkStuff() {
-		if(this.state.bio == "" || this.state.headline == "")
+		if(this.state.bio == null || this.state.headline == null || this.state.email == null || this.state.location == null)
 		{
 		    return (
 		      <View style={styles2.loadingOverlay}>
@@ -140,7 +140,7 @@ export default class ProfileCard extends Component {
 													
 				</View>
 				<View flex={1} marginTop={10} paddingRight={23} alignItems="flex-end">
-					<TouchableOpacity onPress={() => console.log("This person's email is ", this.state.email)}>
+					<TouchableOpacity onPress={() => Linking.openURL('mailto:'+this.state.email)}>
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
 				</View>

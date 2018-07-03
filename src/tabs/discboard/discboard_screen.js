@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 
 import firebase from 'firebase';
 import {connect} from 'react-redux';
@@ -15,6 +15,7 @@ export default class discboard_screen extends Component {
 		super(props)
 
 		this.state={
+			discussionBoardPosts: [],
 			modalVisible: false
 		}
 	}
@@ -23,30 +24,21 @@ export default class discboard_screen extends Component {
 		this.setState({modalVisible: false});
 	}
 
+	componentDidMount() {
+
+	}
+
 	renderSeparator() {
 		return (
 		  <View
 		    style={{
-		      height: 17,
+		      height: 30,
 		      //width: windowSize.width,
 		      backgroundColor: "transparent",
 		    }}
 		  />
 		);
 	}
-
-    // renderDiscBoard() {
-    // 	return (
-    // 		<ScrollView flex={1}>
-    // 			<View height={500} backgroundColor="red"/>
-    // 			<View height={500} backgroundColor="blue"/>
-    // 			<View height={500} backgroundColor="green"/>
-    // 			<View height={500} backgroundColor="red"/>
-    // 			<View height={500} backgroundColor="blue"/>
-    // 			<View height={500} backgroundColor="green"/>
-    // 		</ScrollView>
-    // 	);
-    // }
 
 	render() {
 		return (
@@ -63,37 +55,49 @@ export default class discboard_screen extends Component {
 	          source={require('../../../Images/plussilvergradient.png')}
 	        >
 	        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
-	        <View flexDirection="column" marginLeft={15} marginTop={22}>
-	        	<View width={150}>   			
-		 		<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-		 			<View style={styles.postButtonStyle} justifyContent="center">
-		 				<View flexDirection="row" justifyContent="center" alignItems="center">
-		 					<View paddingRight={11}>
-			 				<Text style={styles.postButtonPlusStyle}>+</Text>
-			 				</View>
-			 				<View justifyContent="center">
-			 					<Text style={styles.postButtonAddStyle}>Add post</Text>
-			 				</View>
-		 				</View>
-		 			</View>
-		 		</TouchableOpacity>
+				<View flexDirection="column">
+					
+					<TouchableOpacity style={styles.postButtonStyle} onPress={() => this.setState({modalVisible: true})}>
+						
+							<View flexDirection="row" alignItems="center">
+								<View paddingRight={11}>
+								<Text style={styles.postButtonPlusStyle}>+</Text>
+								</View>
+								<View justifyContent="center">
+									<Text style={styles.postButtonAddStyle}>Add post</Text>
+								</View>
+							</View>
+						
+					</TouchableOpacity>
+					
+				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
+				</View>
+	 			<View alignItems="center">
+		 			<View marginTop={19} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
 		 		</View>
-		 		<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
-
-	 		<View alignItems="center">
-	 			<View marginTop={19} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
-	 		</View>
-	 		</View>
-	 		<View flex={1}>
-	 		<ScrollView flex={1}>
-    			<View height={500} backgroundColor="red"/>
-    			<View height={500} backgroundColor="blue"/>
-    			<View height={500} backgroundColor="green"/>
-    			<View height={500} backgroundColor="red"/>
-    			<View height={500} backgroundColor="blue"/>
-    			<View height={500} backgroundColor="green"/>
-    		</ScrollView>
-			</View>
+		 		<FlatList flex={1}
+			 		data={this.state.discussionBoardPosts} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
+		                <View alignItems="center">
+		              	
+		                </View>
+	          	  	}
+	    //       	  	onEndReached={this.loadOlderTweets}
+					// onEndThreshold={10}
+					// //refreshing={this.state.refreshing}
+					// //onRefresh={this.loadNewerTweets}
+					// refreshControl={
+					// 	<RefreshControl
+					// 	   refreshing={this.state.refreshing}
+					// 	   onRefresh={this.loadNewerTweets}
+					// 	   title="Pull to refresh"
+					// 	   tintColor="darkgrey"
+					// 	   // titleColor="#red"
+					// 	   // progressBackgroundColor="blue"
+					// 	/>
+					// }
+		 		>
+	    			
+	    		</FlatList>
 			</ImageBackground>
 			</View>
   		);
@@ -103,14 +107,38 @@ export default class discboard_screen extends Component {
 const styles = ({
 	postButtonStyle: {
 		//flex: 1,
+		//flexDirection: 'column',
+		//elevation: 2,
+		marginLeft: 10,
+		marginTop: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
 		width: 150,
 		height: 44,
 		backgroundColor: 'rgba(106,46,52,0.1)',
-		borderColor: 'grey',
 		borderRadius: 8,
-		borderLeftWidth: 0.5,
-		borderRightWidth: 1,
-		borderBottomWidth: 2
+		//borderWidth: 1,
+		//borderColor: 'rgb(204,180,182)',
+		// shadowOpacity: 1,
+		// shadowColor: "black",
+		// shadowOffset: {
+		// 	width: 0,
+		// 	height: 2
+		// },
+		// shadowRadius: 1,
+		// shadowOpacity: 1,
+		// //borderStyle: "solid",
+		// //elevation: 10,
+		// shadowColor: 'rgb(204,180,182)',
+		// shadowOffset: {
+		// 	width: 0,height: 2
+		// },
+		// height: 260,
+		// shadowRadius: 4,
+		// shadowOpacity: 1,
+		// borderLeftWidth: 0.5,
+		// borderRightWidth: 1,
+		// borderBottomWidth: 2
 	},
 	postButtonPlusStyle: {
 		fontSize: 26,
@@ -121,7 +149,17 @@ const styles = ({
 		fontSize: 14,
 		fontFamily: 'SFProText-Semibold',
 		color: 'rgb(115,115,115)'
-	}
+	},
+	// addPostButtonEncCont: {
+	// 	elevation: 10,
+	// 	//flex: 1,
+	// 	shadowColor: 'rgba(0, 0, 0, 0.5)',
+	// 	shadowOffset: {
+	// 		width: 0,height: 2
+	// 	},
+	// 	shadowRadius: 4,
+	// 	shadowOpacity: 1,
+	// }
 })
 
 // const mapStateToProps = (state) => {

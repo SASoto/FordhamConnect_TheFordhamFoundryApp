@@ -16,7 +16,6 @@ import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 // import ViewContainer from '../../Components/Common/ViewContainer';
 
 const windowSize = Dimensions.get('window');
-
 class forgotpassword_screen extends Component {
   constructor(props) {
     super(props)
@@ -70,23 +69,24 @@ class forgotpassword_screen extends Component {
           source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView flex={1} marginTop={(windowSize.height * 5/10)} showsVerticalScrollIndicator={false}>
+        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
           <View alignItems="center">
-            <Text style={styles.forgotPassTxtStyle}>FORGOT YOUR PASSWORD?</Text>
+            <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
+            <View marginTop={(windowSize.height * 1/10)}>
+              <Text style={styles.forgotPassTxtStyle}>FORGOT YOUR PASSWORD?</Text>
+            </View>
             <View width={221} marginTop={16}>
               <Text style={styles.enterTxtStyle}>Enter your email below to receive your password reset instructions.</Text>
             </View>
-            <View marginTop={27}>
+            <View marginTop={18}>
               <FilledTextInput fillColor="rgba(106,46,52,0.68)" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
             </View>
-            <View marginTop={19}>
+            <View marginTop={20}>
               <ButtonOutline width={windowSize.width*.85} onPress={this.onResetPress.bind(this)}>SEND RESET</ButtonOutline>
             </View>
-            <View marginTop={23}>
+            <View marginTop={25}>
               <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                  <Text style={styles.goBackTxtStyle}>
-                    Back to sign in
-                  </Text>
+                  <Text style={styles.goBackTxtStyle}>Back to sign in</Text>
                </TouchableOpacity>
             </View>
           </View>

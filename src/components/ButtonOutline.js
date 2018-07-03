@@ -10,7 +10,7 @@ export default class ButtonOutline extends Component {
     if(this.props.padding != null) {
       var usePadding = this.props.padding;
     } else {
-      var usePadding = 8;
+      var usePadding = 12;
     }
 
     if(this.props.borderRadius != null) {

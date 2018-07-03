@@ -26,7 +26,7 @@ export default class FilledTextInput extends Component {
 
     const styles = ({
       textStyle: {
-        fontFamily: 'SFProText-Regular',
+        fontFamily: 'SFProText-Light',
         color: 'rgb(255,255,255)',
         //fontWeight: '300',
         fontSize: passedfontsize_text
@@ -38,7 +38,7 @@ export default class FilledTextInput extends Component {
         color: 'rgb(255,255,255)',
         fontSize: passedfontsize_input,
         backgroundColor: 'transparent',
-        paddingLeft: 10,
+        padding: 8,
         //marginLeft: 10
         //paddingHorizontal: 10
       },

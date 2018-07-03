@@ -17,7 +17,7 @@ import firebase from 'firebase';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 
 const windowSize = Dimensions.get('window')
-class signup_screen extends Component {
+class splash_screen extends Component {
     constructor(props) {
         super(props)
 
@@ -26,40 +26,22 @@ class signup_screen extends Component {
         }
     }
 
-    // componentWillMount() {
-    //     firebase.auth().onAuthStateChanged((user) => {
-    //         if(user) {
-    //             this.props.loggedInUser();
-    //         } else {
-    //             this.props.logoutUser();
-    //         }
-    //     });
-    // }
-
   checkLoggedIn(){
     const routeName = this.state.checkedUser ? "SignedIn" : "SignedOut";
     this.props.navigation.navigate(routeName);
-    //const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
-    // if(routeName === "SignedIn") 
-    // {
-
-    //if(this.state.checkedUser)
-        //this.props.navigation.navigate("SignedIn")
-    //else
-    //    this.props.navigation.navigate("SignedOut")
-        
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
         this.props.loggedInUser();
-        this.setState({checkedUser: true});
+        setTimeout(() => {this.props.navigation.navigate("SignedIn")},1200)
       } else {
         this.props.logoutUser();
+        setTimeout(() => {this.props.navigation.navigate("SignedOut")},1200)
       }
     });
-        {setTimeout(this.checkLoggedIn.bind(this), 1200);}
+        //{setTimeout(this.checkLoggedIn.bind(this), 1200);}
   }
 
     render() {
@@ -77,17 +59,15 @@ class signup_screen extends Component {
                       source={require('../../../Images/positionedblur.png')}
                     >
                     <View alignItems='center'>
-                    <TitleFordhamConnect marginTop={(windowSize.width * 4/10)}/>
+                    <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
                     </View>
                     <MaterialIndicator color='#007AFF' size={40} />
                     </ImageBackground>
+                    
                 </View>
             );
     }
 }
-
-const styles = StyleSheet.create({
-});
 
 const mapStateToProps = state => {
   return {
@@ -99,4 +79,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps,{loggedInUser, logoutUser})(signup_screen)
+export default connect(mapStateToProps,{loggedInUser, logoutUser})(splash_screen)

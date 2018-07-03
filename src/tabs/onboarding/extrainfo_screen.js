@@ -86,11 +86,11 @@ class extrainfo_screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView flex={1} showsVerticalScrollIndicator={false}>
             <View alignItems="center">
-            <TitleFordhamConnect marginTop={(windowSize.width*1/10)}/>
+            <TitleFordhamConnect marginTop={(windowSize.height * 1/10)}/>
             <View style={styles.signUpCont}>
                 <Text style={styles.signUpTxt}>SIGN UP</Text>
             </View>
-            <View marginTop={40}>
+            <View marginTop={(windowSize.height * 1/10)}>
                 <View>
                     <View>
                       <View backgroundColor="transparent"><Text style={styles.textStyle}>PERSONAL HEADLINE</Text></View>
@@ -104,7 +104,7 @@ class extrainfo_screen extends Component {
                           onChangeText={this.onHeadlineChange.bind(this)}
                           passedVal={this.props.headline}               
                           placeholder="ex. FCRH ’15 or Gabelli ‘87"
-                          placeholderTextColor="lightgrey"                            
+                          placeholderTextColor="rgba(216,214,214,0.3)"                            
                         />
                         </View>
                     </View>
@@ -122,29 +122,10 @@ class extrainfo_screen extends Component {
                           onChangeText={this.onLocationChange.bind(this)}
                           passedVal={this.props.location}                      
                           placeholder="ex. Greater New York City Area"
-                          placeholderTextColor="lightgrey"                            
+                          placeholderTextColor="rgba(216,214,214,0.3)"                            
                         />
                         </View>
                     </View>
-                </View>
-                <View marginTop={15}>
-                    <View>
-                      <View backgroundColor="transparent"><Text style={styles.textStyle}>BIO</Text></View>
-                        <View style={styles.inputBackground4Bio}>
-                        <TextInput
-                          style = {styles.input4Bio}
-                          value = {null}                    
-                          autoCapitalize = 'none'
-                          autoCorrect = {false}
-                          editable={true}
-                          onChangeText={this.onBioChange.bind(this)}
-                          passedVal={this.props.bio}   
-                          multiline={true}
-                          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"
-                          placeholderTextColor="lightgrey"                            
-                        />
-                        </View>
-                    </View>                     
                 </View>
             </View>
             <View marginTop={26} alignItems='center'>
@@ -202,7 +183,7 @@ const styles = StyleSheet.create({
         color: 'rgb(255,255,255)',
         fontSize: 16,
         backgroundColor: 'transparent',
-        paddingLeft: 10,
+        padding: 8,
         //marginLeft: 10
         //paddingHorizontal: 10
     },
@@ -227,7 +208,7 @@ const styles = StyleSheet.create({
         color: 'rgb(255,255,255)',
         fontSize: 16,
         backgroundColor: 'transparent',
-        paddingLeft: 10,
+        padding: 8,
     },
     inputBackground4Bio: {
         marginTop: 10,

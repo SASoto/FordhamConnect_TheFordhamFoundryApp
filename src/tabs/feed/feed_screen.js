@@ -70,7 +70,7 @@ export default class feed_screen extends Component {
         this.fetchToken = this.fetchToken.bind(this);
         this.fetchTwitterFeed = this.fetchTwitterFeed.bind(this);
 
-        this.renderFooter = this.renderFooter.bind(this);
+        //this.renderFooter = this.renderFooter.bind(this);
         this.loadOlderTweets = this.loadOlderTweets.bind(this);
         this.loadNewerTweets = this.loadNewerTweets.bind(this);
     }
@@ -312,40 +312,119 @@ export default class feed_screen extends Component {
     var formattedDate = new Date(date);
     var newDate = formattedDate.toString();
     var dateArr = newDate = newDate.split(' ');
-    date = dateArr[1] + ' ' + dateArr[2] + ' ' + dateArr[3];
+    date = dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
 
     var tweettext = tweet.item.full_text;//text
     var tweettextsplit = tweettext.split(' ');
+    var symbolTweetTextSplit = tweettext.split('$')
+    console.log("SYMBOL SPLIT IS:",symbolTweetTextSplit);
 
-    var imageUrlPresentAtStart = tweettextsplit;
-    var newsUrlPresentAtStart = tweettextsplit;
-    //if url present
-      //if in second position there is a ...
-      //add https:// to
+    var tweetTitle = symbolTweetTextSplit[1];
+    console.log("THE TWEET TITLE IS: ",tweetTitle);
 
-    if(imageUrlPresentAtStart[0] != 'From') {
-      if(newsUrlPresentAtStart[1] != 'From') {
-        newsUrlPresentAtStart = newsUrlPresentAtStart[1];
-        tweettext = tweettextsplit;
-        tweettext = tweettext.slice(2,(tweettext.length));
-        tweettext = tweettext.join(' ');
-      } else {
-        newsUrlPresentAtStart = null;
-        tweettext = tweettextsplit;
-        tweettext = tweettext.slice(1,(tweettext.length));
-        tweettext = tweettext.join(' ');
-      }
-      imageUrlPresentAtStart = imageUrlPresentAtStart[0];
+    var firstHalf = symbolTweetTextSplit.slice(0,1);
+    console.log("FIRST HALF IS:",firstHalf);
+    var firstHalfSplit = firstHalf.toString().split(' ')
+    console.log("FIRST HALF SPLIT IS:",firstHalfSplit);
+
+    if(firstHalfSplit.length == 3) {
+      //IMAGE AND NEWS LINK
+      var imageUrlPresentAtStart = firstHalfSplit[0];
+      var newsUrlPresentAtStart = firstHalfSplit[1];
+    } else if(firstHalfSplit.length == 2) {
+      //NEWS LINK
+      var newsUrlPresentAtStart = firstHalfSplit[0];
+      var imageUrlPresentAtStart = null;
     } else {
-      imageUrlPresentAtStart = null;
+      //NEITHER LINK
+      var newsUrlPresentAtStart = null;
+      var imageUrlPresentAtStart = null;
     }
 
-    var urlPresentAtEnd = tweettext.search("https://")
-    if(urlPresentAtEnd != -1) {
-      tweettext = tweettextsplit;
-      tweettext = tweettext.slice(0,(tweettext.length -1 ));
-      tweettext = tweettext.join(' ');
-    } 
+    var secondHalf = symbolTweetTextSplit[2];
+    //var secondHalfSplit = secondHalf.split(' ')
+    //console.log("SECOND HALF IS:",secondHalf);
+    //console.log("SECOND HALF SPLIT IS:",secondHalfSplit);
+
+    if(secondHalf != '') {
+      var tweetDesc = secondHalf;
+      console.log('TWEET DESCRIPTION IS:',tweetDesc);
+    } else {
+      var tweetDesc = null
+    }
+
+
+    // var secondHalf = symbolTweetTextSplit.slice(2,1);
+    // var secondHalfSplit = secondHalf.split(' ')
+    // console.log("SECOND HALF IS:",secondHalf);
+    // console.log("SECOND HALF SPLIT IS:",secondHalfSplit);
+
+    // if() {
+    //   //IMAGE LINK, NEWS LINK, AND TITLE ARE PRESENT
+    //   var imageUrlPresentAtStart = tweettextsplit[0];
+    //   var newsUrlPresentAtStart = tweettextsplit[1];
+    //   tweettext = tweettextsplit;
+    //   tweettext = tweettext.slice(2,(tweettext.length));
+    //   tweettext = tweettext.join(' ');
+
+    //   //Check that there is a title
+    //   // if(tweettextsplit[2].substring(0,1) == '%') {
+    //     var cutTweetText = tweettextsplit.slice(1,tweettextsplit.length);
+    //     console.log("CUT TWEET TEXT IS:",cutTweetText)
+    //     var moduloSplit = cutTweetText.split('%');
+    //     var tweetTitle = moduloSplit[1];
+    //     if(moduloSplit[2] != '' || moduloSplit[2] != null) {
+    //       var tweetDesc = moduloSplit[2].slice(1,moduloSplit[2].length);
+    //     }
+    //     else {
+    //       var tweetDesc = null
+    //     }
+    //   //   //console.log("THE TITLE OF THE TWEET IS:",tweetTitle)
+    //   // } else {
+    //   //   var tweetTitle = null
+    //   //   var tweetDesc = null
+    //   // }
+    // } else if (tweettextsplit[0] != 'From' && tweettextsplit[1] != 'From') {
+    //   //NEWS LINK AND TITLE ONLY
+    //   var imageUrlPresentAtStart = null;
+    //   var newsUrlPresentAtStart = tweettextsplit[0];
+    //   var cutTweetText = tweettextsplit.slice(1,tweettextsplit.length);
+    //   var moduloSplit = cutTweetText.split('%');
+    //   var tweetTitle = moduloSplit[1];
+
+    //   if(moduloSplit[2] != '' || moduloSplit[2] != null) {
+    //     var tweetDesc = moduloSplit[2].slice(1,moduloSplit[2].length);
+    //   }
+    //   else {
+    //     var tweetDesc = null
+    //   }
+    // } else if (tweettextsplit[0] != 'From') {
+    //   //NEITHER LINK PRESENT
+    //   var imageUrlPresentAtStart = null;
+    //   var newsUrlPresentAtStart = null;
+
+    //   var cutTweetText = tweettextsplit.slice(1,tweettextsplit.length);
+    //   var moduloSplit = cutTweetText.split('%');
+    //   var tweetTitle = moduloSplit[1];
+
+    //   if(moduloSplit[2] != '' || moduloSplit[2] != null) {
+    //     var tweetDesc = moduloSplit[2].slice(1,moduloSplit[2].length);
+    //   }
+    //   else {
+    //     var tweetDesc = null
+    //   }
+
+    //   // tweettext = tweettextsplit;
+    //   // tweettext = tweettext.slice(1,(tweettext.length));
+    //   // tweettext = tweettext.join(' ');
+    // }
+
+    // var urlPresentAtEnd = tweettext.search("https://")
+    // if(urlPresentAtEnd != -1) {
+    //   tweettext = tweettextsplit;
+    //   tweettext = tweettext.slice(0,(tweettext.length -1 ));
+    //   tweettext = tweettext.join(' ');
+    // } 
 
     if(tweettext[tweettext.length-1] != '.')
       tweettext = tweettext + '...';
@@ -375,7 +454,7 @@ export default class feed_screen extends Component {
       if(imageUrlPresentAtStart != null) {
         var final_type = 'photo';
         var image_url = imageUrlPresentAtStart;
-        console.log("IMAGE URL AT START: ",image_url);
+        //console.log("IMAGE URL AT START: ",image_url);
       }
     }
 
@@ -384,7 +463,7 @@ export default class feed_screen extends Component {
       //image = (<Image style={styles.imageContainer} source={{uri: image_url}}/>);
       return (
        // <TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={null}>
-            <FeedCard titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageurl={image_url} descortweet={tweettext}/>
+            <FeedCard tweetTitle={tweetTitle} date={date} newsUrl={newsUrlPresentAtStart} imageurl={image_url} tweetDesc={tweetDesc}/>
         //</TransitionPanel>
       );
 
@@ -401,7 +480,7 @@ export default class feed_screen extends Component {
       // );
       return (
          //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-         	<FeedCard titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
+         	<FeedCard tweetTitle={tweetTitle} date={date} newsUrl={newsUrlPresentAtStart} imageonlineurl={image_online_url} tweetDesc={tweetDesc}/>
        // </TransitionPanel>
       );
 
@@ -417,13 +496,13 @@ export default class feed_screen extends Component {
       // );
       return (
         //<TransitionPanel navigation={this.props.navigation} destination='Tweet' post_url={image_online_url}>
-        	<FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} imageonlineurl={image_online_url} descortweet={tweettext}/>
+        	<FeedCard navigation={this.props.navigation} tweetTitle={tweetTitle} date={date} newsUrl={newsUrlPresentAtStart} imageonlineurl={image_online_url} tweetDesc={tweetDesc}/>
         //</TransitionPanel>
       );
 
     } else {
       return (
-          <FeedCard navigation={this.props.navigation} titleorname={name} scnameorsource={screenname} date={date} newsUrl={newsUrlPresentAtStart} profileimage={profileimage} descortweet={tweettext}/>
+          <FeedCard navigation={this.props.navigation} tweetTitle={tweetTitle} date={date} newsUrl={newsUrlPresentAtStart} tweetDesc={tweetDesc}/>
       )
     }
   }
@@ -457,21 +536,21 @@ export default class feed_screen extends Component {
      // }, 1000)
   }
 
-  renderFooter() {
-    if(!this.state.loading) return null;
+  // renderFooter() {
+  //   if(!this.state.loading) return null;
     
-    return (
-      <View padding={20} borderTopWidth={1} borderTopColor={1} backgroundColor="rgb(221, 215, 218)">
-        <SkypeIndicator color='#bdbdbd' size={30}/>
-      </View>
-    )
-  }
+  //   return (
+  //     <View padding={20} borderTopWidth={1} borderTopColor={1} backgroundColor="rgb(221, 215, 218)">
+  //       <SkypeIndicator color='#bdbdbd' size={30}/>
+  //     </View>
+  //   )
+  // }
 
   renderSeparator() {
     return (
       <View
         style={{
-          height: 17,
+          height: 30,
           //width: windowSize.width,
           backgroundColor: "transparent",
         }}
@@ -507,8 +586,8 @@ export default class feed_screen extends Component {
               	{this.parseFeedData({item})}
                 </View>
                 
-          	}
-             ListFooterComponent={this.renderFooter}
+          	  }
+             //ListFooterComponent={this.renderFooter}
              onEndReached={this.loadOlderTweets}
              onEndThreshold={10}
              //refreshing={this.state.refreshing}
