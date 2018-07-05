@@ -292,7 +292,7 @@ function initFavorite_Users(userId) {
   var firstname = "Fordham";
   var lastname = "Foundry";
   var firstlast = firstname + ' ' + lastname;
-  firebase.database().ref('favorite_users/' + userId + '/yVXMElLOjGTqQDid8znTmvxNIyx1').set(firstlast)
+  firebase.database().ref('favorite_users/' + userId + '/yVXMElLOjGTqQDid8znTmvxNIyx1').set({'fullname':firstlast, 'initials':"FF"})
 }
 
 //Get first letter of first name and first letter of last name.
