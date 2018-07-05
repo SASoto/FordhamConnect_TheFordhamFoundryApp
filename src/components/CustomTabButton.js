@@ -11,7 +11,7 @@ export default class CustomTabButton extends Component {
         <View style={styles.tabButtonStyle}>
           <Text style={styles.tabTxtStyle}>{this.props.tabName}</Text>
         </View>
-        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
+        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
       </View>
     ); 
   }

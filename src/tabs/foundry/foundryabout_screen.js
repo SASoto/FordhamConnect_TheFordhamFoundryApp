@@ -30,16 +30,16 @@ export default class foundryabout_screen extends Component {
 		        >
 		    <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
 			<ScrollView flex={1}>
-				<View flex={1}>
-		        <View flex={1} alignItems='center'>
-
-		        	<Image style={styles.imgCont} source={require('../../../Images/FirstOval2.png')}/>
-		        	<View marginTop={19}>
-		        		<Text style={styles.titleTxtStyle1}>Create</Text>
-		        	</View>
-
-		        	<View marginTop={14}>
+				
+		        <View flex={1} alignItems='center' paddingTop={40}>
+		        	<View>
 		        		<Text style={styles.titleTxtStyle2}>What problem do you want to solve?</Text>
+		        	</View>
+		        	<View marginTop={20} height={190} width={190} borderRadius={95} justifyContent="center" alignItems="center" backgroundColor="maroon">		   
+		        		<Image style={styles.imgCont} source={require('../../../Images/FirstOval2.png')}/>
+		        	</View>
+		        	<View marginTop={15}>
+		        		<Text style={styles.titleTxtStyle1}>Create.</Text>
 		        	</View>
 		        	
 		        	<View marginTop={15} alignItems='center'>
@@ -50,37 +50,33 @@ export default class foundryabout_screen extends Component {
 		        		<Text style={styles.descTxtStyle}>Collaborative working space</Text>
 		        	</View>
 
-		        	<Image style={styles.imgCont} source={require('../../../Images/SecondOval.png')}/>
-					<View marginTop={19}>
-		        		<Text style={styles.titleTxtStyle1}>Refine</Text>
-		        	</View>
-
-		        	<View marginTop={14} paddingHorizontal={2}>
+		        	<View marginTop={20} paddingHorizontal={5}>
 		        		<Text style={styles.titleTxtStyle2}>How do you move from beta to launch?</Text>
+		        	</View>
+		        	<View marginTop={20} height={190} width={190} borderRadius={95} justifyContent="center" alignItems="center" backgroundColor="maroon">		   
+		        	<Image style={styles.imgCont} source={require('../../../Images/SecondOval.png')}/>
+		        	</View>
+					<View marginTop={15}>
+		        		<Text style={styles.titleTxtStyle1}>Refine.</Text>
 		        	</View>
 		        	
 		        	<View marginTop={15} alignItems='center'>
 		        		<Text style={styles.descTxtStyle}>External mentors and in-house coaches to help with product and market research</Text>		        		
 		        		<Text style={styles.descTxtStyle}>Sourcing for customers, suppliers, and distribution outlets</Text>
-		        		<Text style={styles.descTxtStyle}>Assistance with forming a company, setting up accounts, establishing a business</Text>
+		        		<View paddingHorizontal={3}>
+		        			<Text style={styles.descTxtStyle}>Assistance with forming a company, setting up accounts, establishing a business</Text>
+		        		</View>
 		        	</View>
 
-//Grow
-How do you launch and go big?
-
-Seminars and talks with founders and specialists on growth strategies and tactics
-
-Mentoring, consulting on launch and growth
-
-Co-working space
-		        	<Image style={styles.imgCont} source={require('../../../Images/ThirdOval.png')}/>
-		        	<View marginTop={19}>
-		        		<Text style={styles.titleTxtStyle1}>Grow</Text>
-		        	</View>
-
-		        	<View marginTop={14} paddingHorizontal={2}>
+		        	<View marginTop={20} paddingHorizontal={2}>
 		        		<Text style={styles.titleTxtStyle2}>How do you launch and go big?</Text>
 		        	</View>
+		        	<View marginTop={20} height={190} width={190} borderRadius={95} justifyContent="center" alignItems="center" backgroundColor="maroon">
+		        	<Image style={styles.imgCont} source={require('../../../Images/ThirdOval.png')}/>
+		        	</View>
+		        	<View marginTop={15}>
+		        		<Text style={styles.titleTxtStyle1}>Grow.</Text>
+		        	</View>		    
 		        	
 		        	<View marginTop={15} alignItems='center'>
 		        		<Text style={styles.descTxtStyle}>Seminars and talks with founders and specialists on growth strategies and tactics</Text>		        		
@@ -95,7 +91,7 @@ Co-working space
 		        	</View>
 		        	<View flex={1} height={500} backgroundColor='transparent'/>
 		        </View>
-	        	</View>
+	        	
 	        </ScrollView>
 	        </ImageBackground>
 	        </View>
@@ -106,20 +102,21 @@ Co-working space
 
 const styles = ({
 	titleTxtStyle1: {
-		fontSize: 25,
-		fontFamily: 'SFProText-Bold',
+		fontSize: 20,
+		fontFamily: 'SFProText-LightItalic',
 		color: 'rgb(115,115,115)',
 		textAlign: 'center',
+		textDecorationLine: 'underline'
 	},
 	titleTxtStyle2: {
 		fontSize: 20,
-		fontFamily: 'SFProText-Medium',
+		fontFamily: 'SFProText-Italic',
 		color: 'rgb(115,115,115)',
 		textAlign: 'center',
 	},
 	descTxtStyle: {
 		fontSize: 14,
-		fontFamily: 'SFProText-Regular',
+		fontFamily: 'SFProText-Light',
 		color: 'rgb(115,115,115)',
 		textAlign: 'center'
 	},
@@ -139,8 +136,8 @@ const styles = ({
 		borderRadius: 8
 	},
 	imgCont: {
-		flex:1,
-		marginTop: 50
+		//flex:1,
+		//marginTop: 20
 	}
 })
 

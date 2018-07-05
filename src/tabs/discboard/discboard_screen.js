@@ -73,7 +73,7 @@ export default class discboard_screen extends Component {
 				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
 				</View>
 	 			<View alignItems="center">
-		 			<View marginTop={19} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
+		 			<View marginTop={10} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
 		 		</View>
 		 		<FlatList flex={1}
 			 		data={this.state.discussionBoardPosts} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
@@ -115,30 +115,16 @@ const styles = ({
 		justifyContent: 'center',
 		width: 150,
 		height: 44,
-		backgroundColor: 'rgba(106,46,52,0.1)',
+		backgroundColor: '#dbd1ce',
 		borderRadius: 8,
-		//borderWidth: 1,
-		//borderColor: 'rgb(204,180,182)',
-		// shadowOpacity: 1,
-		// shadowColor: "black",
-		// shadowOffset: {
-		// 	width: 0,
-		// 	height: 2
-		// },
-		// shadowRadius: 1,
-		// shadowOpacity: 1,
-		// //borderStyle: "solid",
-		// //elevation: 10,
-		// shadowColor: 'rgb(204,180,182)',
-		// shadowOffset: {
-		// 	width: 0,height: 2
-		// },
-		// height: 260,
-		// shadowRadius: 4,
-		// shadowOpacity: 1,
-		// borderLeftWidth: 0.5,
-		// borderRightWidth: 1,
-		// borderBottomWidth: 2
+		borderWidth: 0.7,
+		borderColor: 'rgb(204,180,182)',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
 	},
 	postButtonPlusStyle: {
 		fontSize: 26,

@@ -3,7 +3,8 @@ import {Dimensions, Linking, ImageBackground, Text, View, Button, Image, Touchab
 import firebase from 'firebase';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
-import {SkypeIndicator} from 'react-native-indicators';
+import {MaterialIndicator} from 'react-native-indicators';
+import LinearGradient from 'react-native-linear-gradient';
 
 import FavoriteButton from './FavoriteButton';
 
@@ -14,6 +15,7 @@ export default class ProfileCard extends Component {
 
 		this.state = {
 			email: null,
+			initials: null,
 			headline: null,
 			location: null,
 			bio: null,
@@ -21,47 +23,39 @@ export default class ProfileCard extends Component {
 		
 	}
 
-	componentWillMount() {
+	componentDidMount() {
+		this.mounted = true;
         this.fetchProfileData(this.props.userID)       
     }
 
-	componentDidMount() {
-        //this.fetchProfileData(this.props.userID)       
-    }
+    componentWillUnmount() {
+    	this.mounted = false
+  	}
 
 	fetchProfileData(passedUID) {
-		//var userId = firebase.auth().currentUser.uid;
 		var contactInfo = {email: "", headline: "", location: "", bio: ""}
 
 		firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
   			var contactEmail = snapshot.val().email
+  			var contactInitials = snapshot.val().initials
   			var contactHeadline = (snapshot.val().headline || " ")
   			var contactLocation = (snapshot.val().location || " ")
   			var contactBio = snapshot.val().bio
 
-  			//console.log("User headline is ...", contactHeadline)
-  			//console.log("User bio is ...", contactBio)
-  			contactInfo = {email: contactEmail, headline: contactHeadline, location: contactLocation, bio: contactBio}
-  			console.log("ContactInfo is ", contactInfo)
-  			console.log("ContactInfo bio is ", contactInfo.bio)
-  			//console.log("state headline is ", this.state.headline)
-
-  			//return contactInfo
-  			// ...
+  			contactInfo = {email: contactEmail, initials: contactInitials, headline: contactHeadline, location: contactLocation, bio: contactBio}
 		})
 		.then(() => {
-			this.setState({email: contactInfo.email, headline: contactInfo.headline, location: contactInfo.location, bio: contactInfo.bio})
-			console.log("And now this.state has bio " + this.state.bio)
-			console.log("And email is... ", this.state.email)
+			if(this.mounted)
+				this.setState({email: contactInfo.email, initials: contactInfo.initials, headline: contactInfo.headline, location: contactInfo.location, bio: contactInfo.bio})
 		})
 	}
 
 	checkStuff() {
-		if(this.state.bio == null || this.state.headline == null || this.state.email == null || this.state.location == null)
+		if(this.state.initials == null || this.state.bio == null || this.state.headline == null || this.state.email == null || this.state.location == null)
 		{
 		    return (
 		      <View style={styles2.loadingOverlay}>
-		        <SkypeIndicator color='white' size={35}/>
+		        <MaterialIndicator color='white' size={35}/>
 		      </View>
 		    )
 		}
@@ -70,17 +64,27 @@ export default class ProfileCard extends Component {
 	render() {
 		const styles =({
 			encompCont: {
+				//alignItems:"center",
+				marginTop: 20,
 				//flex: 1,
+				alignItems: 'center',
+				backgroundColor: '#dbd1ce',
 				borderRadius: 8,
-				shadowColor: 'rgba(0, 0, 0, 0.5)',
+	            width: windowSize.width*.9,
+	            shadowColor: 'rgba(0, 0, 0, 0.5)',
 				shadowOffset: {
 					width: 0,height: 2
-				},
-				height: 260,
+				},			
 				shadowRadius: 4,
 				shadowOpacity: 1,
-				width: windowSize.width * .9,
-				//height: 260
+			},
+			profPic: {
+				width: 60,
+				height: 60,
+				borderRadius: 30,
+				marginRight: 14,
+				justifyContent: 'center',
+				alignItems: 'center'
 			},
 			nameStyle: {
 				fontFamily: 'SFProText-Regular',
@@ -89,39 +93,46 @@ export default class ProfileCard extends Component {
 			},
 			headlineStyle: {
 				fontFamily: 'SFProText-Light',
-				fontSize: 12,
+				fontSize: 13,
 				color: 'rgb(115,115,115)'
 			},
 			locationStyle: {
 				fontFamily: 'SFProText-Light',
-				fontSize: 12,
+				fontSize: 13,
 				color: 'rgb(115,115,115)'
 			},
 			bioStyle: {
 				fontFamily: 'SFProText-Light',
 				fontSize: 14,
-				color: 'rgb(115,115,115)'
+				color: 'rgb(115,115,115)',
+				//textAlign: 'center'
+			},
+			gradientCont: {
+				flex: 1,
+				backgroundColor: 'red',
+				shadowColor: 'rgba(0, 0, 0, 0.5)',
+				shadowOffset: {
+					width: 0,height: 2
+				},
+				//height: 300,
+				shadowRadius: 4,
+				shadowOpacity: 1,
+				width: windowSize.width * .9,
 			}
 
 		})
 		
 		return (
 			<View style={styles.encompCont}>
-				<ImageBackground
-		          resizeMode='cover'
-		          style={{
-		            flex: 1,
-		            //borderRadius: 8	      
-		          }}
-
-		            source={require('../../Images/plussilvergradient.png')}
-		        >
-		        <View padding={23} flexDirection="column">
+				
+		        <View flexDirection="column" padding={20}>
 					<View alignItems="flex-end">
 						<FavoriteButton changeFavoritedStatus={this.props.changeFavoritedStatus} favorited={this.props.favorited} userID={this.props.userID}/>
 					</View>
 					<View flexDirection="row">
-						<View width={60} height={60} borderRadius={30} backgroundColor="grey" marginRight={14}/>
+						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+                            <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.state.initials}</Text>
+                        </LinearGradient>
 						<View flexDirection="row">
 							<View justifyContent = "center" flexDirection="column">
 								<Text style={styles.nameStyle}>{this.props.userfname}</Text>
@@ -129,27 +140,44 @@ export default class ProfileCard extends Component {
 							</View>
 						</View>
 					</View>
-					
+					<View paddingHorizontal={2}>
 					<View marginTop={15}>
-						<Text>{this.state.location}</Text> 
+						<Text style={styles.locationStyle}>{this.state.location}</Text> 
 					</View>
-					<View marginVertical={7} borderBottomWidth={1} borderColor="black"/>
-					<View>
+					<View marginVertical={7} height={1} width={250} backgroundColor="rgb(151,151,151)"/>
+					<View paddingRight={25}>
 						<Text style={styles.bioStyle}>{this.state.bio}</Text> 
 					</View>
-													
-				</View>
-				<View flex={1} marginTop={10} paddingRight={23} alignItems="flex-end">
+					<View marginTop={5} alignItems="flex-end">
 					<TouchableOpacity onPress={() => Linking.openURL('mailto:'+this.state.email)}>
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
+					</View>
+					</View>
 				</View>
-				</ImageBackground>
+				
 				{this.checkStuff()}
 			</View>
 		)
 	}
 }
+
+// <ImageBackground
+// 		          resizeMode='cover'
+// 		          style={{
+// 		            //flex: 1,
+		   //          //borderRadius: 8,
+		   //          width: windowSize.width*.9,
+		   //          shadowColor: 'rgba(0, 0, 0, 0.5)',
+					// shadowOffset: {
+					// 	width: 0,height: 2
+					// },			
+					// shadowRadius: 4,
+					// shadowOpacity: 1,      
+// 		          }}
+
+// 		            //source={require('../../Images/plussilvergradient.png')}
+// 		        >
 
 const styles2 = ({
 	loadingOverlay: {

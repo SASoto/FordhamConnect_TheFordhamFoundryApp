@@ -128,7 +128,7 @@ class extrainfo_screen extends Component {
                     </View>
                 </View>
             </View>
-            <View marginTop={26} alignItems='center'>
+            <View marginTop={(windowSize.height * 2/10)} alignItems='center'>
                 <View>
                     <Text style={{fontSize: 12, fontFamily: 'SFProText-Light', color:'rgb(155,155,155)'}}>optional fields</Text> 
                 </View>

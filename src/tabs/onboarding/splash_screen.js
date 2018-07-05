@@ -18,31 +18,27 @@ import TitleFordhamConnect from '../../components/TitleFordhamConnect';
 
 const windowSize = Dimensions.get('window')
 class splash_screen extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            checkedUser: false,
-        }
-    }
-
-  checkLoggedIn(){
-    const routeName = this.state.checkedUser ? "SignedIn" : "SignedOut";
-    this.props.navigation.navigate(routeName);
-  }
 
   componentDidMount() {
+    this.mounted = true;
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
-        this.props.loggedInUser();
-        setTimeout(() => {this.props.navigation.navigate("SignedIn")},1200)
+        this.props.loggedInUser()
+        //this.checkIfLoggedIn()
+        setTimeout(() => {this.props.navigation.navigate('SignedIn')},1200)
+        
       } else {
-        this.props.logoutUser();
-        setTimeout(() => {this.props.navigation.navigate("SignedOut")},1200)
+        this.props.logoutUser()
+        //this.checkIfLoggedIn()
+        setTimeout(() => {this.props.navigation.navigate('SignedOut')},1200)
       }
-    });
-        //{setTimeout(this.checkLoggedIn.bind(this), 1200);}
+    })//.then(() => {this.checkIfLoggedIn()})
   }
+
+  // checkIfLoggedIn() {
+  //   const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
+  //   setTimeout(() => {this.props.navigation.navigate(routeName)},1200)
+  // }
 
     render() {
             return (
@@ -71,10 +67,6 @@ class splash_screen extends Component {
 
 const mapStateToProps = state => {
   return {
-    email: state.auth.email,
-    password: state.auth.password,
-    error: state.auth.error,
-    loading: state.auth.loading,
     loggedIn: state.auth.loggedIn
   }
 }

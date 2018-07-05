@@ -24,16 +24,15 @@ export default class contactprofile_screen extends Component {
 
           source={require('../../../Images/plussilvergradient.png')}
       >
-        <View flex={1} >
+        <View flex={1}>
           <CustomTabButton tabName="Profile"/>
-        	<View marginTop={20} alignItems="center">
-  						<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>					
-  				</View>
-  			</View>
+          <View alignItems="center">
+  				<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>					
+  			  </View>
+        </View>
 			</ImageBackground>
 			</View>
   		);
 	}
 }
 
-//<Button title="Favor" onPress={this.props.navigation.state.params.handleFavorites}/>

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
+import {Header} from 'react-navigation';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
 import {emailChanged, firstnameChanged, lastnameChanged, initialsChanged, headlineChanged, websiteChanged, locationChanged, bioChanged} from '../Actions';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowSize = Dimensions.get('window');
 class profilemodal extends Component {
@@ -125,7 +127,7 @@ class profilemodal extends Component {
 	}
 
 	render () {
-		console.log("Rendering profilemodal for ..." + this.props.firstname + " " + this.props.lastname)
+		//console.log("Rendering profilemodal for ..." + this.props.firstname + " " + this.props.lastname)
 		return (
 			<Modal
 				animationType="slide"
@@ -149,13 +151,13 @@ class profilemodal extends Component {
 	            >
 								
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
+					<ScrollView flex={1} top={0} bottom={0} bounces={false} stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
 						<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
 							style={{
 								flex: 1,
-								height: 110
+								height: Header.HEIGHT
 								//position: 'absolute',
 								//top:0,
 
@@ -166,7 +168,7 @@ class profilemodal extends Component {
 			              source={require('../../Images/positionedblur.png')}
 
 						>
-						<View flex={1} marginTop={35} justifyContent="center">
+						<View flex={1} paddingTop={12} justifyContent="center">
 							<View flex={1} flexDirection="row" justifyContent="space-between">
 								<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
 									<View flex={1} paddingLeft={30} justifyContent='center'>
@@ -186,7 +188,9 @@ class profilemodal extends Component {
                         <View paddingTop={20} paddingLeft={28}>
 
                             <View flexDirection="row">
-                                <View width={70} height={70} borderRadius={35} backgroundColor='grey'/>
+                            	<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+                                    <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+                                </LinearGradient>                           
                                 <View marginLeft={16} justifyContent="center">
                                     <Text style={styles.userNameStyle}>{this.props.firstname} {this.props.lastname}</Text>
                                 </View>
@@ -328,9 +332,16 @@ class profilemodal extends Component {
 //</View>
 
 const styles = ({
+  profPic: {
+  	width: 60,
+  	height: 60,
+  	borderRadius: 30,
+  	justifyContent: 'center',
+  	alignItems: 'center'
+  },
   userNameStyle: {
  	fontFamily: 'SFProText-Regular',
- 	fontSize: 13,
+ 	fontSize: 15,
  	color: 'rgb(115,115,115)'
   },
   textStyle: {

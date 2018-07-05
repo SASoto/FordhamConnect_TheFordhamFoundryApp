@@ -73,7 +73,7 @@ class forgotpassword_screen extends Component {
           <View alignItems="center">
             <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
             <View marginTop={(windowSize.height * 1/10)}>
-              <Text style={styles.forgotPassTxtStyle}>FORGOT YOUR PASSWORD?</Text>
+              <Text style={styles.forgotPassTxtStyle}>CHANGING YOUR PASSWORD?</Text>
             </View>
             <View width={221} marginTop={16}>
               <Text style={styles.enterTxtStyle}>Enter your email below to receive your password reset instructions.</Text>

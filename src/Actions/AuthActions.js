@@ -454,11 +454,88 @@ export const logoutUser = () => {
 }
 
 export const loggedInUser = (user) => {
-  return {
-    type: LOGGEDIN_USER,
-    payload: user
+  //console.log("Made it to the else!")
+    return (dispatch) => {
+      //console.log("In loginUser, Firstname and lastname are " + this.props.firstname + " " + this.props.lastname)
+      console.log("Sending dispatch to LOGIN_USER")
+      dispatch({type: LOGIN_USER})
+      console.log("Sent dispatch to LOGIN_USER")
+      // firebase.auth().signInWithEmailAndPassword(email,password)
+      // .then(user =>
+        //firebase.auth().onAuthStateChanged(function (user) {
+          //if(user) {
+            console.log("The AuthState has Changed!")
+            var userID = firebase.auth().currentUser.uid
+            var firstname = ""
+            var lastname = ""
+            var initials = ""
+            var headline = ""
+            var website = ""
+            var location = ""
+            var bio = ""
+            //var contactInfo = {email: "", firstname: "", lastname: ""}
+
+            firebase.database().ref('/users/' + userID).once('value')
+            .then(function(snapshot) {
+              //var contactEmail = snapshot.val().email
+              //console.log("Snapshot is", snapshot)
+              firstname = snapshot.val().firstname
+              lastname = snapshot.val().lastname
+              email = snapshot.val().email
+              initials = snapshot.val().initials
+              headline = (snapshot.val().headline || "")
+              website = (snapshot.val().website || "")
+              location = (snapshot.val().location || "")
+              bio = snapshot.val().bio
+              console.log("website from firebase is ", website)
+              console.log("bio from firebase is ", bio)
+              //console.log("contactLastName is ", contactLastName)
+              //contactInfo = {email: "", firstname: contactFirstName, lastname: contactLastName}       
+            })
+            .then(() => {
+                dispatch({type: FIRSTNAME_CHANGED, payload: firstname})
+                dispatch({type: LASTNAME_CHANGED, payload: lastname})
+                dispatch({type: EMAIL_CHANGED, payload: email})
+                dispatch({type: INITIALS_CHANGED, payload: initials})
+                dispatch({type: HEADLINE_CHANGED, payload: headline})
+                dispatch({type: WEBSITE_CHANGED, payload: website})
+                dispatch({type: LOCATION_CHANGED, payload: location})
+                dispatch({type: BIO_CHANGED, payload: bio})
+
+                loginUserSuccess(dispatch, user)
+            })
+          
+          // } else {
+          //   loginUserFail(dispatch)
+          // }
+        //})
+     //)
+    // .catch(function(error) {
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   loginUserFail(dispatch);
+    //   alert(errorMessage);
+    }//)
+
+   // console.log('RETURNED RESPONSE: ',foo)
+      // firebase.auth().onAuthStateChanged(function (user) {
+      //   if(user) {
+      //     loginUserSuccess(dispatch, user)
+      //   } else {
+      //     loginUserFail(dispatch)
+      //   }
+      // })
+      //)
+
+    //CHECK THAT PROMISE CONTAINS A CERTAIN VALUE      
+    
+    //.catch(()=> loginUserFail(dispatch))
   }
-}
+  // return {
+  //   type: LOGGEDIN_USER,
+  //   payload: user
+  // }
+//}
 
 //var database = firebase.database();
 //console.log(database)

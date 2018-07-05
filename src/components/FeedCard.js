@@ -50,19 +50,25 @@ export default class LogoutButton extends Component {
 							flex: 1,
 						}}
 						source={require('../../Images/plussilvergradient.png')}
-					>				
+					>
+					<View backgroundColor="rgba(106,46,52,1)">
 					{media}
+					</View>
 					<View padding={8}>
 					{tweetTitle}
 					{tweetDesc}
-					<View marginTop={5}>
-						<Text style={styles.dateStyle}>{this.props.date}</Text>
-					</View>
-					</View>
-					<View paddingRight={5} alignItems="flex-end">
-						<MatCommIcon name="twitter" size={14} color="rgb(85,172,238)"/>
-					</View>
-					<View height={4} marginTop={1} backgroundColor="rgb(85,172,238)"/>
+					<View marginTop={7} flexDirection="row" justifyContent="space-between">
+						
+						<View>
+							<Text style={styles.dateStyle}>{this.props.date}</Text>
+						</View>
+						</View>
+						<View paddingRight={10} marginTop={-10} alignItems="flex-end">
+							<MatCommIcon name="twitter" size={20} color="rgb(85,172,238)"/>
+						</View>
+						</View>
+					
+					<View height={4} backgroundColor="rgb(85,172,238)"/>
 					</ImageBackground>
 					</TouchableOpacity>
 				</View>
@@ -76,19 +82,25 @@ export default class LogoutButton extends Component {
 						flex: 1,
 					}}
 					source={require('../../Images/plussilvergradient.png')}
-				>
-					{media}
+				>			
+					<View backgroundColor="rgba(106,46,52,1)">
+					{media}	
+					</View>		
 					<View padding={8}>
 					{tweetTitle}
 					{tweetDesc}
-					<View marginTop={5} paddingLeft={5}>
-						<Text style={styles.dateStyle}>{this.props.date}</Text>
-					</View>
-					</View>
-					<View paddingRight={5} alignItems="flex-end">
-						<MatCommIcon name="twitter" size={14} color="rgb(85,172,238)"/>
-					</View>
-					<View height={4} marginTop={1} backgroundColor="rgb(85,172,238)"/>
+					<View marginTop={7} flexDirection="row" justifyContent="space-between">
+						
+						<View>
+							<Text style={styles.dateStyle}>{this.props.date}</Text>
+						</View>
+						</View>
+						<View paddingRight={10} marginTop={-10} alignItems="flex-end">
+							<MatCommIcon name="twitter" size={20} color="rgb(85,172,238)"/>
+						</View>
+						</View>
+					
+					<View height={4} backgroundColor="rgb(85,172,238)"/>
 					</ImageBackground>
 				</View>
 			);
@@ -147,6 +159,11 @@ const styles = ({
 	imageContainer: {
 		flex: 1,
 		height: 155,
+		//backgroundColor: 'transparent'
+		//tintColor: 'rgba(78,9,14,.55)'
+		opacity: 0.85,
+		//backgroundColor: 'rgba(78,9,14,1)'
+		//backgroundColor: 'red'
 		//width: windowSize.width * .75//344
 	},
 	textCont: {

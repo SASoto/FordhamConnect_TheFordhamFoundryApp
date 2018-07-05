@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 
-import {SkypeIndicator} from 'react-native-indicators';
+import {MaterialIndicator} from 'react-native-indicators';
 
 import TextInputUnderline from '../../components/TextInputUnderline';
 import FilledTextInput from '../../components/FilledTextInput';
@@ -92,19 +92,8 @@ class login_screen extends Component {
       {this.checkFlag()}
         return (
           <View style={styles.loadingOverlay}>
-            <SkypeIndicator color='white' size={35}/>
+            <MaterialIndicator color='white' size={35}/>
           </View>
-        )
-    }
-  }
-
-  renderErrorMess() {
-    if(this.props.loading === false && this.props.loggedIn === false)
-    {
-      return (
-        <Text style = {styles.errorTextStyle}> 
-        {this.props.error}
-        </Text>
         )
     }
   }
@@ -176,7 +165,6 @@ class login_screen extends Component {
         </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>
-        {this.renderErrorMess()}
         {this.checkStuff()}
         </View>
     );

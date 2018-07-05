@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import ProfileModal from './profilemodal';
 import LogoutButton from './logoutbutton';
+import LinearGradient from 'react-native-linear-gradient';
 
 class drawernavigator extends Component {
 	constructor(props) {
@@ -22,19 +23,6 @@ class drawernavigator extends Component {
 
 	// const userEmail = firebase.auth().currentUser.email;
 	render() {
-		//const userEmail = this.props.email;
-		// console.log("USER EMAIL FROM DRAWER: ", this.props.email);
-		// //console.log("USER PASSWORD FROM ROUTER", this.props.password);
-		// //const userFName = this.props.firstname;
-		// console.log("USER FIRSTNAME FROM ROUTER: ",this.props.firstname);
-		// //const userLName = this.props.lastname;
-		// console.log("USER LASTNAME FROM ROUTER: ",this.props.lastname);
-		// console.log("USER INITIALS FROM ROUTER: ",this.props.initials);
-		// console.log("USER HEADLINE FROM ROUTER: ",this.props.headline);
-		// console.log("USER WEBSITE FROM ROUTER: ",this.props.website);
-		// console.log("USER LOCATION FROM ROUTER: ",this.props.location);
-		// console.log("USER BIO FROM ROUTER: ",this.props.bio);
-
 	return (
 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
 	<ImageBackground
@@ -52,7 +40,9 @@ class drawernavigator extends Component {
 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
 				<View flexDirection="column" marginLeft={30} marginTop={40}>
 					
-						<View style={styles.profPic}/>
+						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+							<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+						</LinearGradient>
 						<View marginTop={20}>
 							<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
 							<Text style={styles.headlineTxtStyle}>{this.props.headline}</Text>
@@ -87,7 +77,9 @@ const styles = ({
 		width: 46,
 		height: 46,
 		borderRadius: 23,
-		backgroundColor: 'grey'
+		justifyContent: 'center',
+		alignItems: 'center'
+		//backgroundColor: 'grey'
 	},
 	userNameTxtStyle: {
 		fontFamily: 'SFProText-Regular',

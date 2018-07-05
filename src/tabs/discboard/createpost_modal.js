@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
+import {Header} from 'react-navigation';
 
 import {connect} from 'react-redux';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowSize = Dimensions.get('window');
 class createpost_modal extends Component {
@@ -29,44 +31,48 @@ class createpost_modal extends Component {
 		              	source={require('../../../Images/plussilvergradient.png')}
 
 		            >
-
 		            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-						<ScrollView flex={1} top={0} bottom={0} stickyHeaderIndices={[0]}>
+						
 							<View flex={1}>
 							<ImageBackground
 								resizeMode='cover'
 								style={{
-									flex: 1,
-									height: 110
+									//flex: 1,
+									height: Header.HEIGHT ,
 									//position: 'absolute',
 									//top:0,
 
-									//width: '100%',
+									width: '100%',
 									//height: '100%',
 								}}
 
 				              source={require('../../../Images/positionedblur.png')}
 
 							>
-							<View flex={1} marginTop={35} justifyContent="center">
-								<View flex={1} flexDirection="row" justifyContent="space-between">
-									<TouchableOpacity onPress={() => this.props.modalFunc()}>
-										<View flex={1} justifyContent="center" paddingLeft={30}>
-											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
-										</View>
+								
+							<View flex={1} paddingTop={12} flexDirection="row" justifyContent="space-between">
+								<View justifyContent="center" paddingLeft={30}>
+								<TouchableOpacity onPress={() => this.props.modalFunc()}>
+										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
+								</TouchableOpacity>
+								</View>
+								<View justifyContent="center" alignItems="center" padding={5}>
+									<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
+								</View>
+								<View justifyContent="center" paddingRight={30}>
+									<TouchableOpacity onPress={() => console.log('do nothing')}>
+										<Text style={styles.postButtonStyle}>Share</Text>
 									</TouchableOpacity>
-									<View justifyContent="center" marginRight={32}>
-										<TouchableOpacity onPress={() => console.log('do nothing')}>
-											<Text style={styles.postButtonStyle}>Post</Text>
-										</TouchableOpacity>
-									</View>
 								</View>
 							</View>
+								
 							</ImageBackground>
-							</View>
-							<View flexDirection="row" marginLeft={36} marginTop={28}>					
-								<View style={styles.profPic} marginRight={16}/>
-								<View flexDirection="column" justifyContent="center" marginRight={26}>
+							<View paddingLeft={36}>
+							<View flexDirection="row" marginTop={28}>					
+								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+									<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+								</LinearGradient>
+								<View flexDirection="column" justifyContent="center">
 									<View>
 										<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
 									</View>
@@ -75,20 +81,19 @@ class createpost_modal extends Component {
 									</View>
 								</View>															
 							</View>
-							<View marginTop={21} marginLeft={36}>
+							<View marginTop={15}>
 								<TextInput
 									style={styles.input}
 									autoCapitalize = 'none'
 	          						autoCorrect = {false}
-	          						multiline={true}
-	          						placeholder="Post to the discussion board about job opportunities, Fordham events, news articles and more!"
+	          						multiline={true}	          				
+	          						placeholder="Post about job opportunities, Fordham events, news or anything else worth discussing..."
 									placeholderTextColor="rgba(99,96,96,0.21)"
-								/>						
+								/>			
 							</View>
-							<View height={500}/>
-							<View height={500}/>
-							<View height={500}/>
-						</ScrollView>
+							</View>
+							<View flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
+							</View>
 					</TouchableWithoutFeedback>
 
 					</ImageBackground>
@@ -103,11 +108,13 @@ const styles = ({
 		width: 50,
 		height: 50,
 		borderRadius: 25,
-		backgroundColor: 'grey'
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginRight: 16
 	},
 	input:{
 		fontFamily: 'SFProText-Light',
-		height: windowSize.height * .5,
+		height:100,
 		width: windowSize.width * .85,
 		color: 'rgb(115,115,115)',
 		fontSize: 16,
@@ -117,7 +124,7 @@ const styles = ({
 		//paddingHorizontal: 10
 	},
 	postButtonStyle: {
-		fontFamily: 'SFProText-Medium',
+		fontFamily: 'SFProText-Regular',
 		fontSize: 16,
 		color: 'rgb(255,255,255)'
 	},

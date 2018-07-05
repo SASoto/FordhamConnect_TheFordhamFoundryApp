@@ -77,7 +77,7 @@ class signup_screen extends Component {
             <View style={styles.signUpCont}>
                 <Text style={styles.signUpTxt}>SIGN UP</Text>
             </View>
-            <View marginTop={30}>
+            <View marginTop={10}>
                 <View>
                   <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
                 </View>
