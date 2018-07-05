@@ -237,7 +237,7 @@ export default class contacts_screen extends Component {
             //console.log(childData)
             //var favObj = {'userID':childKey, 'fullname':childData};
             console.log("Pushing yet another: " + childKey + ' ' + childData);
-            favoritedContactsArr.push({userID: childKey, fullname: childData, favorited: true});
+            favoritedContactsArr.push({userID: childKey, fullname: childData.fullname, initials: childData.initials, favorited: true});
             console.log("After NEW push, favoritedContactsArr is ", favoritedContactsArr)
             //alert("Within forEach " + favoritedContactsArr.length);
             //removeKeysArr.push(favObj.userID);
@@ -354,7 +354,7 @@ export default class contacts_screen extends Component {
                     //console.log("Another person in da list...")
                     var userKey = snapshot.key;
                     var userData = snapshot.val();
-                    var contactObj = {'userID':userKey, 'fullname':userData.firstname + ' ' + userData.lastname};
+                    var contactObj = {'userID':userKey, 'fullname':userData.firstname + ' ' + userData.lastname, 'initials':userData.initials};
                     //console.log("OBJECT: ", contactObj);
                     fullContactsArr.push(contactObj);
                     //testArray.push("foo")
@@ -375,9 +375,9 @@ export default class contacts_screen extends Component {
             // add passeduid to favorited list
             console.log("Adding the contact " + passedUID + " back to the favorites list.")
             firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
-                var fullName = (snapshot.val().firstname + " " + snapshot.val().lastname);
-                console.log("Fullname is initially " + fullName)
-                firebase.database().ref('favorite_users/' + currentUserId + '/' + passedUID).set(fullName)
+                var fullname = (snapshot.val().firstname + " " + snapshot.val().lastname);
+                console.log("Fullname is initially " + fullname)
+                firebase.database().ref('favorite_users/' + currentUserId + '/' + passedUID).set({'fullname': fullname, 'initials':snapshot.val().initials})
                 // ...
             })
             // .then(() => {
