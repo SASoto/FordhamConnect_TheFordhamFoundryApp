@@ -18,6 +18,7 @@ class createpost_modal extends Component {
 		this.state = {
 		 	postAuthor: this.props.firstname + " " + this.props.lastname,
 		 	postAuthHead: this.props.headline,
+		 	postAuthInitials: this.props.initials,
 		 	postAuthID: userID,
 		 	postDateTime: "",
 		 	postText: "",
@@ -87,6 +88,7 @@ class createpost_modal extends Component {
 			newMessageRef.set({
 				'author_name': this.state.postAuthor,
   				'author_headline': this.state.postAuthHead,
+  				'author_initials': this.state.postAuthInitials,
   				'author_id': this.state.postAuthID,
   				'comment_count': this.state.postCommentCount,
   				'post_date_time': newDateTime,
