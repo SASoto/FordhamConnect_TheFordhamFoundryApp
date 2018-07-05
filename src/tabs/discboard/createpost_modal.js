@@ -75,7 +75,7 @@ class createpost_modal extends Component {
 		console.log(this.state.postAuthHead)
 		console.log(this.state.postText)
 
-		if(this.state.postText = ""){
+		if(this.state.postText === ""){
 			alert("Oops! Your post contains no text! Enter some and try again.")
 		} else {
 			
