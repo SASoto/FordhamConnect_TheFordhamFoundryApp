@@ -121,7 +121,7 @@ export const loginUser = ({email, password}) => {
             firebase.database().ref('/users/' + userID).once('value')
             .then(function(snapshot) {
               //var contactEmail = snapshot.val().email
-              //console.log("Snapshot is", snapshot)
+              //console.log("Snapshot is", snapshot)            
               firstname = snapshot.val().firstname
               lastname = snapshot.val().lastname
               email = snapshot.val().email

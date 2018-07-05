@@ -73,7 +73,7 @@ export default (state = INITIAL_STATE, action) => {
     case EXISTS_FAIL:
       return {...state, error: "User Exists Already", password: '', loading: false} 
     case IS_EMPTY: 
-      return {...state, ...INITIAL_STATE, password:'', loading: false}
+      return {...state, ...INITIAL_STATE, loading: false}
     default:
       return {...state};
   }

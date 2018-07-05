@@ -28,11 +28,11 @@ class SectionListItem extends Component {
   }
 
     render () {
-      if(this.props.item.imageUrl != null) {
-        var media = (<Image style={styles.imageContainer} source={{uri: this.props.item.imageUrl}}/>);
-      } else {
-        var media = null;
-      }
+      // if(this.props.item.imageUrl != null) {
+      //   var media = (<Image style={styles.imageContainer} source={{uri: this.props.item.imageUrl}}/>);
+      // } else {
+      //   var media = null;
+      // }
 
         return (
             <TouchableOpacity style={styles.sectionListItemEncompCont} onPress={() => this.checkIfConnected(this.props.item.link)}>
@@ -45,7 +45,6 @@ class SectionListItem extends Component {
                       <MatIcon name="keyboard-arrow-right" size={30} color="rgba(15,14,14,0.5)"/>
                     </View>
                 </View>
-                {media}
               </View>
             </TouchableOpacity>
         )
@@ -92,7 +91,7 @@ export default class foundryevents_screen extends Component {
 		.then((response) => {
       response.json().then((responseJson) => {
   			posts = responseJson
-        console.log('POSTS:',posts)
+        //console.log('POSTS:',posts)
         if(this.mounted && posts != null)
   			 this.setState({sitedata_posts: posts});
          //console.log("STATE EVENTS:",this.state.sitedata_posts)
@@ -103,7 +102,7 @@ export default class foundryevents_screen extends Component {
       })
     })
     .catch((error) => {
-      this.setState({refreshing: false});
+      console.log(error)//this.setState({refreshing: false});
     })
 
     this.setState({refreshing: false});
@@ -216,7 +215,8 @@ export default class foundryevents_screen extends Component {
     const regex_1 = /(<([^>]+)>)/ig;
     const regex_2 = /&#([0-9]{1,4});/g;
 
-    if(event.date == null || event.date == undefined) {return 'undefined'}
+    if(event.date == null || event.date == undefined)
+      return 'undefined'
     else {
       var date = event.date;
       var formattedDate = new Date(date);

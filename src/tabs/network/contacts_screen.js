@@ -59,7 +59,7 @@ export default class contacts_screen extends Component {
         this.state = {
             contactList: [],
             starredContacts: [],
-              myData: [],
+            myData: [],
 
         }
     }
@@ -307,8 +307,10 @@ export default class contacts_screen extends Component {
         var usersBelongingToSection = [];
 
         var favoritedSection = this.createFavoritedSection(setOfFavoritedContacts);
-        sectionedList.push({title: 'Favorited', data: favoritedSection});
+        if(favoritedSection.length > 0)
+            sectionedList.push({title: 'Favorited', data: favoritedSection});
 
+        // if(setOfNormalContacts.length > 0) {
         var onLetter = 'A'
         for(var i=0; i<setOfNormalContacts.length; i++) {
             // console.log('FULL NAME IS: ',objectArray[i].fullname)
@@ -317,7 +319,9 @@ export default class contacts_screen extends Component {
             if(setOfNormalContacts[i].fullname[0] != onLetter) {
                 //Push previous letter as whole section to sectionedList
                 //var sectionObject = {title: onLetter, usersBelongingToSection};
-                sectionedList.push({title: onLetter, data: usersBelongingToSection});
+                if(usersBelongingToSection.length > 0) {
+                    sectionedList.push({title: onLetter, data: usersBelongingToSection});
+                }
                 onLetter = setOfNormalContacts[i].fullname.substring(0,1);
                 usersBelongingToSection = [];
                 usersBelongingToSection.push(setOfNormalContacts[i])
@@ -327,7 +331,8 @@ export default class contacts_screen extends Component {
 
             
         }
-        sectionedList.push({title: onLetter, data: usersBelongingToSection});
+        if(usersBelongingToSection.length != 0)
+            sectionedList.push({title: onLetter, data: usersBelongingToSection});
         console.log("SECTIONED LIST: ",sectionedList);
         return(sectionedList);
     }
@@ -430,6 +435,7 @@ export default class contacts_screen extends Component {
         return (
             <View flex={1}>
                 <SectionList
+                    ListEmptyComponent={<View><Text>Loading contacts...</Text></View>}
                     renderItem={({item, index}) => {
                         return (<SectionListItem item={item} index={index} navigation={this.props.navigation} changeFavoritedStatus={this.changeFavoritedStatus.bind(this)}/>)
                     }}

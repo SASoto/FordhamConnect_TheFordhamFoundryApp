@@ -7,24 +7,45 @@ import firebase from 'firebase';
 
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import {MaterialIndicator} from 'react-native-indicators';
 
 const windowSize = Dimensions.get('window');
 class createpost_modal extends Component {
 
 	constructor(props) {
 		super(props);
-		var userID = firebase.auth().currentUser.uid
+		//var userID = firebase.auth().currentUser.uid
 
 		this.state = {
 		 	postAuthor: this.props.firstname + " " + this.props.lastname,
 		 	postAuthHead: this.props.headline,
 		 	postAuthInitials: this.props.initials,
-		 	postAuthID: userID,
+		 	postAuthID: null,
 		 	postDateTime: "",
 		 	postText: "",
 		 	postCommentCount: 0,
 		}
 		//console.log("Construction complete!")
+	}
+
+	componentDidMount() {
+		this.checkFlag();
+		//this.setState({postAuthID: firebase.auth().currentUser.uid});
+	}
+
+	checkFlag() {
+		if(firebase.auth().currentUser != null) {
+			this.setState({postAuthID: firebase.auth().currentUser.uid});
+		} else {
+			setTimeout(() => {this.checkFlag()},1000);
+		}
+	}
+
+	checkStuff() {
+		// if(this.props.loggedIn) {
+		  // console.log("IS THE USER LOADING? ",this.props.loading)
+		  {this.checkFlag()}		    
+		//}
 	}
 
 	fetchDateTime() {
@@ -81,8 +102,6 @@ class createpost_modal extends Component {
 		if(this.state.postText === ""){
 			alert("Oops! Your post contains no text! Enter some and try again.")
 		} else {
-			
-
 			var discpostListRef = firebase.database().ref('discBoardposts');
 			var newMessageRef = discpostListRef.push();
 			newMessageRef.set({
@@ -143,6 +162,36 @@ class createpost_modal extends Component {
 		// 'https://sample-app.firebaseio.com/message_list/-IKo28nwJLH0Nc5XeFmj'
 	}
 	render () {
+		if(this.state.postAuthID == null) {
+			return (
+				<Modal
+					animationType="slide"
+		        	transparent={false}
+		        	visible={this.props.modalVisible}
+				>
+					<View flex={1}>					
+						<ImageBackground
+							resizeMode="cover"
+							style={{
+				                flex: 1,
+				                //resizeMode,
+				                position: 'absolute',
+				                width: '100%',
+				                height: '100%',
+				                //alignItems: 'center',
+			              	}}
+
+			              	source={require('../../../Images/plussilvergradient.png')}
+
+			            >
+			           <View paddingTop={30}>
+				        <MaterialIndicator color='darkgrey' size={35}/>
+				      </View>
+			            </ImageBackground>
+			 		</View>
+				</Modal>
+			)
+		}
 		return (
 			<Modal
 				animationType="slide"
@@ -194,7 +243,7 @@ class createpost_modal extends Component {
 										<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
 									</View>
 									<View paddingRight={30}>									
-										<TouchableOpacity onPress={this.postNewPost.bind(this)}>
+										<TouchableOpacity onPress={() => this.postNewPost.bind(this)}>
 											<Text style={styles.postButtonStyle}>Share</Text>
 										</TouchableOpacity>									
 									</View>
@@ -284,6 +333,7 @@ const mapStateToProps = state => {
     lastname: state.auth.lastname,
     initials: state.auth.initials,
     headline: state.auth.headline,
+    loggedIn: state.auth.loggedIn
   }
 }
 

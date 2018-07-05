@@ -54,7 +54,7 @@ class profilemodal extends Component {
         this.props.bioChanged(text)
     }
 
-	componentWillMount() {
+	componentDidMount() {
 		console.log("componentWillMount is running!")
 		this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
         // this.fetchuserProfileData()       

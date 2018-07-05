@@ -24,7 +24,6 @@ class login_screen extends Component {
     this.checkStuff = this.checkStuff.bind(this)
   }
 
-
   // Tracks change in email prop value
   onEmailChange(text){
     this.props.emailChanged(text)
@@ -35,22 +34,15 @@ class login_screen extends Component {
     this.props.passwordChanged(text)
   }
 
-  onFirstNameChange(text){
-  console.log("Ran oFNC from login screen")
-      this.props.firstnameChanged(text)
-  }
-
-  onLastNameChange(text){
-    console.log("Ran oLNC from login screen")
-      this.props.lastnameChanged(text)
-  }
-
    // Logs in user with current email and password prop value
   onLoginPress(){
     const {email, password} = this.props;
-      this.props.loginUser({ email, password})
+    this.props.loginUser({ email, password})
   }
 
+  // componentDidMount() {
+  //   this.checkStuff();
+  // }
   // Sends a password reset email to the user via Firebase
   // onResetPress(){
   //   var auth = firebase.auth()
@@ -68,16 +60,16 @@ class login_screen extends Component {
 
   // Checks if loggedIn value has changed to true
   checkFlag() {
-    if(this.props.loggedIn == null) {
+    if(this.props.loggedIn === null) {
       setTimeout(this.checkFlag.bind(this), 1000)
     }
-    else if (this.props.loggedIn == true) { //if loggedin is true
-      if(this.props.loading == true) {
+    else if (this.props.loggedIn === true) { //if loggedin is true
+      if(this.props.loading === true) {
         setTimeout(this.checkFlag.bind(this), 1000)
       } else {
-        this.props.navigation.navigate("SignedIn")
+        this.props.navigation.navigate("SignedIn");
       }
-     }
+    }
     else {
       //If props.loggedin is false
     }
@@ -87,20 +79,17 @@ class login_screen extends Component {
   // If so, check for change in loggedIn value
   checkStuff() {
     if(this.props.loading === true) {
-      // console.log("IS THE USER LOADING? ",this.props.loading)
-      
       {this.checkFlag()}
-        return (
-          <View style={styles.loadingOverlay}>
-            <MaterialIndicator color='white' size={35}/>
-          </View>
-        )
+      return (
+        <View style={styles.loadingOverlay}>
+          <MaterialIndicator color='white' size={35}/>
+        </View>
+      )
     }
   }
 
   render(){
     return(
-      
       <View flex={1}>
         <ImageBackground
           resizeMode='cover'
@@ -242,11 +231,11 @@ const mapStateToProps = state => {
     user: state.auth.user,
     email: state.auth.email,
     password: state.auth.password,
-    initials: state.auth.initials,
-    headline: state.auth.headline,
-    website: state.auth.website,
-    location: state.auth.location,
-    bio: state.auth.bio,
+    // initials: state.auth.initials,
+    // headline: state.auth.headline,
+    // website: state.auth.website,
+    // location: state.auth.location,
+    // bio: state.auth.bio,
     error: state.auth.error,
     loading: state.auth.loading,
     loggedIn: state.auth.loggedIn
