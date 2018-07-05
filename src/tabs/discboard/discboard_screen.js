@@ -45,7 +45,7 @@ export default class discboard_screen extends Component {
             this.setState({discussionBoardPosts: fullPostsArr})
         }).then(() => {
         	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
-        		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_date_time)
+        		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
         	}
         	
         })
@@ -53,6 +53,32 @@ export default class discboard_screen extends Component {
 
 	componentDidMount() {
 
+	}
+
+	//If this is a modal, should it have the postID as a state?
+	getPostTest() {
+		var postID = "-LGfL9Y1SRiaLxLaW77M"
+		console.log("Test was pushed!")
+		console.log("With postID ", postID)
+
+		//This part accesses a post's info by it's ID
+		firebase.database().ref('/discBoardposts/' + postID +'/').once('value').then(function(snapshot){
+			console.log("Did we get this far?")
+			console.log(snapshot)
+			//var postAuthor = snapshot.val() //&& snapshot.val().author_name
+			console.log("IS there an error yet?")
+			//var postText = snapshot.val().post_text
+			//var postAuthor = snapshot.val().author_name
+			//console.log("Post text is ", postText)
+			console.log("Written by ", snapshot.val().author_name)
+			console.log("Text is ", snapshot.val().post_text)
+		})
+		// firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
+  // 			var contactEmail = snapshot.val().email
+  // 			var contactInitials = snapshot.val().initials
+  // 			var contactHeadline = (snapshot.val().headline || " ")
+  // 			var contactLocation = (snapshot.val().location || " ")
+  // 			var contactBio = snapshot.val().bio
 	}
 
 	renderSeparator() {
@@ -92,6 +118,19 @@ export default class discboard_screen extends Component {
 								</View>
 								<View justifyContent="center">
 									<Text style={styles.postButtonAddStyle}>Add post</Text>
+								</View>
+							</View>
+						
+					</TouchableOpacity>
+
+					<TouchableOpacity style={styles.postButtonStyle} onPress={this.getPostTest.bind(this)}>
+						
+							<View flexDirection="row" alignItems="center">
+								<View paddingRight={11}>
+								<Text style={styles.postButtonPlusStyle}>+</Text>
+								</View>
+								<View justifyContent="center">
+									<Text style={styles.postButtonAddStyle}>Get Post Test</Text>
 								</View>
 							</View>
 						
