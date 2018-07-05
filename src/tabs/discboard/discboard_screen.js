@@ -24,6 +24,33 @@ export default class discboard_screen extends Component {
 		this.setState({modalVisible: false});
 	}
 
+	componentWillMount() {
+        var fullPostsArr = [];
+        //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+        return firebase.database().ref('discBoardposts/').once('value')
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                //console.log("Another person in da list...")
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                //console.log(childData.firstname + ' ' + childData.lastname)
+                var postObj = {'post_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'comment_count': childData.comment_count, 'post_date_time': childData.post_date_time, 'post_text': childData.post_text, 'author_id': childData.author_id};
+                //console.log("OBJECT: ", contactObj);
+                fullPostsArr.push(postObj);
+                //testArray.push("foo")
+                console.log(postObj.postKey)
+            });
+            //console.log(fullPostsArr.author_name)
+        }).then(() => {
+            this.setState({discussionBoardPosts: fullPostsArr})
+        }).then(() => {
+        	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
+        		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_date_time)
+        	}
+        	
+        })
+    }
+
 	componentDidMount() {
 
 	}
