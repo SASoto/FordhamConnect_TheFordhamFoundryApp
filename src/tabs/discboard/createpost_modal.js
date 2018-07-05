@@ -77,7 +77,7 @@ class createpost_modal extends Component {
 		console.log(this.state.postAuthHead)
 		console.log(this.state.postText)
 
-		if(this.state.postText = ""){
+		if(this.state.postText === ""){
 			alert("Oops! Your post contains no text! Enter some and try again.")
 		} else {
 			
@@ -92,6 +92,7 @@ class createpost_modal extends Component {
   				'post_date_time': newDateTime,
   				'post_text': this.state.postText,
 			})
+			//console.log("Post text is still... ", this.state.postText)
 			// var connectedRef = firebase.database().ref(".info/connected");
 			// connectedRef.on('value', function(connectedSnap) {
   	// 		if (connectedSnap.val() === true) {
@@ -189,15 +190,10 @@ class createpost_modal extends Component {
 								<View justifyContent="center" alignItems="center" padding={5}>
 									<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
 								</View>
-								<View justifyContent="center" paddingRight={30}>
-									<TouchableOpacity onPress={() => console.log('do nothing')}>
+								<View justifyContent="center" paddingRight={30}>									
+									<TouchableOpacity onPress={this.postNewPost.bind(this)}>
 										<Text style={styles.postButtonStyle}>Share</Text>
-									</TouchableOpacity>
-									<View justifyContent="center" marginRight={32}>
-										<TouchableOpacity onPress={this.postNewPost.bind(this)}>
-											<Text style={styles.postButtonStyle}>Post</Text>
-										</TouchableOpacity>
-									</View>
+									</TouchableOpacity>									
 								</View>
 							</View>
 								

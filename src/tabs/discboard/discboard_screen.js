@@ -81,20 +81,6 @@ export default class discboard_screen extends Component {
 		              	
 		                </View>
 	          	  	}
-	    //       	  	onEndReached={this.loadOlderTweets}
-					// onEndThreshold={10}
-					// //refreshing={this.state.refreshing}
-					// //onRefresh={this.loadNewerTweets}
-					// refreshControl={
-					// 	<RefreshControl
-					// 	   refreshing={this.state.refreshing}
-					// 	   onRefresh={this.loadNewerTweets}
-					// 	   title="Pull to refresh"
-					// 	   tintColor="darkgrey"
-					// 	   // titleColor="#red"
-					// 	   // progressBackgroundColor="blue"
-					// 	/>
-					// }
 		 		>
 	    			
 	    		</FlatList>
