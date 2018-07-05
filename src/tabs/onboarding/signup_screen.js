@@ -56,6 +56,27 @@ class signup_screen extends Component {
         this.props.confirmChanged(text)
     }
 
+    onNewHere() {
+        const {email, password, confirm, firstname, lastname} = this.props
+        //console.log("In onNewHere email is " + email + ", password is " + password + ", firstname is " + firstname + ", headline is " + headline + ", location is " + location + ", bio is " + bio)
+        this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || ''})
+    }
+
+    checkFlag() {
+        if(this.props.loggedIn === null) {
+          setTimeout(this.checkFlag.bind(this), 1000)
+        }
+        else {
+          this.props.navigation.navigate("SignedIn")
+         }
+    }
+
+    checkStuff() {
+        if(this.props.loading) {
+          {this.checkFlag()}
+        }
+    }
+
     render() {
     return (
       <View flex={1}>
@@ -71,9 +92,9 @@ class signup_screen extends Component {
               source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+        <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
             <View alignItems="center">
-            <TitleFordhamConnect marginTop={(windowSize.height * 1/10)}/>
+            <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
             <View style={styles.signUpCont}>
                 <Text style={styles.signUpTxt}>SIGN UP</Text>
             </View>
@@ -98,18 +119,20 @@ class signup_screen extends Component {
                 </View>
             </View>
             <View marginTop={26}>
-              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={() => this.props.navigation.navigate('ExtraInfo')}>CONTINUE</ButtonOutline>
+              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGNUP</ButtonOutline>
             </View>
             <View marginTop={20}>
-                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
                   <Text style={styles.signUpAccTxt}>I already have an account</Text>
                 </TouchableOpacity>
             </View>
         </View>
-        <View backgroundColor="transparent" height={200}/>
+        <View backgroundColor="transparent" height={500}/>
+        <View backgroundColor="transparent" height={500}/>
         </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>
+        {this.checkStuff()}
       </View>
     );
     }

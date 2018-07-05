@@ -91,16 +91,16 @@ export const Onboard_Stack = createStackNavigator ({
 			headerVisible: false,
   		}
 	},
-	ExtraInfo: {
-		screen: ExtraInfoScreen,
-		navigationOptions: {
-			headerVisible: false,
-			gesturesEnabled: true
-  		}
-	}
+	// ExtraInfo: {
+	// 	screen: ExtraInfoScreen,
+	// 	navigationOptions: {
+	// 		headerVisible: false,
+	// 		gesturesEnabled: true
+ //  		}
+	// }
 
 }, {
-	initialRouteName: 'Login',
+	initialRouteName: 'SignUp',
 	headerMode: 'none',
 	navigationOptions: {
     	gesturesEnabled: false,

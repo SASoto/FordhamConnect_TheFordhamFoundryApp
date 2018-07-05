@@ -114,7 +114,7 @@ class login_screen extends Component {
           source={require('../../../Images/background_splash.jpg')}
         >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+        <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
         <View alignItems="center">
           <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
           <View style={styles.signInCont}>

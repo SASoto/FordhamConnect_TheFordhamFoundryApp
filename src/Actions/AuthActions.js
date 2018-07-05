@@ -223,22 +223,22 @@ export const loginNewUser = ({email, password}) => {
 }
 
 //Add the new user to the 'users' database branch.
-function writeNewUserData(userId, email,firstname,lastname, headline, location, bio) {
+function writeNewUserData(userId, email,firstname,lastname) {
   var initials = parseInitials(firstname,lastname)
   console.log("Trying to 'writeNewUserData' to userId", userId)
   //Ensure that first and last name are capitalized.
   var firstnameCap = firstname[0].toUpperCase() + firstname.slice(1)
   var lastnameCap = lastname[0].toUpperCase() + lastname.slice(1)
 
-  // var headline = ""
+  var headline = ""
   var website = ""
-  // var location = ""
-  // var bio = ""
+  var location = ""
+  var bio = ""
 
-  console.log("headline is ", headline)
-  console.log("location is ", location)
-  console.log("website is (should be empty) ", website)
-  console.log("bio is ", bio)
+  // console.log("headline is ", headline)
+  // console.log("location is ", location)
+  // console.log("website is (should be empty) ", website)
+  // console.log("bio is ", bio)
 
   firebase.database().ref('users/' + userId).set({
     email: email,

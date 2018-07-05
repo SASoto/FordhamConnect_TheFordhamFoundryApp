@@ -130,21 +130,16 @@ const styles = ({
 		width: 370,
 		//height: 250,
 		//backgroundColor: "rgba(106, 46, 52, 0.1)",
-		borderRadius: 6,
-		// borderWidth: 0.3,
-		// borderRightWidth: 2,
-		// borderBottomWidth: 2,
-		//borderColor: 'darkgrey'
-		shadowColor: 'rgba(0, 0, 0, 0.5)',
-		shadowOffset: {
-			width: 0,height: 2
-		},
-		// height: 260,
-		shadowRadius: 4,
-		shadowOpacity: 1,
-		//borderRadius: 3,
-		//marginBottom: 1
-		//alignItems: 'center'
+		//borderRadius: 6,		
+		borderBottomWidth: 2,
+		borderColor: 'lightgrey'
+		// shadowColor: 'rgba(0, 0, 0, 0.5)',
+		// shadowOffset: {
+		// 	width: 0,height: 2
+		// },
+		// // height: 260,
+		// shadowRadius: 4,
+		// shadowOpacity: 1,
 	},
 	profilePicCont: {
 		//backgroundColor: 'black',
