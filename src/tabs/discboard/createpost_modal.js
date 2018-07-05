@@ -169,11 +169,11 @@ class createpost_modal extends Component {
 								resizeMode='cover'
 								style={{
 									//flex: 1,
-									height: Header.HEIGHT ,
+									height: Header.HEIGHT * 1.5,
 									//position: 'absolute',
 									//top:0,
 
-									width: '100%',
+									//width: '100%',
 									//height: '100%',
 								}}
 
@@ -181,51 +181,54 @@ class createpost_modal extends Component {
 
 							>
 								
-							<View flex={1} paddingTop={12} flexDirection="row" justifyContent="space-between">
-								<View justifyContent="center" paddingLeft={30}>
-								<TouchableOpacity onPress={() => this.props.modalFunc()}>
-										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
-								</TouchableOpacity>
-								</View>
-								<View justifyContent="center" alignItems="center" padding={5}>
-									<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
-								</View>
-								<View justifyContent="center" paddingRight={30}>									
-									<TouchableOpacity onPress={this.postNewPost.bind(this)}>
-										<Text style={styles.postButtonStyle}>Share</Text>
+							<View flex={1} paddingTop={20} justifyContent="center">
+								<View flexDirection="row" justifyContent="space-between">
+									<TouchableOpacity onPress={() => this.props.modalFunc()}>
+										<View paddingLeft={30}>
+											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
+										</View>
 									</TouchableOpacity>									
+									<View alignItems="center" padding={5}>
+										<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
+									</View>
+									<View paddingRight={30}>									
+										<TouchableOpacity onPress={this.postNewPost.bind(this)}>
+											<Text style={styles.postButtonStyle}>Share</Text>
+										</TouchableOpacity>									
+									</View>
 								</View>
 							</View>
-								
-							</ImageBackground>
-							<View paddingLeft={36}>
-							<View flexDirection="row" marginTop={28}>					
-								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
-									<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
-								</LinearGradient>
-								<View flexDirection="column" justifyContent="center">
-									<View>
-										<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
-									</View>
-									<View>
-										<Text style={styles.headerTxtStyle}>{this.props.headline}</Text>
-									</View>
-								</View>															
-							</View>
-							<View marginTop={15}>
-								<TextInput
-									style={styles.input}
-									autoCapitalize = 'none'
-	          						autoCorrect = {false}
-	          						multiline={true}
-	          						onChangeText={(text) => this.setState({postText: text})}
-        						  	value={this.state.postText}	
-	          						placeholder="Post about job opportunities, Fordham events, news or anything else worth discussing..."
-									placeholderTextColor="rgba(99,96,96,0.21)"
-								/>			
-							</View>
-							</View>
+							</ImageBackground>						
+							<View flex={1}>
+								<View paddingLeft={36}>
+								<View flexDirection="row" marginTop={28}>					
+									<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+										<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+									</LinearGradient>
+									<View flexDirection="column" justifyContent="center">
+										<View>
+											<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
+										</View>
+										<View>
+											<Text style={styles.headerTxtStyle}>{this.props.headline}</Text>
+										</View>
+									</View>															
+								</View>
+								<View marginTop={15}>
+									<TextInput
+										style={styles.input}
+										autoCapitalize = 'none'
+		          						autoCorrect = {false}
+		          						multiline={true}
+		          						onChangeText={(text) => this.setState({postText: text})}
+	        						  	value={this.state.postText}	
+		          						placeholder="Post about job opportunities, Fordham events, news or anything else worth discussing..."
+										placeholderTextColor="rgba(99,96,96,0.21)"
+									/>			
+								</View>
+								</View>							
 							<View flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
+							</View>
 							</View>
 					</TouchableWithoutFeedback>
 
