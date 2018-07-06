@@ -284,6 +284,7 @@ class createpost_modal extends Component {
 										autoCapitalize = 'none'
 		          						autoCorrect = {false}
 		          						multiline={true}
+		          						maxLength={400}
 		          						onChangeText={(text) => this.setState({postText: text})}
 	        						  	value={this.state.postText}	
 		          						placeholder="Post about job opportunities, Fordham events, news or anything else worth discussing..."
@@ -291,7 +292,7 @@ class createpost_modal extends Component {
 									/>			
 								</View>
 								</View>							
-							<View flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
+							<View marginTop={10} flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
 							</View>
 							</View>
 					</TouchableWithoutFeedback>

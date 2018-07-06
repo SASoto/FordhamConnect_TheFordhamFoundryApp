@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import LinearGradient from 'react-native-linear-gradient';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import firebase from 'firebase';
 
@@ -18,7 +19,7 @@ class singlepost_modal extends Component {
 
 		this.state = {
 			discussionBoardReplies: {},
-		 	postKey: this.props.postKey
+		 	//postKey: this.props.postKey
 		}
 		//console.log("Construction complete!")
 	}
@@ -29,6 +30,7 @@ class singlepost_modal extends Component {
 	}
 
 	componentDidMount() {
+		this.setState({postKey: this.props.postKey})
 		console.log("Checking this.state for post key... ", this.state.postKey)
         var fullRepliesArr = [];
         var postID = "-LGkHRzQcq_sqphPpOL6"    //TODO: This needs to be in the state or something instead.
@@ -61,7 +63,7 @@ class singlepost_modal extends Component {
 	render () {
 		var dateAndTime = this.props.postDateAndTime;
 		dateAndTime = dateAndTime.split(' ');
-		console.log("FROM POST MODAL: ", dateAndTime);
+		//console.log("FROM POST MODAL: ", dateAndTime);
 		dateAndTime = dateAndTime[0] + ' at ' + dateAndTime[1] + ' ' + dateAndTime[2];
 
 		return (
@@ -108,7 +110,8 @@ class singlepost_modal extends Component {
 									</View>
 								</View>
 							</ImageBackground>
-						<ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+						<KeyboardAwareScrollView contentContainerStyle={{flex:1}} extraScrollHeight={40}>
+						<ScrollView flex={1} bounces={false} showsVerticalScrollIndicator={false}>
 							<View style={styles.encompCont}>
 							<View flexDirection="column">
 								<View paddingTop={20} paddingBottom={10} paddingHorizontal={38}>
@@ -133,7 +136,11 @@ class singlepost_modal extends Component {
 									</View>
 								</View>
 								<View marginTop={8} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
-								
+								<ScrollView>
+									<View height={100} backgroundColor="green"/>
+									<View height={100} backgroundColor="red"/>
+									<View height={100} backgroundColor="blue"/>
+								</ScrollView>
 							</View>
 			           		</View>			           		
 			           	</ScrollView>
@@ -153,13 +160,12 @@ class singlepost_modal extends Component {
 												autoCapitalize = 'none'
 												autoCorrect = {false}
 												editable={true}
-												placeHolder
 												placeholder="Add a comment..."
 	                  							placeholderTextColor="rgb(181,178,178)"   
 											>
 											</TextInput>
 										</View>
-										<View justifyContent="center" paddingBottom={5} paddingRight={18}>
+										<View justifyContent="center" paddingBottom={2} paddingRight={18}>
 										<TouchableOpacity onPress={() => console.log('do nothing')}>
 											<Text style={{fontFamily: 'SFProText-Regular', fontSize: 16, color: 'rgb(181,178,178)'}}>Post</Text>										
 										</TouchableOpacity>
@@ -169,6 +175,7 @@ class singlepost_modal extends Component {
 							</View>
 							</View>
 						</View>
+						</KeyboardAwareScrollView>
 			 		</View>
            	
 				</ImageBackground>
@@ -208,9 +215,9 @@ const styles = ({
 		shadowOpacity: 1,
 	},
 	authProfPic: {
-		width: 60,
-		height: 60,
-		borderRadius: 30,
+		width: 70,
+		height: 70,
+		borderRadius: 35,
 		marginRight: 14,
 		justifyContent: 'center',
 		alignItems: 'center'

@@ -13,6 +13,7 @@
     "react-native-af-video-player": "^0.2.1",
     "react-native-elements": "^0.19.1",
     "react-native-indicators": "^0.13.0",
+    "react-native-keyboard-aware-scroll-view": "^0.6.0",
     "react-native-push-notification": "^3.0.2",
     "react-native-router-flux": "^4.0.0-beta.31",
     "react-navigation": "^2.2.0",
@@ -30,6 +31,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./ExportedFont_SFProText"]
+    "assets": [
+      "./ExportedFont_SFProText"
+    ]
   }
 }
