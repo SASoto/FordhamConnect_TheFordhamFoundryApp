@@ -141,7 +141,7 @@ export default class discboard_screen extends Component {
                 //console.log("OBJECT: ", contactObj);
                 fullPostsArr.push(postObj);
                 //testArray.push("foo")
-                console.log(postObj)//.postKey)
+                //console.log(postObj)//.postKey)
             });
             //console.log(fullPostsArr.author_name)
         }).then(() => {
@@ -156,7 +156,7 @@ export default class discboard_screen extends Component {
 
     fetchLatestPosts() {
     	var fullPostsArr = [];
-    	console.log("IN HERE GETTING NEW POSTS")
+    	//console.log("IN HERE GETTING NEW POSTS")
         return firebase.database().ref('discBoardposts/').once('value')
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -175,11 +175,11 @@ export default class discboard_screen extends Component {
         	const revArr = fullPostsArr.reverse()
         	//console.log("NEW SET OF POSTS:",revArr)
         	//this.setState({discussionBoardPosts: []})
-        	if(revArr[0].post_key != this.state.discussionBoardPosts[0].post_key) {
+        	//if(revArr[0].post_key != this.state.discussionBoardPosts[0].post_key) {
             	this.setState({discussionBoardPosts: revArr})
-            	console.log("ADDING NEW SET OF DISCUSSIOMN BOARD POSTS")
+            	//console.log("ADDING NEW SET OF DISCUSSIOMN BOARD POSTS")
             	this.createSectionedList()
-        	}
+        	//}
         	//console.log("CALLING FROM NEW")
         	// this.createSectionedList()
         })//.then(() => {
@@ -221,7 +221,7 @@ export default class discboard_screen extends Component {
         }
 
         this.setState({discussionBoardSectionedList: sectionedList});
-        console.log("POST SECTIONED LIST: ", this.state.discussionBoardSectionedList);
+        //console.log("POST SECTIONED LIST: ", this.state.discussionBoardSectionedList);
         //return sectionedList;
     }
 
@@ -269,7 +269,7 @@ export default class discboard_screen extends Component {
 		var postFullDesc = postObj.post_text;
 		var postDesc = postObj.post_text;
 		var postDescArr = postDesc.split(' ')
-		console.log("POST DESC ARR: ", postDescArr)
+		//console.log("POST DESC ARR: ", postDescArr)
 		//if(postDescArr.length != null || postDesc.length != undefined) {
 		if(postDescArr.length > 40) {
 			postDescArr = postDescArr.slice(0,40);
@@ -281,7 +281,7 @@ export default class discboard_screen extends Component {
 			//actualPostdescArr = actualPostdescArr.join('');
 			postDescArr = postDescArr.join(' ');
 			postDesc = postDescArr;
-			console.log("POST DESC: ", postDescArr)
+			//console.log("POST DESC: ", postDescArr)
 		}
 
 		var postDateAndTime = this.returnPostDateAndTime(postObj);
@@ -293,82 +293,82 @@ export default class discboard_screen extends Component {
 				postCommentCount: postCommentCount, postKey: postKey};
 	}
 
-	fetchDateTime() {
-		var today = new Date();
-		var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-		var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-		var day = days[today.getDay()];
-		var month = months[ today.getMonth() ];
-		var dd = today.getDate();
-		//var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
+	// fetchDateTime() {
+	// 	var today = new Date();
+	// 	var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+	// 	var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+	// 	var day = days[today.getDay()];
+	// 	var month = months[ today.getMonth() ];
+	// 	var dd = today.getDate();
+	// 	//var mm = today.getMonth()+1; //January is 0!
+	// 	var yyyy = today.getFullYear();
 		
 
-		// if(dd<10) {
-  //   		dd = '0'+dd
-		// } 
+	// 	// if(dd<10) {
+ //  //   		dd = '0'+dd
+	// 	// } 
 
-		// if(mm<10) {
-  //   		mm = '0'+mm
-		// } 
-		// var date = yyyy+'-'+mm+'-'+dd;
+	// 	// if(mm<10) {
+ //  //   		mm = '0'+mm
+	// 	// } 
+	// 	// var date = yyyy+'-'+mm+'-'+dd;
 
-		var hh = today.getHours();
-		var minmin = today.getMinutes();
-		// var ss = today.getSeconds();
-		var mid = 'am'
-		if(hh ==0){
-			hh = 12;
-		} else if (hh > 12) {
-			hh = hh % 12;
-			mid = 'pm'
-		}
+	// 	var hh = today.getHours();
+	// 	var minmin = today.getMinutes();
+	// 	// var ss = today.getSeconds();
+	// 	var mid = 'am'
+	// 	if(hh ==0){
+	// 		hh = 12;
+	// 	} else if (hh > 12) {
+	// 		hh = hh % 12;
+	// 		mid = 'pm'
+	// 	}
 
-		// if(hh<10) {
-  //   		hh = '0'+hh
-		// } 
+	// 	// if(hh<10) {
+ //  //   		hh = '0'+hh
+	// 	// } 
 
-		if(minmin<10) {
-    		minmin = '0'+minmin
-		} 
+	// 	if(minmin<10) {
+ //    		minmin = '0'+minmin
+	// 	} 
 
-		// if(ss<10) {
-  //   		ss = '0'+ss
-		// } 
+	// 	// if(ss<10) {
+ //  //   		ss = '0'+ss
+	// 	// } 
 
-		//var time = hh + ":" + minmin + ":" + ss;
-		var dateTime = day + " " + month + " " + dd + " " + yyyy + " " + hh + ":" + minmin + " " + mid;
+	// 	//var time = hh + ":" + minmin + ":" + ss;
+	// 	var dateTime = day + " " + month + " " + dd + " " + yyyy + " " + hh + ":" + minmin + " " + mid;
 
-		return(dateTime)
-	}
+	// 	return(dateTime)
+	// }
 
-	//If this is a modal, should it have the postID as a state?
-	replyTest() {
-		var postID = "-LGkHRzQcq_sqphPpOL6" //This should come from the state as well.
-		// console.log("Test was pushed!")
-		// console.log("With postID ", postID)
+	// //If this is a modal, should it have the postID as a state?
+	// replyTest() {
+	// 	var postID = "-LGkHRzQcq_sqphPpOL6" //This should come from the state as well.
+	// 	// console.log("Test was pushed!")
+	// 	// console.log("With postID ", postID)
 		
-		//Tests replying to a given post just on the back end database
-		var newDateTime = this.fetchDateTime()
-		var parentPostCommentCount = 0    //TO DO: This needs to be in the state, not a constant value!
-		var userID = firebase.auth().currentUser.uid
-		var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
-		var newReplyRef = repliesListRef.push();
-		newReplyRef.set({
-			'author_name': "Firstname" + ' ' + "Lastname", //TO DO: This should be referenced from props
-  			'author_headline': "Example Headline",			//TO DO: This should be referenced from props
-  			'author_initials': "FL",						//TO DO: So should this!
-  			'author_id': userID,
-  			'reply_date_time': newDateTime,
-  			'reply_text': "Foo!",							//TO DO: What the user typed in, This should be from state.
-		})
-		.then(() => {
-			//This part increments the comment count on the parent post
-			console.log("Created the reply post. Now trying to increment comment count...")
-			firebase.database().ref('/discBoardposts/' + postID +'/comment_count/').set(parentPostCommentCount + 1)//{
-			console.log("Incremented comment count on parent post, I think.")
-		 })
-	}
+	// 	//Tests replying to a given post just on the back end database
+	// 	var newDateTime = this.fetchDateTime()
+	// 	var parentPostCommentCount = 0    //TO DO: This needs to be in the state, not a constant value!
+	// 	var userID = firebase.auth().currentUser.uid
+	// 	var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
+	// 	var newReplyRef = repliesListRef.push();
+	// 	newReplyRef.set({
+	// 		'author_name': "Firstname" + ' ' + "Lastname", //TO DO: This should be referenced from props
+ //  			'author_headline': "Example Headline",			//TO DO: This should be referenced from props
+ //  			'author_initials': "FL",						//TO DO: So should this!
+ //  			'author_id': userID,
+ //  			'reply_date_time': newDateTime,
+ //  			'reply_text': "Foo!",							//TO DO: What the user typed in, This should be from state.
+	// 	})
+	// 	.then(() => {
+	// 		//This part increments the comment count on the parent post
+	// 		console.log("Created the reply post. Now trying to increment comment count...")
+	// 		firebase.database().ref('/discBoardposts/' + postID +'/comment_count/').set(parentPostCommentCount + 1)//{
+	// 		console.log("Incremented comment count on parent post, I think.")
+	// 	 })
+	// }
 
 	renderSeparator() {
 		return (
@@ -411,18 +411,7 @@ export default class discboard_screen extends Component {
 						
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.postButtonStyle} onPress={this.replyTest.bind(this)}>
-						
-							<View flexDirection="row" alignItems="center">
-								<View paddingRight={11}>
-								<Text style={styles.postButtonPlusStyle}>+</Text>
-								</View>
-								<View justifyContent="center">
-									<Text style={styles.postButtonAddStyle}>Reply Test</Text>
-								</View>
-							</View>
-						
-					</TouchableOpacity>
+					
 					
 				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.fetchLatestPosts.bind(this)}/>
 				</View>
