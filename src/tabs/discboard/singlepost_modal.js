@@ -5,13 +5,56 @@ import {Header} from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
+import firebase from 'firebase';
+
 const windowSize = Dimensions.get('window');
 export default class singlepost_modal extends Component {
+
+	constructor(props) {
+		super(props);
+		//var userID = firebase.auth().currentUser.uid
+
+		this.state = {
+			discussionBoardReplies: {},
+		 	postKey: this.props.postKey
+		}
+		//console.log("Construction complete!")
+	}
 
 	resetAndExit() {
 		this.props.fetchLatestPosts();
 		this.props.modalFunc();
 	}
+
+	componentDidMount() {
+		console.log("Checking this.state for post key... ", this.state.postKey)
+        var fullRepliesArr = [];
+        var postID = "-LGkHRzQcq_sqphPpOL6"    //TODO: This needs to be in the state or something instead.
+        //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
+        return firebase.database().ref('/discBoardreplies/' + postID + '/').once('value')
+        .then(function(snapshot) {
+        	console.log("A snapshot ", snapshot.key)
+            snapshot.forEach(function(childSnapshot) {
+            	console.log("A childSnapshot", childSnapshot.key)
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+
+                var replyObj = {'reply_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'reply_date_time': childData.reply_date_time, 'reply_text': childData.reply_text, 'author_id': childData.author_id};
+                console.log("replyOBJECT: ", replyObj);
+                fullRepliesArr.push(replyObj);
+                //testArray.push("foo")
+                console.log(replyObj.reply_text)//.postKey)
+            });
+            //console.log(fullPostsArr.author_name)
+        }).then(() => {
+            this.setState({discussionBoardReplies: fullRepliesArr})  
+        })//.then(() => {this.createSectionedList()})//.then(() => {
+        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
+        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
+        // 	}
+        	
+        // })
+    }
 
 	render () {
 		var dateAndTime = this.props.postDateAndTime;

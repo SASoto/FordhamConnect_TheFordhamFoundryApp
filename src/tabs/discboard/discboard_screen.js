@@ -72,6 +72,7 @@ class SectionListItem extends Component {
 						authorName={this.props.item.authorName} authorHeadline={this.props.item.authorHeadline}
 						authorInitials={this.props.item.authorInitials} postCommentCount={this.props.item.postCommentCount}
 						postDesc={this.props.item.postDesc} fullPostDesc={this.props.item.fullPostDesc} postDateAndTime={this.props.item.postDateAndTime}
+						postKey={this.props.item.postKey}
 						modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.props.fetchLatestPosts}/>
 					</View>
 					
@@ -294,37 +295,49 @@ export default class discboard_screen extends Component {
 
 	fetchDateTime() {
 		var today = new Date();
+		var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+		var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+		var day = days[today.getDay()];
+		var month = months[ today.getMonth() ];
 		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
+		//var mm = today.getMonth()+1; //January is 0!
 		var yyyy = today.getFullYear();
+		
 
-		if(dd<10) {
-    		dd = '0'+dd
-		} 
+		// if(dd<10) {
+  //   		dd = '0'+dd
+		// } 
 
-		if(mm<10) {
-    		mm = '0'+mm
-		} 
-		var date = yyyy+'-'+mm+'-'+dd;
+		// if(mm<10) {
+  //   		mm = '0'+mm
+		// } 
+		// var date = yyyy+'-'+mm+'-'+dd;
 
 		var hh = today.getHours();
 		var minmin = today.getMinutes();
-		var ss = today.getSeconds();
+		// var ss = today.getSeconds();
+		var mid = 'am'
+		if(hh ==0){
+			hh = 12;
+		} else if (hh > 12) {
+			hh = hh % 12;
+			mid = 'pm'
+		}
 
-		if(hh<10) {
-    		hh = '0'+hh
-		} 
+		// if(hh<10) {
+  //   		hh = '0'+hh
+		// } 
 
 		if(minmin<10) {
     		minmin = '0'+minmin
 		} 
 
-		if(ss<10) {
-    		ss = '0'+ss
-		} 
+		// if(ss<10) {
+  //   		ss = '0'+ss
+		// } 
 
-		var time = hh + ":" + minmin + ":" + ss;
-		var dateTime = date+' '+time;
+		//var time = hh + ":" + minmin + ":" + ss;
+		var dateTime = day + " " + month + " " + dd + " " + yyyy + " " + hh + ":" + minmin + " " + mid;
 
 		return(dateTime)
 	}
