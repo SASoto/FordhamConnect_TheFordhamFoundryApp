@@ -94,11 +94,11 @@ class signup_screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
             <View alignItems="center">
-            <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
+            <TitleFordhamConnect marginTop={(windowSize.height * 1/10) * 1.5}/>
             <View style={styles.signUpCont}>
                 <Text style={styles.signUpTxt}>SIGN UP</Text>
             </View>
-            <View marginTop={10}>
+            <View marginTop={50}>
                 <View>
                   <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
                 </View>
@@ -127,8 +127,9 @@ class signup_screen extends Component {
                 </TouchableOpacity>
             </View>
         </View>
-        <View backgroundColor="transparent" height={500}/>
-        <View backgroundColor="transparent" height={500}/>
+        <View backgroundColor="transparent" height={200}/>
+        <View backgroundColor="transparent" height={200}/>
+        <View backgroundColor="transparent" height={200}/>
         </ScrollView>
         </TouchableWithoutFeedback>
         </ImageBackground>

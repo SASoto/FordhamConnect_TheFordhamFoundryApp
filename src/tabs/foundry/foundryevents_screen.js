@@ -11,14 +11,6 @@ const REQUEST_URL_IMAGES = 'https://fordhamfoundry.org/wp-json/wp/v2/media';
 // Windowsize is referenced in the styles below.
 
 class SectionListItem extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      refreshing: false
-    }
-  }
-
   checkIfConnected(url) {
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
@@ -28,21 +20,15 @@ class SectionListItem extends Component {
   }
 
     render () {
-      // if(this.props.item.imageUrl != null) {
-      //   var media = (<Image style={styles.imageContainer} source={{uri: this.props.item.imageUrl}}/>);
-      // } else {
-      //   var media = null;
-      // }
-
         return (
             <TouchableOpacity style={styles.sectionListItemEncompCont} onPress={() => this.checkIfConnected(this.props.item.link)}>
               <View flex={1}>
-                <View padding={36} flexDirection="row">
-                    <View flex={3} justifyContent="center">
+                <View flexDirection="row" paddingLeft={20} paddingVertical={20}>
+                    <View flex={8} justifyContent="center" marginRight={10}>
                     <Text style={{fontFamily:'SFProText-Regular', fontSize:16, color:'rgb(115,115,115)'}}>{this.props.item.title}</Text>
                     </View>
-                    <View flex={1} justifyContent="center" alignItems="flex-end">
-                      <MatIcon name="keyboard-arrow-right" size={30} color="rgba(15,14,14,0.5)"/>
+                    <View flex={1} justifyContent="center">
+                      <MatIcon name="keyboard-arrow-right" size={20} color="rgba(15,14,14,0.5)"/>
                     </View>
                 </View>
               </View>
@@ -53,9 +39,19 @@ class SectionListItem extends Component {
 
 class SectionHeader extends Component {
     render() {
+      if(this.props.section.title == '') {
+        var sectionTitle = (null)
+      } else {
+        var sectionTitle = (
+          <View justifyContent="center">
+            <Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+          </View>
+        )
+      }
+
         return (
             <View flex={1} paddingHorizontal={18} paddingVertical={15} alignItems="flex-end">
-                <Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+              {sectionTitle}
             </View>
         )
     }
@@ -150,7 +146,7 @@ export default class foundryevents_screen extends Component {
 
   createSectionedList() {
         const setOfEvents = this.state.sitedata_posts;
-        console.log("SET OF EVENTSL",this.state.sitedata_posts)
+        //console.log("SET OF EVENTSL",this.state.sitedata_posts)
         var sectionedList = [];
         var eventsInOneDay = [];
           
@@ -170,7 +166,7 @@ export default class foundryevents_screen extends Component {
 
         }
         sectionedList.push({title: onDate, data: eventsInOneDay});
-        for(var i=0; i<8; i++) {
+        for(var i=0; i<12; i++) {
           sectionedList.push({title: '', data: []});
         }
 
@@ -181,39 +177,39 @@ export default class foundryevents_screen extends Component {
   // Instead of immediately rendering the template, we now check if there is data in the 'card' variable
   // and render a loading view if it's empty, or the 'card' template if there is data.
   render() {
-    if(this.state.postList.length > 0)
+    //if(this.state.postList.length > 0)
       return (this.renderCard());
-    else 
-      return (this.renderLoadingView());
+    // else 
+    //   return (this.renderLoadingView());
   }
 
   // The loading view template just shows the message "Wait for it..."
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <ImageBackground
-          resizeMode='cover'
-          style={{
-            flex: 1,
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}
+  // renderLoadingView() {
+  //   return (
+  //     <View style={styles.container}>
+  //       <ImageBackground
+  //         resizeMode='cover'
+  //         style={{
+  //           flex: 1,
+  //           position: 'absolute',
+  //           width: '100%',
+  //           height: '100%',
+  //         }}
 
-          source={require('../../../Images/plussilvergradient.png')}
-        >
-        <View marginTop={50} alignItems="center">
-          <MaterialIndicator color='rgb(115,115,115)' size={35}/>
-        </View>
-        </ImageBackground>
-      </View>
-    );
-  }
+  //         source={require('../../../Images/plussilvergradient.png')}
+  //       >
+  //       <View marginTop={50} alignItems="center">
+  //         <MaterialIndicator color='rgb(115,115,115)' size={35}/>
+  //       </View>
+  //       </ImageBackground>
+  //     </View>
+  //   );
+  // }
 
   returnEventDate(event) {
-    console.log("EXAMPLE OF AN EVENT:", event)
-    const regex_1 = /(<([^>]+)>)/ig;
-    const regex_2 = /&#([0-9]{1,4});/g;
+    //console.log("EXAMPLE OF AN EVENT:", event)
+    // const regex_1 = /(<([^>]+)>)/ig;
+    // const regex_2 = /&#([0-9]{1,4});/g;
 
     if(event.date == null || event.date == undefined)
       return 'undefined'
@@ -252,8 +248,8 @@ export default class foundryevents_screen extends Component {
   }
 
   getImageData(media_id) {
-    console.log("STATE IMAGES:",this.state.sitedata_images)
-    console.log("MEDIA ID HERE:",media_id)
+    //console.log("STATE IMAGES:",this.state.sitedata_images)
+    //console.log("MEDIA ID HERE:",media_id)
     const numImages = this.state.sitedata_images.length
     for(var i = 0; i < numImages; i++) {
       if(this.state.sitedata_images[i].id == media_id)
@@ -266,17 +262,17 @@ export default class foundryevents_screen extends Component {
     return;
   }
 
-  renderSeparator() {
-    return (
-      <View
-        style={{
-          height: 2,
-          width: windowSize.width,
-          backgroundColor: "#CED0CE",
-        }}
-      />
-    );
-  }
+  // renderSeparator() {
+  //   return (
+  //     <View
+  //       style={{
+  //         height: 2,
+  //         width: windowSize.width,
+  //         backgroundColor: "#CED0CE",
+  //       }}
+  //     />
+  //   );
+  // }
 
   renderCard() {
     return (
@@ -293,6 +289,9 @@ export default class foundryevents_screen extends Component {
           source={require('../../../Images/plussilvergradient.png')}
         >
             <SectionList
+                ListEmptyComponent={<View marginTop={50} alignItems="center">
+                                      <MaterialIndicator color='rgb(115,115,115)' size={35}/>
+                                    </View>}
                 stickySectionHeadersEnabled={false}
                 renderItem={({item, index}) => {
                     return (<SectionListItem item={item} index={index}/>)

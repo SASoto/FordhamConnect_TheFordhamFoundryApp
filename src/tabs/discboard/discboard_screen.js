@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, SectionList, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 
 import firebase from 'firebase';
 import {connect} from 'react-redux';
 
-import CreatePostModal from './createpost_modal';
+import {MaterialIndicator} from 'react-native-indicators';
+import MatCommIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
+import CreatePostModal from './createpost_modal';
+import SinglePostModal from './singlepost_modal';
 import ButtonRounded from '../../components/ButtonRounded';
 import DBMainCard from '../../components/DBMainCard';
 
-const windowSize = Dimensions.get('window');
-export default class discboard_screen extends Component {
-    constructor(props) {
+class SectionListItem extends Component {
+	constructor(props) {
 		super(props)
 
-		this.state={
-			discussionBoardPosts: [],
+		this.state = {
 			modalVisible: false
 		}
 	}
@@ -24,7 +26,107 @@ export default class discboard_screen extends Component {
 		this.setState({modalVisible: false});
 	}
 
-	componentWillMount() {
+    render () {
+        return (
+            <View style={styles.encompCont}>
+				<View flexDirection="column">
+					<View paddingTop={20} paddingBottom={10} paddingHorizontal={38}>
+						<View flexDirection="row">
+							<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+					            <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.item.authorInitials}</Text>
+					        </LinearGradient>						
+							<View justifyContent = "center" flexDirection="column">
+								<Text style={styles.nameStyle}>{this.props.item.authorName}</Text>
+								<Text style={styles.headlineStyle}>{this.props.item.authorHeadline}</Text> 
+							</View>						
+						</View>
+						<View marginTop={15}>
+							<View paddingLeft={8} paddingRight={5}>
+								<Text style={styles.descStyle}>{this.props.item.postDesc}</Text> 
+							</View>
+						</View>
+						<View marginTop={10} flexDirection="row" justifyContent="space-between">
+							<View paddingLeft={8}>
+								<Text style={styles.additionalInfoStyle}>{this.props.item.postDateAndTime}</Text>
+							</View>
+							<View paddingRight={10}>
+								<Text style={styles.additionalInfoStyle}>{this.props.item.postCommentCount} Comments</Text>
+							</View>
+						</View>
+					</View>
+					<View alignItems="center">
+					<View marginTop={8} marginBottom={16} height={1} width='90%' backgroundColor="rgb(199,193,195)"/>
+					</View>
+					<View paddingLeft={38} paddingBottom={30} alignItems="flex-start">
+						<TouchableOpacity 
+							style={styles.joinButtonStyle}
+							onPress={() => this.setState({modalVisible: true})}
+						>
+							<View flexDirection="row" alignItems="center">
+								<View justifyContent="center">
+									<Text style={styles.joinButtonAddStyle}>view post</Text>
+								</View>
+							</View>
+						</TouchableOpacity>
+						<SinglePostModal 
+						authorName={this.props.item.authorName} authorHeadline={this.props.item.authorHeadline}
+						authorInitials={this.props.item.authorInitials} postCommentCount={this.props.item.postCommentCount}
+						postDesc={this.props.item.postDesc} fullPostDesc={this.props.item.fullPostDesc} postDateAndTime={this.props.item.postDateAndTime}
+						modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.props.fetchLatestPosts}/>
+					</View>
+					
+				</View>
+            </View>
+        )
+    }
+}
+
+class SectionHeader extends Component {
+    render() {
+    	if(this.props.section.title == '') {
+    		var sectionTitle = (null)
+    	} else {
+    		var sectionTitle = (
+    			<View flexDirection="row">
+	    			<View justifyContent="center" paddingTop={2} marginRight={3}>
+	        		<MatCommIcon name="clock" size={12} color="rgb(115,115,115)"/>
+	        		</View>
+	        		<View justifyContent="center">
+	            	<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+	            	</View>
+            	</View>
+    		)
+    	}
+        return (
+            <View flex={1} paddingHorizontal={18} paddingVertical={15} alignItems="flex-end">
+            	<View flexDirection="row">
+            		{sectionTitle}
+                </View>
+            </View>
+        )
+    }
+}
+
+const windowSize = Dimensions.get('window');
+export default class discboard_screen extends Component {
+    constructor(props) {
+		super(props)
+
+		this.state = {
+			discussionBoardPosts: [],
+			discussionBoardSectionedList: [],
+			modalVisible: false,
+			refreshing: false
+		}
+
+		this.fetchLatestPosts = this.fetchLatestPosts.bind(this)
+	}
+
+	setModalVisible() {
+		this.setState({modalVisible: false});
+	}
+
+	componentDidMount() {
         var fullPostsArr = [];
         //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
         return firebase.database().ref('discBoardposts/').once('value')
@@ -38,21 +140,156 @@ export default class discboard_screen extends Component {
                 //console.log("OBJECT: ", contactObj);
                 fullPostsArr.push(postObj);
                 //testArray.push("foo")
-                console.log(postObj.postKey)
+                console.log(postObj)//.postKey)
             });
             //console.log(fullPostsArr.author_name)
         }).then(() => {
-            this.setState({discussionBoardPosts: fullPostsArr})
-        }).then(() => {
-        	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
-        		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
-        	}
+            this.setState({discussionBoardPosts: fullPostsArr.reverse()})
+        }).then(() => {this.createSectionedList()})//.then(() => {
+        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
+        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
+        // 	}
         	
-        })
+        // })
     }
 
-	componentDidMount() {
+    fetchLatestPosts() {
+    	var fullPostsArr = [];
+    	console.log("IN HERE GETTING NEW POSTS")
+        return firebase.database().ref('discBoardposts/').once('value')
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                //console.log("Another person in da list...")
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                //console.log(childData.firstname + ' ' + childData.lastname)
+                var postObj = {'post_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'comment_count': childData.comment_count, 'post_date_time': childData.post_date_time, 'post_text': childData.post_text, 'author_id': childData.author_id};
+                //console.log("OBJECT: ", postObj);
+                fullPostsArr.push(postObj);
+                //testArray.push("foo")
+                //console.log(postObj)//.postKey)
+            });
+        }).then(() => {
+        	//const olderPosts = this.state.discussionBoardPosts;
+        	const revArr = fullPostsArr.reverse()
+        	//console.log("NEW SET OF POSTS:",revArr)
+        	//this.setState({discussionBoardPosts: []})
+        	if(revArr[0].post_key != this.state.discussionBoardPosts[0].post_key) {
+            	this.setState({discussionBoardPosts: revArr})
+            	console.log("ADDING NEW SET OF DISCUSSIOMN BOARD POSTS")
+            	this.createSectionedList()
+        	}
+        	//console.log("CALLING FROM NEW")
+        	// this.createSectionedList()
+        })//.then(() => {
+        	//console.log("CALLING FROM NEW")
+        	//this.createSectionedList()
+       // })//.then(() => {
+        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
+        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
+        // 	}
+        	
+        // })
+        this.setState({refreshing: false})
+    }
 
+	createSectionedList() {
+        const setOfPosts = this.state.discussionBoardPosts;
+        //console.log("SET OF EVENTSL",this.state.sitedata_posts)
+        var sectionedList = [];
+        var postsInOneDay = [];
+          
+        var onDate = this.returnPostDate(setOfPosts[0]);
+        for(var i=0; i<setOfPosts.length; i++) {
+          var currDate = this.returnPostDate(setOfPosts[i]);
+          if(currDate != onDate) {
+              sectionedList.push({title: onDate, data: postsInOneDay});
+              onDate = currDate;
+              postsInOneDay = [];
+              var postData = this.returnPostData(setOfPosts[i]);
+              postsInOneDay.push(postData);
+          } else { //Name starts with the same letter we are currently on
+              var postData = this.returnPostData(setOfPosts[i]);
+              postsInOneDay.push(postData)
+          }
+
+        }
+        sectionedList.push({title: onDate, data: postsInOneDay});
+        for(var i=0; i<12; i++) {
+          sectionedList.push({title: '', data: []});
+        }
+
+        this.setState({discussionBoardSectionedList: sectionedList});
+        console.log("POST SECTIONED LIST: ", this.state.discussionBoardSectionedList);
+        //return sectionedList;
+    }
+
+	returnPostDate(postObj) {
+		if(postObj.post_date_time == null || postObj.post_date_time== undefined)
+		  return 'undefined'
+		else {
+		  var date = postObj.post_date_time;
+		  var formattedDate = date.toString();//new Date(date);
+		  //var newDate = formattedDate.toString();
+		  //console.log("DATE ARR: ",newDate)
+		  var dateArr = formattedDate.split(' ');
+		  //console.log("DATE ARR: ",dateArr)
+		  date = dateArr[0] + ', ' + dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
+		  //console.log('DATE OBJ: ',date)
+
+		  return date;
+		}
+	}
+
+	returnPostDateAndTime(postObj) {
+		if(postObj.post_date_time == null || postObj.post_date_time== undefined)
+		  return 'undefined'
+		else {
+		  var date = postObj.post_date_time;
+		  var formattedDate = date.toString();//new Date(date);
+		  //var newDate = formattedDate.toString();
+		  //console.log("DATE ARR: ",newDate)
+		  var dateArr = formattedDate.split(' ');//newDate = newDate.split(' ');
+		  //console.log("DATE ARR: ",dateArr)
+		  date = dateArr[0] + ' ' + dateArr[4] + ' ' + dateArr[5];
+		  // console.log('DATE OBJ: ',date)
+
+		  return date;
+		}
+	}
+
+	returnPostData(postObj) {
+		const regex_1 = /(<([^>]+)>)/ig;
+		const regex_2 = /&#([0-9]{1,4});/g;
+
+		var authorName = postObj.author_name;
+		var authorInitials = postObj.author_initials;
+		var authorHeadline = postObj.author_headline;
+		var postFullDesc = postObj.post_text;
+		var postDesc = postObj.post_text;
+		var postDescArr = postDesc.split(' ')
+		console.log("POST DESC ARR: ", postDescArr)
+		//if(postDescArr.length != null || postDesc.length != undefined) {
+		if(postDescArr.length > 40) {
+			postDescArr = postDescArr.slice(0,40);
+			//console.log("NON ACT POST ARR: ",postDescArr);
+			postDescArr.push("\n...")
+			//console.log("NON ACT POST ARR: ",postDescArr);
+			//console.log("NON ACT POST ARR: ",postDescArr);
+			//console.log("ACT ARR: ", actualPostdescArr);
+			//actualPostdescArr = actualPostdescArr.join('');
+			postDescArr = postDescArr.join(' ');
+			postDesc = postDescArr;
+			console.log("POST DESC: ", postDescArr)
+		}
+
+		var postDateAndTime = this.returnPostDateAndTime(postObj);
+		var postCommentCount = postObj.comment_count;
+		var postKey = postObj.post_key;
+
+		return {authorName: authorName, authorInitials: authorInitials, authorHeadline: authorHeadline,
+				postDesc: postDesc, fullPostDesc: postFullDesc,postDateAndTime: postDateAndTime,
+				postCommentCount: postCommentCount, postKey: postKey};
 	}
 
 	//If this is a modal, should it have the postID as a state?
@@ -85,8 +322,7 @@ export default class discboard_screen extends Component {
 		return (
 		  <View
 		    style={{
-		      height: 30,
-		      //width: windowSize.width,
+		      height: 30,          
 		      backgroundColor: "transparent",
 		    }}
 		  />
@@ -136,31 +372,47 @@ export default class discboard_screen extends Component {
 						
 					</TouchableOpacity>
 					
-				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
+				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.fetchLatestPosts.bind(this)}/>
 				</View>
 	 			<View alignItems="center">
 		 			<View marginTop={10} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
 		 		</View>
-		 		<FlatList flex={1}
-			 		data={this.state.discussionBoardPosts} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
-		                <View alignItems="center">
-		              	
-		                </View>
-	          	  	}
-		 		>
-	    			
-	    		</FlatList>
+		 		<SectionList
+		 			showsVerticalScrollIndicator={false}
+	                ListEmptyComponent={<View marginTop={50} alignItems="center">
+	                                      <MaterialIndicator color='rgb(115,115,115)' size={35}/>
+	                                    </View>}
+	                stickySectionHeadersEnabled={false}
+	                ItemSeparatorComponent={this.renderSeparator}
+	                renderItem={({item, index}) => {
+	                    return (<SectionListItem item={item} index={index} fetchLatestPosts={this.fetchLatestPosts.bind(this)}/>)
+	                }}
+	                renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
+	                sections={this.state.discussionBoardSectionedList}
+	                keyExtractor={(item, index) => index}
+	                refreshing={this.state.refreshing}
+	                onRefresh={this.fetchLatestPosts}
+	            />		 		
 			</ImageBackground>
 			</View>
   		);
 	}
 }
 
+//<SectionList
+	                //stickySectionHeadersEnabled={false}
+	                //renderItem={({item, index}) => {
+	               //     return (<SectionListItem item={item} index={index}/>)
+	                //}}
+	                //renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
+	                //sections={this.state.postList}
+	              //  keyExtractor={(item, index) => index}
+	                // refreshing={this.state.refreshing}
+	                // onRefresh={this.fetchLatestData()}
+	            ///>
+
 const styles = ({
 	postButtonStyle: {
-		//flex: 1,
-		//flexDirection: 'column',
-		//elevation: 2,
 		marginLeft: 10,
 		marginTop: 10,
 		alignItems: 'center',
@@ -188,29 +440,86 @@ const styles = ({
 		fontFamily: 'SFProText-Semibold',
 		color: 'rgb(115,115,115)'
 	},
-	// addPostButtonEncCont: {
-	// 	elevation: 10,
-	// 	//flex: 1,
-	// 	shadowColor: 'rgba(0, 0, 0, 0.5)',
-	// 	shadowOffset: {
-	// 		width: 0,height: 2
-	// 	},
-	// 	shadowRadius: 4,
-	// 	shadowOpacity: 1,
-	// }
+	encompCont: {
+		//alignItems:"center",
+		// justifyContent: 'center',
+		//flex: 1,
+		backgroundColor: '#dbd1ce',
+        width: '100%',
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
+	},
+	profPic: {
+		width: 60,
+		height: 60,
+		borderRadius: 30,
+		marginRight: 14,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	nameStyle: {
+		fontFamily: 'SFProText-Regular',
+		fontSize: 20,
+		color: 'rgb(115,115,115)'
+	},
+	headlineStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 16,
+		color: 'rgb(115,115,115)'
+	},
+	locationStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 13,
+		color: 'rgb(115,115,115)'
+	},
+	descStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 20,
+		color: 'rgb(115,115,115)',
+		//textAlign: 'center'
+	},
+	gradientCont: {
+		flex: 1,
+		backgroundColor: 'red',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},
+		//height: 300,
+		shadowRadius: 4,
+		shadowOpacity: 1,
+		width: windowSize.width * .9,
+	},
+	joinButtonStyle: {
+		//paddingLeft: 10,
+		//marginTop: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 150,
+		height: 44,
+		backgroundColor: '#dbd1ce',
+		borderRadius: 8,
+		borderWidth: 0.7,
+		borderColor: 'rgb(204,180,182)',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
+	},
+	joinButtonAddStyle: {
+		fontSize: 16,
+		fontFamily: 'SFProText-Regular',
+		color: 'rgb(115,115,115)'
+	},
+	additionalInfoStyle: {
+		fontFamily: 'SFProText-Light',
+		fontSize: 16,
+		color: 'rgb(115,115,115)'
+	}
 })
-
-// const mapStateToProps = (state) => {
-//   return {
-//   	firstname: state.auth.firstname,
-//   	lastname: state.auth.lastname,
-//     email: state.auth.email,
-//     user: state.auth.user,
-//     // password: state.auth.password,
-//     // error: state.auth.error,
-//     // loading: state.auth.loading,
-//     loggedIn: state.auth.loggedIn
-//   }
-// }
-
-// export default connect(mapStateToProps)(discboard_screen)

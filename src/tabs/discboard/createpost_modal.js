@@ -87,6 +87,7 @@ class createpost_modal extends Component {
 
 	resetNewPost() {
 		this.setState({postText: "", postDateTime: ""})
+		this.props.fetchLatestPosts();
 		this.props.modalFunc()
 	}
 
@@ -243,7 +244,7 @@ class createpost_modal extends Component {
 										<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
 									</View>
 									<View paddingRight={30}>									
-										<TouchableOpacity onPress={() => this.postNewPost.bind(this)}>
+										<TouchableOpacity onPress={this.postNewPost.bind(this)}>
 											<Text style={styles.postButtonStyle}>Share</Text>
 										</TouchableOpacity>									
 									</View>

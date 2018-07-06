@@ -20,7 +20,7 @@ const styles = ({
   imgCont: {
     //flex: 1,
     height: 90, 
-    width: 265
+    width: 270
   },
   fordhamCont: {
     marginTop: -15

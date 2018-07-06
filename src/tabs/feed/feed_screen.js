@@ -115,7 +115,7 @@ export default class feed_screen extends Component {
 	fetchTwitterFeed() {
       if(!this.state.loading)
         this.setState({loading: true})
-
+      //this.setState({refreshing: true})
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1&tweet_mode=extended`;
 
     	const header = {
@@ -216,17 +216,17 @@ export default class feed_screen extends Component {
       this.setState({refreshing: false, loading: false})
   }
 
-	renderSeparator() {
-		return (
-			<View
-			style={{
-				height: 1,
-				width: windowSize.width,
-				backgroundColor: "#CED0CE",
-			}}
-			/>
-		);
-	}
+	// renderSeparator() {
+	// 	return (
+	// 		<View
+	// 		style={{
+	// 			height: 1,
+	// 			width: windowSize.width,
+	// 			backgroundColor: "#CED0CE",
+	// 		}}
+	// 		/>
+	// 	);
+	// }
 
   parseFeedData(tweet){
     var name = tweet.item.user.name;
@@ -246,15 +246,15 @@ export default class feed_screen extends Component {
     var tweettext = tweet.item.full_text;//text
     var tweettextsplit = tweettext.split(' ');
     var symbolTweetTextSplit = tweettext.split('$')
-    console.log("SYMBOL SPLIT IS:",symbolTweetTextSplit);
+    //console.log("SYMBOL SPLIT IS:",symbolTweetTextSplit);
 
     var tweetTitle = symbolTweetTextSplit[1];
-    console.log("THE TWEET TITLE IS: ",tweetTitle);
+    //console.log("THE TWEET TITLE IS: ",tweetTitle);
 
     var firstHalf = symbolTweetTextSplit.slice(0,1);
-    console.log("FIRST HALF IS:",firstHalf);
+    //console.log("FIRST HALF IS:",firstHalf);
     var firstHalfSplit = firstHalf.toString().split(' ')
-    console.log("FIRST HALF SPLIT IS:",firstHalfSplit);
+    //console.log("FIRST HALF SPLIT IS:",firstHalfSplit);
 
     if(firstHalfSplit.length == 3) {
       //IMAGE AND NEWS LINK
@@ -274,7 +274,7 @@ export default class feed_screen extends Component {
 
     if(secondHalf != '') {
       var tweetDesc = secondHalf;
-      console.log('TWEET DESCRIPTION IS:',tweetDesc);
+      //console.log('TWEET DESCRIPTION IS:',tweetDesc);
     } else {
       var tweetDesc = null
     }
@@ -355,7 +355,7 @@ export default class feed_screen extends Component {
     return (
       <View
         style={{
-          height: 30,          
+          height: 20,          
           backgroundColor: "transparent",
         }}
       />
@@ -388,7 +388,7 @@ export default class feed_screen extends Component {
                 
           	  }
              onEndReached={this.loadOlderTweets}
-             onEndThreshold={10}
+             onEndThreshold={1}
              refreshControl={
                <RefreshControl
                    refreshing={this.state.refreshing}

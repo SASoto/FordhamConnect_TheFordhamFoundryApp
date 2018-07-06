@@ -105,7 +105,7 @@ class login_screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
         <View alignItems="center">
-          <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
+          <TitleFordhamConnect marginTop={(windowSize.height * 1/10) * 1.5}/>
           <View style={styles.signInCont}>
             <Text style={styles.signInTxt}>SIGN IN</Text>
           </View>

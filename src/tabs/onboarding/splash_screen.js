@@ -57,7 +57,7 @@ class splash_screen extends Component {
                     <View alignItems='center'>
                     <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
                     </View>
-                    <MaterialIndicator color='#007AFF' size={40} />
+                    <MaterialIndicator color='white' size={40} />
                     </ImageBackground>
                     
                 </View>

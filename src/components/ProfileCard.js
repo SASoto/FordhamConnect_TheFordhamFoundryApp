@@ -132,15 +132,13 @@ export default class ProfileCard extends Component {
 					<View flexDirection="row">
 						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
                             <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.state.initials}</Text>
-                        </LinearGradient>
-						<View flexDirection="row">
-							<View justifyContent = "center" flexDirection="column">
-								<Text style={styles.nameStyle}>{this.props.userfname}</Text>
-								<Text style={styles.headlineStyle}>{this.state.headline}</Text> 
-							</View>
-						</View>
+                        </LinearGradient>						
+						<View justifyContent = "center" flexDirection="column">
+							<Text style={styles.nameStyle}>{this.props.userfname}</Text>
+							<Text style={styles.headlineStyle}>{this.state.headline}</Text> 
+						</View>						
 					</View>
-					<View paddingHorizontal={2}>
+					
 					<View marginTop={15}>
 						<Text style={styles.locationStyle}>{this.state.location}</Text> 
 					</View>
@@ -153,9 +151,8 @@ export default class ProfileCard extends Component {
 						<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
 					</TouchableOpacity> 
 					</View>
-					</View>
-				</View>
-				
+					
+				</View>				
 				{this.checkStuff()}
 			</View>
 		)
