@@ -71,12 +71,12 @@ class createpost_modal extends Component {
 		var hh = today.getHours();
 		var minmin = today.getMinutes();
 		// var ss = today.getSeconds();
-		var mid = 'AM'
+		var mid = 'am'
 		if(hh ==0){
 			hh = 12;
 		} else if (hh > 12) {
 			hh = hh % 12;
-			mid = 'PM'
+			mid = 'pm'
 		}
 
 		// if(hh<10) {
