@@ -230,6 +230,8 @@ function writeNewUserData(userId, email,firstname,lastname) {
   var firstnameCap = firstname[0].toUpperCase() + firstname.slice(1)
   var lastnameCap = lastname[0].toUpperCase() + lastname.slice(1)
 
+  console.log("First and last name are " + firstnameCap + " " + lastnameCap)
+
   var headline = ""
   var website = ""
   var location = ""
@@ -242,8 +244,8 @@ function writeNewUserData(userId, email,firstname,lastname) {
 
   firebase.database().ref('users/' + userId).set({
     email: email,
-    firstname: firstname,
-    lastname: lastname,
+    firstname: firstnameCap,
+    lastname: lastnameCap,
     initials: initials,
     headline: headline,
     website: website,
