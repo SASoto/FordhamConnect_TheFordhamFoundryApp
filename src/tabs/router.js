@@ -39,6 +39,7 @@ import ContactListScreen from './network/contacts_screen'
 import ContactProfileScreen from './network/contactprofile_screen'
 
 import DiscBoardScreen from './discboard/discboard_screen';
+//import SinglePostScreen from './discboard/singlepost_screen';
 
 import ChatScreen from './chat/chat_screen';
 
@@ -245,7 +246,13 @@ export const DiscussionStack = createStackNavigator ({
 		navigationOptions: {
 			header: null
 		}
-	}
+	},
+	// SinglePost: {
+	// 	screen: SinglePostScreen,
+	// 	navigationOptions: {
+	// 		header: null
+	// 	}
+	// }
 })
 
 export const ChatStack = createStackNavigator ({

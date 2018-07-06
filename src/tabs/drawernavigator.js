@@ -39,10 +39,14 @@ class drawernavigator extends Component {
 		<SafeAreaView flexDirection="column">
 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
 				<View flexDirection="column" marginLeft={30} marginTop={40}>
-					
-						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
-							<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
-						</LinearGradient>
+						<View flexDirection="row">
+							<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+								<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+							</LinearGradient>
+							<View justifyContent="center">
+								<Text style={{fontFamily:'SFProText-Light', fontSize:10, color:'rgb(255,255,255)'}}>edit my profile</Text>
+							</View>
+						</View>
 						<View marginTop={20}>
 							<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
 							<Text style={styles.headlineTxtStyle}>{this.props.headline}</Text>
@@ -78,7 +82,8 @@ const styles = ({
 		height: 46,
 		borderRadius: 23,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginRight: 10
 		//backgroundColor: 'grey'
 	},
 	userNameTxtStyle: {
@@ -93,7 +98,7 @@ const styles = ({
 	},
 	logoutCont: {
 		alignItems: "flex-start",
-		marginLeft: 16,
+		marginLeft: 17,
 		marginTop: 10
 	}
 })

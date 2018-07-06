@@ -7,6 +7,7 @@ import StarredContactListItem from '../../components/StarredContactListItem';
 import ContactListItem from '../../components/ContactListItem';
 import CustomTabButton from '../../components/CustomTabButton';
 
+import {MaterialIndicator} from 'react-native-indicators';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -422,10 +423,10 @@ export default class contacts_screen extends Component {
 
     whatIsRendered() {
         if(this.state.contactList == []) {
-            console.log("THE HEIGHT OF THE HEADER IS: ",Header.HEIGHT);
+            //console.log("THE HEIGHT OF THE HEADER IS: ",Header.HEIGHT);
             return (
-                <View flex={1} justifyContent="center" alignItems="center">
-                    <Text> Loading contacts ... </Text>
+                <View marginTop={50} alignItems="center">
+                  <MaterialIndicator color='rgb(115,115,115)' size={35}/>
                 </View>
             )
             
@@ -435,7 +436,9 @@ export default class contacts_screen extends Component {
         return (
             <View flex={1}>
                 <SectionList
-                    ListEmptyComponent={<View><Text>Loading contacts...</Text></View>}
+                    ListEmptyComponent={<View marginTop={50} alignItems="center">
+                                            <MaterialIndicator color='rgb(115,115,115)' size={35}/>
+                                        </View>}
                     renderItem={({item, index}) => {
                         return (<SectionListItem item={item} index={index} navigation={this.props.navigation} changeFavoritedStatus={this.changeFavoritedStatus.bind(this)}/>)
                     }}

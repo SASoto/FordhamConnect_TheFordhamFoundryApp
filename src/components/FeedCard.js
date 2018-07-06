@@ -111,7 +111,7 @@ export default class LogoutButton extends Component {
 
 	render() {
 
-		console.log("TEXT: ", this.props.descortweet)
+		//console.log("TEXT: ", this.props.descortweet)
 
 		return (
 			this.renderCard()
@@ -127,12 +127,14 @@ const styles = ({
 		flex: 1,
 		//width: windowSize.width*.9,
 		flexDirection: 'column',
-		width: 370,
+		width: '95%',
+		backgroundColor: 'transparent',
 		//height: 250,
 		//backgroundColor: "rgba(106, 46, 52, 0.1)",
 		//borderRadius: 6,		
-		borderBottomWidth: 2,
-		borderColor: 'lightgrey'
+		// borderBottomWidth: 2,
+		// borderRadius: 4,
+		// borderColor: 'rgba(0, 0, 0, 0.5)'
 		// shadowColor: 'rgba(0, 0, 0, 0.5)',
 		// shadowOffset: {
 		// 	width: 0,height: 2

@@ -99,6 +99,7 @@ class createpost_modal extends Component {
 
 	resetNewPost() {
 		this.setState({postText: "", postDateTime: ""})
+		this.props.fetchLatestPosts();
 		this.props.modalFunc()
 	}
 
