@@ -292,30 +292,69 @@ export default class discboard_screen extends Component {
 				postCommentCount: postCommentCount, postKey: postKey};
 	}
 
-	//If this is a modal, should it have the postID as a state?
-	getPostTest() {
-		var postID = "-LGfL9Y1SRiaLxLaW77M"
-		console.log("Test was pushed!")
-		console.log("With postID ", postID)
+	fetchDateTime() {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
 
-		//This part accesses a post's info by it's ID
-		firebase.database().ref('/discBoardposts/' + postID +'/').once('value').then(function(snapshot){
-			console.log("Did we get this far?")
-			console.log(snapshot)
-			//var postAuthor = snapshot.val() //&& snapshot.val().author_name
-			console.log("IS there an error yet?")
-			//var postText = snapshot.val().post_text
-			//var postAuthor = snapshot.val().author_name
-			//console.log("Post text is ", postText)
-			console.log("Written by ", snapshot.val().author_name)
-			console.log("Text is ", snapshot.val().post_text)
+		if(dd<10) {
+    		dd = '0'+dd
+		} 
+
+		if(mm<10) {
+    		mm = '0'+mm
+		} 
+		var date = yyyy+'-'+mm+'-'+dd;
+
+		var hh = today.getHours();
+		var minmin = today.getMinutes();
+		var ss = today.getSeconds();
+
+		if(hh<10) {
+    		hh = '0'+hh
+		} 
+
+		if(minmin<10) {
+    		minmin = '0'+minmin
+		} 
+
+		if(ss<10) {
+    		ss = '0'+ss
+		} 
+
+		var time = hh + ":" + minmin + ":" + ss;
+		var dateTime = date+' '+time;
+
+		return(dateTime)
+	}
+
+	//If this is a modal, should it have the postID as a state?
+	replyTest() {
+		var postID = "-LGkHRzQcq_sqphPpOL6" //This should come from the state as well.
+		// console.log("Test was pushed!")
+		// console.log("With postID ", postID)
+		
+		//Tests replying to a given post just on the back end database
+		var newDateTime = this.fetchDateTime()
+		var parentPostCommentCount = 0    //TO DO: This needs to be in the state, not a constant value!
+		var userID = firebase.auth().currentUser.uid
+		var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
+		var newReplyRef = repliesListRef.push();
+		newReplyRef.set({
+			'author_name': "Firstname" + ' ' + "Lastname", //TO DO: This should be referenced from props
+  			'author_headline': "Example Headline",			//TO DO: This should be referenced from props
+  			'author_initials': "FL",						//TO DO: So should this!
+  			'author_id': userID,
+  			'reply_date_time': newDateTime,
+  			'reply_text': "Foo!",							//TO DO: What the user typed in, This should be from state.
 		})
-		// firebase.database().ref('/users/' + passedUID).once('value').then(function(snapshot) {
-  // 			var contactEmail = snapshot.val().email
-  // 			var contactInitials = snapshot.val().initials
-  // 			var contactHeadline = (snapshot.val().headline || " ")
-  // 			var contactLocation = (snapshot.val().location || " ")
-  // 			var contactBio = snapshot.val().bio
+		.then(() => {
+			//This part increments the comment count on the parent post
+			console.log("Created the reply post. Now trying to increment comment count...")
+			firebase.database().ref('/discBoardposts/' + postID +'/comment_count/').set(parentPostCommentCount + 1)//{
+			console.log("Incremented comment count on parent post, I think.")
+		 })
 	}
 
 	renderSeparator() {
@@ -359,14 +398,14 @@ export default class discboard_screen extends Component {
 						
 					</TouchableOpacity>
 
-					<TouchableOpacity style={styles.postButtonStyle} onPress={this.getPostTest.bind(this)}>
+					<TouchableOpacity style={styles.postButtonStyle} onPress={this.replyTest.bind(this)}>
 						
 							<View flexDirection="row" alignItems="center">
 								<View paddingRight={11}>
 								<Text style={styles.postButtonPlusStyle}>+</Text>
 								</View>
 								<View justifyContent="center">
-									<Text style={styles.postButtonAddStyle}>Get Post Test</Text>
+									<Text style={styles.postButtonAddStyle}>Reply Test</Text>
 								</View>
 							</View>
 						
