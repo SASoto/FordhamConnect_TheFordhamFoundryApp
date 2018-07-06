@@ -72,6 +72,7 @@ class SectionListItem extends Component {
 						authorName={this.props.item.authorName} authorHeadline={this.props.item.authorHeadline}
 						authorInitials={this.props.item.authorInitials} postCommentCount={this.props.item.postCommentCount}
 						postDesc={this.props.item.postDesc} fullPostDesc={this.props.item.fullPostDesc} postDateAndTime={this.props.item.postDateAndTime}
+						postKey={this.props.item.postKey}
 						modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.props.fetchLatestPosts}/>
 					</View>
 					
