@@ -6,7 +6,7 @@ import ButtonRounded from './ButtonRounded';
 import MatCommIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 const windowSize = Dimensions.get('window');
-export default class LogoutButton extends Component {
+export default class LogoutButton extends React.PureComponent {
 
 	checkIfConnected(url) {
 		Linking.canOpenURL(url).then(supported => {
