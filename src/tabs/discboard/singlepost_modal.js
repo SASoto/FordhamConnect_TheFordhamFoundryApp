@@ -86,7 +86,11 @@ class singlepost_modal extends Component {
 	componentDidMount() {
 		const replyEndpoint = '/discBoardreplies/' + this.props.postKey + '/';
 		// console.log("THE STATE AT THE BEGINNING: ",this.state.discussionBoardReplies)
+		//firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off()
+		//console.log("Turned off the old listener in componentDidMount.")
+		console.log("Earlier in componentDidMount... DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		
 		firebase.database().ref(replyEndpoint).on('value', (snap) => {
+			console.log("New listener is on!")
 		  //do something with snap
 			if(snap.val() == undefined || snap.val() == null)
 				this.setState({
@@ -235,9 +239,11 @@ class singlepost_modal extends Component {
             //this.setState({discussionBoardReplies: fullRepliesArr})
             //console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
             this.setState({parentPostCommentCount: this.props.postCommentCount})
-            setTimeout(() => {this.refs._repliesScrollView.scrollToEnd({animated: false})},200)
+            
 			//console.log("Component mounted, with postKey " + this.state.postKey + " and  comment count " + this.state.parentPostCommentCount)
 			//console.log("And just to double check, the full list of replies is...", this.state.discussionBoardReplies)  
+        }).then(() => {
+        	this.refs._repliesScrollView.scrollToEnd({animated: false})
         })
     }
 
@@ -334,7 +340,7 @@ class singlepost_modal extends Component {
 				//console.log("Incremented comment count on parent post, I think.")
 		 	})
 			.then(() => {
-				this.setState({replyText: "", parentPostCommentCount: this.state.parentPostCommentCount + 1})
+				this.setState({replyText: ""})
 				this.refs._repliesScrollView.scrollToEnd({animated: false})
 			})//.then(() => {
 			// 	this.fetchLatestReplies();
@@ -344,13 +350,16 @@ class singlepost_modal extends Component {
 
 	resetAndExit() {
 		//firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off().then(() => {this.props.modalFunc();})
-		
+		console.log("Exit process started...")
 		this.props.fetchLatestPosts();
-
+		console.log("Latest Posts have been fetched.")
 		this.testArray();
-
-		this.props.modalFunc();
-		//setTimeout(() => {this.props.modalFunc()},50)
+		//console.log("TestArray should be in place by now.")
+		//this.setState({discussionBoardReplies: []})
+		//this.props.modalFunc();
+		console.log("About to run the modalFunc")
+		setTimeout(() => {this.props.modalFunc()},250)
+		console.log("And now the modalFunc has run.")
 	}
 
 	// _onScroll(e) {
@@ -379,7 +388,8 @@ class singlepost_modal extends Component {
 	}
 
 	testArray() {
-		this.setState({discussionBoardReplies: [{'reply_key': 1, 'author_name': 'test', 'author_initials': 'tt', 'author_headline': 'test', 'reply_date_time': 'test', 'reply_text': 'test', 'author_id': 'test'}]})
+		this.setState({discussionBoardReplies: [{'reply_key': 1, 'author_name': ' ', 'author_initials': ' ', 'author_headline': ' ', 'reply_date_time': ' ', 'reply_text': ' ', 'author_id': 'test'}]})
+		console.log("The testArray is in place.")
 		//setTimeout(() => {this.setState({discussionBoardReplies: this.state.backupDiscussionBoardReplies})},500)
 	}
 
@@ -399,6 +409,7 @@ class singlepost_modal extends Component {
 		dateAndTime = dateAndTime.split(' ');
 		//console.log("FROM POST MODAL: ", dateAndTime);
 		dateAndTime = dateAndTime[0] + ' at ' + dateAndTime[1] + ' ' + dateAndTime[2];
+		console.log("We need the full list of replies by here – do we have it?", this.state.discussionBoardReplies)
 
 		return (
 			<Modal
