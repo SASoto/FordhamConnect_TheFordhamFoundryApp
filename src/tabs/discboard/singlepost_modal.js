@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Dimensions, ImageBackground, Modal, Keyboard, ScrollView, Text, TextInput, StyleSheet, View, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
+import {Dimensions, ImageBackground, Modal, Keyboard, ScrollView, Text, Button, TextInput, StyleSheet, View, FlatList, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
 import {Header} from 'react-navigation';
 
 import {connect} from 'react-redux';
+import {getReplies} from './firebaseListener';
 
 import LinearGradient from 'react-native-linear-gradient';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
@@ -10,7 +11,58 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import firebase from 'firebase';
 
-const windowSize = Dimensions.get('window');
+class CustomFlatListItem extends Component {
+	render() {
+		const styles = ({
+			replyAuthProfPic: {
+				height: 40,
+				width: 40,
+				borderRadius: 20,
+				justifyContent: 'center',
+				alignItems: 'center'
+			}
+		})
+
+		// if(this.props.item.author_name == 'Fordham Foundry') {
+		// 	var gradientColor = (
+		// 		<LinearGradient colors={['rgb(242,56,90)', 'rgb(85,181,255)']} style={styles.replyAuthProfPic}>
+		//             <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
+		//         </LinearGradient>
+		// 	)
+		// } else {
+		// 	var gradientColor = (
+		// 		<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.replyAuthProfPic}>
+		//             <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
+		//         </LinearGradient>
+		// 	)
+		// }
+
+		return (
+			
+			<View flex={1} width="80%" backgroundColor="purple" flexDirection="column">
+				<View backgroundColor="red" justifyContent="center">
+			
+					<View paddingHorizontal={40} paddingVertical={22} borderRadius={8} backgroundColor="#dbd1ce">
+						<Text>{this.props.item.reply_text}</Text>
+					</View>
+			
+				</View>
+				<View flexDirection="row">
+					<View marginTop={-20} marginLeft={-15}>
+						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.replyAuthProfPic}>
+		            <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
+		        </LinearGradient>
+					</View>
+					<View marginLeft={15} marginTop={10}>
+						<Text>{this.props.item.author_name}</Text>
+					</View>
+				</View>
+			</View>
+			
+		)
+	}
+}
+
 class singlepost_modal extends Component {
 
 	constructor(props) {
@@ -19,25 +71,148 @@ class singlepost_modal extends Component {
 
 		this.state = {
 			discussionBoardReplies: [],
+			backupDiscussionBoardReplies: [],
+			newReplies: false,
 		 	postKey: "",
 		 	replyText: "",
 		 	parentPostCommentCount: this.props.postCommentCount,
 		}
+		this.testArray = this.testArray.bind(this)
+		//this.getLatestReplies = this.getLatestReplies.bind(this)
+		//this._onScroll = this._onScroll.bind(this)
 		//console.log("Construction complete! parentPostCommentCount is ", this.state.parentPostCommentCount)
 	}
 
-	resetAndExit() {
-		this.props.fetchLatestPosts();
-		this.props.modalFunc();
-	}
-
 	componentDidMount() {
-		//console.log("Checking this.state for post key... ", this.state.postKey)
+		const replyEndpoint = '/discBoardreplies/' + this.props.postKey + '/';
+		// console.log("THE STATE AT THE BEGINNING: ",this.state.discussionBoardReplies)
+		firebase.database().ref(replyEndpoint).on('value', (snap) => {
+		  //do something with snap
+			if(snap.val() == undefined || snap.val() == null)
+				this.setState({
+					discussionBoardReplies: [],
+				  //newReplies: true
+				})
+			else {
+				const latestReplies = Object.values(snap.val());
+				//console.log("THE OBJECT ARR: ",latestReplies)
+				//const fullRepliesArr = [];
+				// for(var i=0; latestReplies.length; i++)
+				// {            	
+		  //           console.log("INDEXED REPLY: ",latestReplies[i])
 
-		//console.log("The props are " + this.props.postKey + " and " + this.props.postCommentCount)
+		  //           // var replyObj = {'reply_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'reply_date_time': childData.reply_date_time, 'reply_text': childData.reply_text, 'author_id': childData.author_id};                
+		  //           // fullRepliesArr.push(replyObj);               
+		  //       }
+		        this.setState({discussionBoardReplies: latestReplies, backupDiscussionBoardReplies: latestReplies})
+		        console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
+				// const latestReplies = Object.values(snap.val());
+				//this.setState({discussionBoardReplies: fullRepliesArr})
+			}
+		})
+		
+		//TURN INTO ARRAY ITERATIVELY
+		// firebase.database().ref(replyEndpoint).on('value', (snap) => {
+		//   //do something with snap
+		//   	var fullRepliesArr = [];
+		// 	if(snap.val() == undefined || snap.val() == null)
+		// 		this.setState({
+		// 			discussionBoardReplies: [],
+		// 		  //newReplies: true
+		// 		})
+		// 	else {
+		// 		const latestReplies = Object.values(snap.val());
+		// 		console.log("THE OBJECT ARR: ",latestReplies)
+		// 		//const fullRepliesArr = [];
+		// 		snap.forEach(function(item) {
+		// 			var itemKey = item.key;
+		// 			var itemVal = item.val();
 
-        var fullRepliesArr = [];
-        var postID = this.props.postKey
+		// 			const itemObj = {'reply_key': itemKey, 'author_name': itemVal.author_name, 'author_initials': itemVal.author_initials, 'author_headline': itemVal.author_headline, 'reply_date_time': itemVal.reply_date_time, 'reply_text': itemVal.reply_text, 'author_id': itemVal.author_id};
+  //       			fullRepliesArr.push(itemObj);
+		// 		})//.then(() => {this.setState({discussionBoardReplies: fullRepliesArr})})
+		// 		console.log('FULLREPLESARR: ',fullRepliesArr)
+		// 		//this.setState({discussionBoardReplies: fullRepliesArr})
+		// 		//console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)	
+		// 	}
+
+		// 	this.setState({discussionBoardReplies: fullRepliesArr})
+		// 	console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)	
+		// })
+
+
+		// .then(function(snapshot) {
+		// 	this.setState({
+		// 	  discussionBoardReplies: Object.values(snapshot.val())
+		// 	})
+		// 	console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+		// })
+
+		// this.unsubscribeGetReplies = getReplies((snapshot) => {
+		// 	this.setState({
+		// 	  discussionBoardReplies: Object.values(snapshot.val())
+		// 	})
+		// 	console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+		// })
+		//console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+
+		//******//
+		// console.log("THE STATE AT THE BEGINNING: ",this.state.discussionBoardReplies)
+  //       var fullRepliesArr = [];
+  //       var postID = this.props.postKey
+        
+  //       return firebase.database().ref('/discBoardreplies/' + postID + '/').once('value')
+  //       .then(function(snapshot) {        	
+  //           snapshot.forEach(function(childSnapshot) {            	
+  //               var childKey = childSnapshot.key;
+  //               var childData = childSnapshot.val();
+
+  //               var replyObj = {'reply_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'reply_date_time': childData.reply_date_time, 'reply_text': childData.reply_text, 'author_id': childData.author_id};                
+  //               fullRepliesArr.push(replyObj);               
+  //           });
+  //       }).then(() => {
+  //           this.setState({discussionBoardReplies: fullRepliesArr})
+  //           console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+  //           this.setState({postKey: this.props.postKey, parentPostCommentCount: this.props.postCommentCount, newReplies: true})
+  //       })//.then(() => {
+  // //       	this.getLatestReplies()
+  // //       })
+    }
+
+    componentWillUnmount() {
+    	//this.mountedFirebaseListener.off();
+    	//firebase.database().ref.off('/discBoardreplies/' + this.props.postKey + '/')
+    	firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off()
+    	// .then(() => {
+    	console.log("IS THIS UNMOUNT RUNNING: ",this.props.postKey)
+    	//this.setState({discussionBoardReplies: []})
+    	//console.log("this is the state after closing the modal: ",this.state.discussionBoardReplies)
+    	// })
+    	
+    	//this.setState({discussionBoardReplies: []})
+    }
+
+   //  getLatestReplies() {
+   //  	if(this.state.newReplies) {
+   //  		const replyEndpoint = '/discBoardreplies/' + this.props.postKey + '/';
+
+	  //   	firebase.database().ref(replyEndpoint).on('value', (snap) => {
+			//   //do something with snap
+			// 	if(snap.val() == undefined || snap.val() == null)
+			// 		this.setState({
+			// 			discussionBoardReplies: [],
+			// 		  //newReplies: true
+			// 		})
+			// 	else
+			// 		this.setState({discussionBoardReplies: Object.values(snap.val())})
+			// 	console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+			// })
+   //  	}
+   //  }
+
+    fetchLatestReplies() {
+    	var fullRepliesArr = [];
+        var postID = this.state.postKey
         //console.log("The postID is ", postID)
         //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
         return firebase.database().ref('/discBoardreplies/' + postID + '/').once('value')
@@ -56,16 +231,24 @@ class singlepost_modal extends Component {
             });
             //console.log(fullPostsArr.author_name)
         }).then(() => {
-            this.setState({discussionBoardReplies: fullRepliesArr})
-            this.setState({postKey: this.props.postKey, parentPostCommentCount: this.props.postCommentCount})
+        	this.appendLatestReplies(fullRepliesArr)
+            //this.setState({discussionBoardReplies: fullRepliesArr})
+            //console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)
+            this.setState({parentPostCommentCount: this.props.postCommentCount})
+            setTimeout(() => {this.refs._repliesScrollView.scrollToEnd({animated: false})},200)
 			//console.log("Component mounted, with postKey " + this.state.postKey + " and  comment count " + this.state.parentPostCommentCount)
 			//console.log("And just to double check, the full list of replies is...", this.state.discussionBoardReplies)  
-        })//.then(() => {this.createSectionedList()})//.then(() => {
-        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
-        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
-        // 	}
-        	
-        // })
+        })
+    }
+
+    appendLatestReplies(setOfNewReplies) {
+    	if(setOfNewReplies.length > this.state.discussionBoardReplies.length) {
+    		const latestReplies = setOfNewReplies.slice(this.state.discussionBoardReplies.length);
+    		console.log("LIST OF REPLIES WE ALREADY HAVE: ",this.state.discussionBoardReplies)
+    		console.log("FRESH BATCH: ",latestReplies);
+    		const olderReplies = this.state.discussionBoardReplies;
+    		this.setState({discussionBoardReplies: [...olderReplies,...latestReplies]});
+    	}
     }
 
     fetchDateTime() {
@@ -119,10 +302,12 @@ class singlepost_modal extends Component {
 
 	//If this is a modal, should it have the postID as a state?
 	replyToPost() {
+
+		//DO A CHECK TO SEE IF COMMENT COUNT IS EQUAL TO 10 ALREADY
 		if(this.state.replyText.length == 0) {
 			alert("Oops! Your comment contains no text.")
 		} else {
-			var postID = this.state.postKey //This should come from the state as well.
+			var postID = this.props.postKey //This should come from the state as well.
 		// console.log("Test was pushed!")
 		// console.log("With postID ", postID)
 		
@@ -150,8 +335,63 @@ class singlepost_modal extends Component {
 		 	})
 			.then(() => {
 				this.setState({replyText: "", parentPostCommentCount: this.state.parentPostCommentCount + 1})
-			})
+				this.refs._repliesScrollView.scrollToEnd({animated: false})
+			})//.then(() => {
+			// 	this.fetchLatestReplies();
+			// })
 		}
+	}
+
+	resetAndExit() {
+		//firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off().then(() => {this.props.modalFunc();})
+		
+		this.props.fetchLatestPosts();
+
+		this.testArray();
+
+		this.props.modalFunc();
+		//setTimeout(() => {this.props.modalFunc()},50)
+	}
+
+	// _onScroll(e) {
+	// 	// let paddingToBottom = 10;
+ //  //       paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+ //  //       if(e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom) {
+ //  //         // make something...
+ //  //         this.setState({newReplies: false});
+ //  //       }
+
+	// 	// var contentOffset = e.nativeEvent.contentOffset.y;
+	//  //    this.state.contentOffsetY < contentOffset ? console.log("Scroll Down") : console.log("Scroll Up");
+	// }
+
+	newRepliesArrived() {
+		// if(this.state.newReplies) {
+			//this.setState({newReplies: false})
+			return (
+				<View>
+					<Text>New Reply</Text>
+				</View>
+			)
+		//}
+
+		//return null;
+	}
+
+	testArray() {
+		this.setState({discussionBoardReplies: [{'reply_key': 1, 'author_name': 'test', 'author_initials': 'tt', 'author_headline': 'test', 'reply_date_time': 'test', 'reply_text': 'test', 'author_id': 'test'}]})
+		//setTimeout(() => {this.setState({discussionBoardReplies: this.state.backupDiscussionBoardReplies})},500)
+	}
+
+	renderSeparator() {
+		return (
+		  <View
+		    style={{
+		      height: 20,          
+		      backgroundColor: "transparent",
+		    }}
+		  />
+		);
 	}
 
 	render () {
@@ -180,32 +420,31 @@ class singlepost_modal extends Component {
 				>
 				
 					<View flex={1}>
-							<ImageBackground
-								resizeMode='cover'
-								style={{
-									height: Header.HEIGHT * 1.5,
-									//position: 'absolute',
-									//top:0,
+						<ImageBackground
+							resizeMode='cover'
+							style={{
+								height: Header.HEIGHT * 1.5,
+								//position: 'absolute',
+								//top:0,
 
-									//width: '100%',
-									//height: '100%',
-								}}
+								//width: '100%',
+								//height: '100%',
+							}}
 
-				              source={require('../../../Images/positionedblur.png')}
-
-							>
-								<View flex={1} paddingTop={20} justifyContent="center">
-									<View>
-										<TouchableOpacity onPress={() => {this.resetAndExit()}}>
-											<View paddingLeft={30}>
-												<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
-											</View>
-										</TouchableOpacity>									
-									</View>
+			              source={require('../../../Images/positionedblur.png')}
+						>
+							<View flex={1} paddingTop={20} justifyContent="center">
+								<View>
+									<TouchableOpacity onPress={() => {this.resetAndExit()}}>
+										<View paddingLeft={30}>
+											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
+										</View>
+									</TouchableOpacity>									
 								</View>
-							</ImageBackground>
+							</View>
+						</ImageBackground>
 						<KeyboardAwareScrollView contentContainerStyle={{flex:1}} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
-						<ScrollView flex={1} bounces={false} showsVerticalScrollIndicator={false}>
+						<ScrollView ref='_repliesScrollView' flex={1} showsVerticalScrollIndicator={false}>
 							<View style={styles.encompCont}>
 							<View flexDirection="column">
 								<View paddingTop={20} paddingBottom={10} paddingHorizontal={38}>
@@ -230,36 +469,32 @@ class singlepost_modal extends Component {
 									</View>
 								</View>
 								<View marginTop={8} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
-								<View backgroundColor="green" flexDirection="column" alignItems="center">
-									<View backgroundColor="purple" width="85%">
-										<View alignItems="center" justifyContent="center">
-										<View borderRadius={8} backgroundColor="#dbd1ce">
-											<View paddingHorizontal={40} paddingVertical={22}>
-												<Text>
-												Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
-												Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
-												Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
-												Sample Text Sample Text Sample Text Sample Text Sample Text Sample Text
-												</Text>
-											</View>
+								
+								<FlatList
+									//style={{flex: 1}}
+									//initialNumToRender={1}
+									//extraData={this.state}
+									ListEmptyComponent={<View marginTop={30} alignItems="center">
+	                                      					<Text style={styles.additionalInfoStyle}>Be the first to add to this discussion!</Text>
+	                                   					</View>}
+									ItemSeparatorComponent={this.renderSeparator}
+									removeClippedSubviews={true}
+									data={this.state.discussionBoardReplies} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
+										<View alignItems="center">
+											<CustomFlatListItem item={item} />								
 										</View>
-										</View>
-										<View flexDirection="row">
-											<View marginTop={-20} marginLeft={-15}>
-												<View height={60} width={60} borderRadius={30} backgroundColor="grey"/>
-											</View>
-											<View marginLeft={15} marginTop={10}>
-												<Text>Sample Text Sample Text</Text>
-											</View>
-										</View>
-									</View>
-								</View>
-								<View height={100} backgroundColor="red"/>
-								<View height={100} backgroundColor="blue"/>
+
+									}
+								/>
+								
+
+
 							</View>
 			           		</View>			           		
 			           	</ScrollView>
-		           		<View justifyContent="center" borderTopWidth={1} borderColor='rgb(199,193,195)' bottom={0} paddingLeft={30} paddingVertical={15}>
+		           		<View marginTop={8} justifyContent="center" borderTopWidth={1} borderColor='rgb(199,193,195)' bottom={0} paddingLeft={30} paddingVertical={15}>
+						
+		           		<Button title="Test" onPress={() => {this.testArray()}}/>
 						<View flexDirection="row">
 							<View justifyContent="center">
 								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.userProfPic}>
@@ -308,7 +543,9 @@ const styles = ({
 		// justifyContent: 'center',
 		flex: 1,
 		//backgroundColor: '#dbd1ce',
-        width: '100%',
+		top: 0,
+		bottom: 0,
+        //width: '100%',
   //       shadowColor: 'rgba(0, 0, 0, 0.5)',
 		// shadowOffset: {
 		// 	width: 0,height: 2
@@ -359,18 +596,6 @@ const styles = ({
 		fontSize: 20,
 		color: 'rgb(115,115,115)',
 		//textAlign: 'center'
-	},
-	gradientCont: {
-		flex: 1,
-		backgroundColor: 'red',
-		shadowColor: 'rgba(0, 0, 0, 0.5)',
-		shadowOffset: {
-			width: 0,height: 2
-		},
-		//height: 300,
-		shadowRadius: 4,
-		shadowOpacity: 1,
-		width: windowSize.width * .9,
 	},
 	joinButtonStyle: {
 		//paddingLeft: 10,

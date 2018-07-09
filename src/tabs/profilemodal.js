@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import {connect} from 'react-redux';
 import {emailChanged, firstnameChanged, lastnameChanged, initialsChanged, headlineChanged, websiteChanged, locationChanged, bioChanged} from '../Actions';
 
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -55,9 +56,13 @@ class profilemodal extends Component {
     }
 
 	componentDidMount() {
-		console.log("componentWillMount is running!")
+		console.log("componentWillMount is running from profilemodal!")
 		this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
         // this.fetchuserProfileData()       
+    }
+
+    componentWillUnmount() {
+    	console.log("componentWillUnmount is running from profilemodal")
     }
 
     resetProfileModal() {
@@ -150,13 +155,13 @@ class profilemodal extends Component {
 
 	            >
 								
-				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<ScrollView flex={1} top={0} bottom={0} bounces={false} stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
-						<View flex={1}>
+				
+					
+					<View flex={1}>
 						<ImageBackground
 							resizeMode='cover'
 							style={{
-								flex: 1,
+								//flex: 1,
 								height: Header.HEIGHT * 1.5
 								//position: 'absolute',
 								//top:0,
@@ -168,22 +173,23 @@ class profilemodal extends Component {
 			              source={require('../../Images/positionedblur.png')}
 
 						>
-						<View flex={1} paddingTop={20} justifyContent="center">
-							<View flexDirection="row" justifyContent="space-between">
-								<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
-									<View paddingLeft={30} justifyContent='center'>
-										<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
-									</View>
-								</TouchableOpacity>
-								<View paddingRight={20} justifyContent='center'>
-									<TouchableOpacity onPress={this.setNewProfileData.bind(this)}>
-										<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
+							<View flex={1} paddingTop={20} justifyContent="center">
+								<View flexDirection="row" justifyContent="space-between">
+									<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
+										<View paddingLeft={30} justifyContent='center'>
+											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
+										</View>
 									</TouchableOpacity>
+									<View paddingRight={20} justifyContent='center'>
+										<TouchableOpacity onPress={this.setNewProfileData.bind(this)}>
+											<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
 							</View>
-						</View>
 						</ImageBackground>
-						</View>
+						<KeyboardAwareScrollView flex={1} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
+						<ScrollView flex={1} bounces={false} showsVerticalScrollIndicator={false}>
 						<View flex={1} alignItems="flex-start" backgroundColor="rgba(106,46,52,0.1)">
                         <View paddingTop={20} paddingLeft={28}>
 
@@ -309,15 +315,12 @@ class profilemodal extends Component {
 						        />
 						        </View>
 					        </View>						
-						</View>
-						<View backgroundColor="transparent" height={275}/>
+						</View>					
 					</View>
 					</View>
 					</ScrollView>
-					
-					
-				</TouchableWithoutFeedback>
-				
+					</KeyboardAwareScrollView>
+				</View>
 				</ImageBackground>
 				</View>
 			</Modal>

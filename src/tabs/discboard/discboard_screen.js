@@ -68,12 +68,15 @@ class SectionListItem extends Component {
 								</View>
 							</View>
 						</TouchableOpacity>
+						{ (this.state.modalVisible) ? 
 						<SinglePostModal 
 						authorName={this.props.item.authorName} authorHeadline={this.props.item.authorHeadline}
 						authorInitials={this.props.item.authorInitials} postCommentCount={this.props.item.postCommentCount}
 						postDesc={this.props.item.postDesc} fullPostDesc={this.props.item.fullPostDesc} postDateAndTime={this.props.item.postDateAndTime}
 						postKey={this.props.item.postKey}
 						modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.props.fetchLatestPosts}/>
+						: null }
+						
 					</View>
 					
 				</View>
@@ -146,6 +149,7 @@ export default class discboard_screen extends Component {
             //console.log(fullPostsArr.author_name)
         }).then(() => {
             this.setState({discussionBoardPosts: fullPostsArr.reverse()})
+            console.log("DISCUSSION BOARD POSTS: ",this.state.discussionBoardPosts)
         }).then(() => {this.createSectionedList()})//.then(() => {
         // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
         // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
@@ -157,7 +161,7 @@ export default class discboard_screen extends Component {
     fetchLatestPosts() {
     	var fullPostsArr = [];
     	//console.log("IN HERE GETTING NEW POSTS")
-        return firebase.database().ref('discBoardposts/').once('value')
+        firebase.database().ref('discBoardposts/').once('value')
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 //console.log("Another person in da list...")
@@ -192,6 +196,7 @@ export default class discboard_screen extends Component {
         	
         // })
         this.setState({refreshing: false})
+        console.log("FINISHED RUNNING fetchLatestPosts!")
     }
 
 	createSectionedList() {
@@ -232,7 +237,7 @@ export default class discboard_screen extends Component {
 		  var date = postObj.post_date_time;
 		  var formattedDate = date.toString();//new Date(date);
 		  //var newDate = formattedDate.toString();
-		  //console.log("DATE ARR: ",newDate)
+		  //console.log("DATE STRING: ",formattedDate)
 		  var dateArr = formattedDate.split(' ');
 		  //console.log("DATE ARR: ",dateArr)
 		  date = dateArr[0] + ', ' + dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];

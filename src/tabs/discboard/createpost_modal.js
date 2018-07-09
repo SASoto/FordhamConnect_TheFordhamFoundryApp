@@ -29,6 +29,7 @@ class createpost_modal extends Component {
 	}
 
 	componentDidMount() {
+		//console.log("MOUNTING CRESTE POST MODLA")
 		this.checkFlag();
 		//this.setState({postAuthID: firebase.auth().currentUser.uid});
 	}

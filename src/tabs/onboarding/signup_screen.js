@@ -6,11 +6,12 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
-import {Dimensions, Alert, Text, View, ScrollView, ImageBackground, TextInput, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
+import {Dimensions, Alert, Text, View, ScrollView, ImageBackground, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
 
 import {emailChanged, passwordChanged, confirmChanged, firstnameChanged, lastnameChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import TextInputUnderline from '../../components/TextInputUnderline';
 import FilledTextInput from '../../components/FilledTextInput';
@@ -91,8 +92,8 @@ class signup_screen extends Component {
 
               source={require('../../../Images/background_splash.jpg')}
         >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
+        <KeyboardAwareScrollView flex={1} scrollEnabled={false}>        
+        <View flex={1}>
             <View alignItems="center">
             <TitleFordhamConnect marginTop={(windowSize.height * 1/10) * 1.5}/>
             <View style={styles.signUpCont}>
@@ -130,8 +131,8 @@ class signup_screen extends Component {
         <View backgroundColor="transparent" height={200}/>
         <View backgroundColor="transparent" height={200}/>
         <View backgroundColor="transparent" height={200}/>
-        </ScrollView>
-        </TouchableWithoutFeedback>
+        </View>
+        </KeyboardAwareScrollView>
         </ImageBackground>
         {this.checkStuff()}
       </View>

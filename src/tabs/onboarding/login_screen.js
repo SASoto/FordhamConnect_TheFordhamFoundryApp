@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 
 import {MaterialIndicator} from 'react-native-indicators';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import TextInputUnderline from '../../components/TextInputUnderline';
 import FilledTextInput from '../../components/FilledTextInput';
@@ -102,8 +103,8 @@ class login_screen extends Component {
 
           source={require('../../../Images/background_splash.jpg')}
         >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView flex={1} top={0} bottom={0} showsVerticalScrollIndicator={false}>
+        <KeyboardAwareScrollView flex={1} scrollEnabled={false}>
+        <View flex={1}>
         <View alignItems="center">
           <TitleFordhamConnect marginTop={(windowSize.height * 1/10) * 1.5}/>
           <View style={styles.signInCont}>
@@ -148,11 +149,9 @@ class login_screen extends Component {
               </Text>
            </TouchableOpacity>
         </View>
-        
         </View>
-        <View backgroundColor="transparent" height={200}/>
-        </ScrollView>
-        </TouchableWithoutFeedback>
+        </View>
+        </KeyboardAwareScrollView>
         </ImageBackground>
         {this.checkStuff()}
         </View>
