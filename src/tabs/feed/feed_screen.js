@@ -235,6 +235,7 @@ export default class feed_screen extends Component {
 	// }
 
   parseFeedData(tweet){
+    //console.log("GOT TWEET: ",tweet)
     var name = tweet.item.user.name;
     var screenname = tweet.item.user.screen_name;
     var profileimage = tweet.item.user.profile_image_url;
@@ -243,7 +244,7 @@ export default class feed_screen extends Component {
       profileimage = profileimage.slice(0,4) + 's' + profileimage.slice(4,profileimage.length)
     }
 
-    var date = tweet.item.user.created_at;
+    var date = tweet.item.created_at;
     var formattedDate = new Date(date);
     var newDate = formattedDate.toString();
     var dateArr = newDate = newDate.split(' ');

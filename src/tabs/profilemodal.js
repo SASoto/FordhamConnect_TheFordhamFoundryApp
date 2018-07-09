@@ -311,14 +311,8 @@ class profilemodal extends Component {
 						          editable={true}
 						          multiline={true}
 						          maxLength={600}
-						          onChangeText={(text) => this.setState({tempBio: text})}
-<<<<<<< HEAD
-        						  value={this.state.tempBio}	
-						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career! (600 characters or less, please.)"      				          
-=======
-        						  //value={this.state.tempBio}	
-						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
->>>>>>> 71a131f4138cd2283d42fc49f350ed82a3853de9
+						          onChangeText={(text) => this.setState({tempBio: text})}	
+						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career! (600 characters or less, please.)"
 						        />
 						        </View>
 					        </View>						
