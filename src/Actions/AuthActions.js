@@ -71,6 +71,14 @@ export const locationChanged = (text) => {
   }
 }
 
+export const initialsChanged = (text) => {
+  console.log("initialsChanged was called in AuthActions with text ", text)
+  return {
+    type: INITIALS_CHANGED,
+    payload: text
+  }
+}
+
 // function setuserStore (firstname, lastname, initials, headline, website, location, bio) {
 //   console.log("setuserStore was called!")
 //   return (dispatch) => {

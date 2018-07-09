@@ -6,7 +6,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
-import {Dimensions, ActivityIndicator, View, ImageBackground} from 'react-native';
+import {Dimensions, ActivityIndicator, View, ImageBackground, Image} from 'react-native';
 
 import {MaterialIndicator} from 'react-native-indicators';
 import {loggedInUser, logoutUser} from '../../Actions';
@@ -52,10 +52,10 @@ class splash_screen extends Component {
                         height: '100%',
                       }}
 
-                      source={require('../../../Images/positionedblur.png')}
+                      source={require('../../../Images/launchscreenblur.png')}
                     >
                     <View alignItems='center'>
-                    <TitleFordhamConnect marginTop={(windowSize.height * 2/10)}/>
+                    <Image style={{justifyContent: 'center', alignItems: 'center', marginTop: (windowSize.height * 2/10)}} resizeMode="contain" source={require('../../../Images/Circular.png')}/>
                     </View>
                     <MaterialIndicator color='white' size={40} />
                     </ImageBackground>

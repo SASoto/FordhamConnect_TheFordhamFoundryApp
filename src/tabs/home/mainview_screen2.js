@@ -64,36 +64,36 @@ class mainview_screen2 extends Component {
 					style={{
 			            flex: 1,
 			            //position: 'absolute',
-			            width: '100%',
+			            //width: '100%',
 			            height: 220,
 			            alignItems: "center",
 			            justifyContent: 'center'
 			          }}
-			           source={require('../../../Images/mainviewfoundryimage.jpg')}
+			           source={require('../../../Images/Group.png')}
 			        >
-			        <View style={{flex: 1, flexDirection: 'column', justifyContent: "center", backgroundColor: 'rgba(78,9,14,.55)', alignItems: "center", width: '100%'}}>
-			        <View justifyContent="center" marginBottom={30}>
-						<Image source={require('../../../Images/mainlogomainview.png')}/>
+			        <View style={{flex: 1, flexDirection: 'column', justifyContent: "center", backgroundColor: 'transparent', alignItems: "center", width: '100%'}}>
+			        <View justifyContent="center" marginBottom={10}>
+						<Image source={require('../../../Images/applogo.png')}/>
 					</View>
 					<View justifyContent='center' flexDirection="row" marginBottom={10}>
 						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.facebook.com/fordhamfoundry/')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image style={{height:40, width: 40}} source={require('../../../Images/facebookcircle.png')}/>
+								<Image style={{height:40, width: 40}} source={require('../../../Images/Facebook.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => this.checkIfConnected('https://twitter.com/FordhamFoundry')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image style={{height:40, width: 40}} source={require('../../../Images/twittercircle.png')}/>
+								<Image style={{height:40, width: 40}} source={require('../../../Images/Twitter.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => this.checkIfConnected('https://www.instagram.com/fordhamfoundry/')}>
 							<View style={styles.circleButton} marginRight={20}>
-								<Image style={{height:40, width: 40}} source={require('../../../Images/instagramcircle.png')}/>
+								<Image style={{height:40, width: 40}} source={require('../../../Images/Instagram.png')}/>
 							</View>
 						</TouchableOpacity>
 						<TouchableOpacity  onPress={() => this.checkIfConnected('https://www.linkedin.com/company/fordham-foundry')}>
 							<View style={styles.circleButton}>
-								<Image style={{height:40, width: 40}} source={require('../../../Images/linkedincircle.png')}/>
+								<Image style={{height:40, width: 40}} source={require('../../../Images/Linkedin.png')}/>
 							</View>
 						</TouchableOpacity>
 					</View>

@@ -6,7 +6,7 @@ import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import MenuButton from '../components/MenuButton';
 import BackButton from '../components/BackButton';
 
-import CustomTabBarTop from './home/CustomTabBarTop';
+//import CustomTabBarTop from './home/CustomTabBarTop';
 
 import {connect} from 'react-redux';
 import firebase from 'firebase';
@@ -192,11 +192,11 @@ const NetworkStack = createStackNavigator ({
 				style={{
                 flex: 1,             
                 position: 'absolute',
-                width: '101%',
+                width: '100%',
                 height: '101%',                
               }}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,
 			headerTintColor: 'white',
@@ -224,11 +224,11 @@ const NetworkStack = createStackNavigator ({
 				style={{
                 flex: 1,                
                 position: 'absolute',
-                width: '101%',
+                width: '100%',
                 height: '101%',                
               }}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,			
 			headerTintColor: 'white',
@@ -269,7 +269,7 @@ export const ChatStack = createStackNavigator ({
                 height: '101%',
               }}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,			
 			headerTintColor: 'white',
@@ -295,7 +295,7 @@ export const SettingsStack = createStackNavigator ({
                 height: '101%',                
               }}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,			
 			headerTintColor: 'white',
@@ -451,7 +451,7 @@ const MainStack = createStackNavigator ({
 					height: '101%',
 				}}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,
 			headerTitleStyle: {			 
@@ -490,7 +490,7 @@ const FoundryStack = createStackNavigator ({
 					height: '101%',
 				}}
 
-              source={require('../../Images/positionedblur.png')}
+              source={require('../../Images/launchscreenblur.png')}
 
 			/>,
 			headerTitleStyle: {
@@ -607,21 +607,21 @@ const DrawerRoutes = {
   	screen: MainStack,
   	navigationOptions: {
       title: 'theHub',
-      drawerIcon: <MatIcon name="home" size={20} color="rgb(255,255,255)"/> //Icon goes here
+      drawerIcon: <MatIcon name="home" size={25} color="rgb(255,255,255)"/> //Icon goes here
     },
   },
   Network: {
     screen: NetworkStack,
     navigationOptions: {
       title: 'Network',
-      drawerIcon: <MatIcon name="people" size={20} color="rgb(255,255,255)"/>//Icon goes here
+      drawerIcon: <MatIcon name="people" size={25} color="rgb(255,255,255)"/>//Icon goes here
     },
   },
   Settings: {
   	screen: SettingsStack,
   	navigationOptions: {
       title: 'Settings & Report',
-      drawerIcon: <MatIcon name="settings" size={20} color="rgb(255,255,255)"/>//Icon goes here
+      drawerIcon: <MatIcon name="settings" size={25} color="rgb(255,255,255)"/>//Icon goes here
     },
   },
 };
@@ -631,8 +631,19 @@ const DrawerOptions = {
   contentComponent: DrawerNavigatorComp,
   contentOptions: {
   	activeTintColor: 'rgb(255,255,255)',
-  	activeBackgroundColor: '#6A2E34',
+  	activeBackgroundColor: 'transparent',
   	inactiveTintColor: 'lightgrey',
+  	activeLabelStyle: {
+  		fontFamily: 'SFProText-Bold',
+  		fontSize: 15,
+  		//color: 'rgb(255,255,255)'
+  	},
+  	inactiveLabelStyle: {
+  		fontFamily: 'SFProText-Regular',
+  		fontSize: 14,
+  		//color: 'lightgrey'
+  	}
+
 	// labelStyle: {
 	// 	//fontSize: 14,
 	// 	//fontFamily: 'HelveticaNeue-Medium',//'SFProText-Regular',

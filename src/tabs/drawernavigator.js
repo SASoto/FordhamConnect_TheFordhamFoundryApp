@@ -34,22 +34,25 @@ class drawernavigator extends Component {
             height: '100%',
           }}
 
-            source={require('../../Images/background_splash.jpg')}
+            source={require('../../Images/launchscreenblur.png')}
         >
 		<SafeAreaView flexDirection="column">
 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
 				<View flexDirection="column" marginLeft={30} marginTop={40}>
-						<View flexDirection="row">
-							<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
-								<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
-							</LinearGradient>
-							<View justifyContent="center">
-								<Text style={{fontFamily:'SFProText-Light', fontSize:10, color:'rgb(255,255,255)'}}>edit my profile</Text>
-							</View>
-						</View>
+						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
+							<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+						</LinearGradient>
 						<View marginTop={20}>
 							<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
 							<Text style={styles.headlineTxtStyle}>{this.props.headline}</Text>
+						</View>
+						<View flexDirection="row" marginTop={10}>
+							<View justifyContent="center" marginRight={5}>
+								<Image style={{justifyContent: 'center', alignItems: 'center'}} resizeMode="contain" source={require('../../Images/create_24px.png')}/>
+							</View>
+							<View justifyContent="center">
+								<Text style={{fontFamily:'SFProText-Light', fontSize:10, color:'rgb(255,255,255)'}}>edit profile</Text>
+							</View>
 						</View>
 					</View>
 				
@@ -61,7 +64,7 @@ class drawernavigator extends Component {
 				<View marginTop={20}>
 					<DrawerItems 
 					{...this.props}
-					labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
+					//labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
 					//items={items.filter((item) => item.routeName !== 'Profile')}
 					/>
 				</View>

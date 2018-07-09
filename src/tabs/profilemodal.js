@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Keyboard, Modal, View, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
+import {Dimensions, Keyboard, Modal, View, Image, ScrollView, ImageBackground, Button, Text, TextInput, TouchableWithoutFeedback, TouchableOpacity, Linking} from 'react-native';
 import {Header} from 'react-navigation';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
@@ -47,6 +47,10 @@ class profilemodal extends Component {
 			// this.setState({propsShouldChange: true})
 		
         this.props.lastnameChanged(text)
+    }
+
+    onInitialsChange(text) {
+    	this.props.initialsChanged(text)
     }
 
     onHeadlineChange(text){
@@ -107,7 +111,7 @@ class profilemodal extends Component {
     		email: this.props.email,
     		firstname: this.state.tempFirstName[0].toUpperCase() + this.state.tempFirstName.slice(1),
     		lastname: this.state.tempLastName[0].toUpperCase() + this.state.tempLastName.slice(1),
-    		initials: this.state.tempInitials,
+    		initials: this.state.tempFirstName[0].toUpperCase() + this.state.tempLastName[0].toUpperCase(),
     		headline: this.state.tempHeadline,
     		website: this.state.tempWebsite,
     		location: this.state.tempLocation,
@@ -117,6 +121,7 @@ class profilemodal extends Component {
   			// this.onEmailChange(this.state.tempEmail)
   			this.onFirstNameChange(this.state.tempFirstName[0].toUpperCase() + this.state.tempFirstName.slice(1))
   			this.onLastNameChange(this.state.tempLastName[0].toUpperCase() + this.state.tempLastName.slice(1))
+  			this.onInitialsChange(this.state.tempFirstName[0].toUpperCase() + this.state.tempLastName[0].toUpperCase())
   			this.onHeadlineChange(this.state.tempHeadline)
   			this.onWebsiteChange(this.state.tempWebsite)
   			this.onLocationChange(this.state.tempLocation)
@@ -187,8 +192,8 @@ class profilemodal extends Component {
 								</View>
 							</View>
 						</ImageBackground>
-						<KeyboardAwareScrollView flex={1} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
-						<ScrollView flex={1} bounces={false} showsVerticalScrollIndicator={false}>
+						<KeyboardAwareScrollView flex={1} bounces={false} scrollEnabled={true} extraScrollHeight={40} keyboardOpeningTime={200}>
+						<ScrollView flex={1} scrollEnabled={false} showsVerticalScrollIndicator={false}>
 						<View flex={1} alignItems="flex-start">
                         <View paddingTop={20} paddingLeft={28}>
 
@@ -196,7 +201,7 @@ class profilemodal extends Component {
                             	<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
                                     <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
                                 </LinearGradient>                           
-                                <View marginLeft={16} justifyContent="center">
+                                <View marginLeft={16} justifyContent="center" width={150}>
                                     <Text style={styles.userNameStyle}>{this.props.firstname} {this.props.lastname}</Text>
                                 </View>
                             </View>
@@ -204,13 +209,18 @@ class profilemodal extends Component {
 							<View>
 					          <View backgroundColor="transparent"><Text style={styles.textStyle}>FORDHAM EMAIL*</Text></View>
 						        <View style={styles.inputBackground}>
-						        <TextInput
-						          style = {styles.input}				        
-						          autoCapitalize = 'none'
-						          value = {this.props.email}
-						          autoCorrect = {false}
-						          editable={false}
-						        />		
+						        	<View flexDirection="row" backgroundColor="transparent">
+								        <TextInput
+								          style = {styles.emailInput}				        
+								          autoCapitalize = 'none'
+								          value = {this.props.email}
+								          autoCorrect = {false}
+								          editable={false}
+								        />
+								        <View justifyContent="center" paddingBottom={3}>
+								        	<Image style={{justifyContent: 'center', alignItems: 'center'}} source={require('../../Images/https_24px.png')}/>
+								        </View>
+								    </View>
 						        </View>			        
 					        </View>
 						</View>
@@ -259,7 +269,7 @@ class profilemodal extends Component {
 						          maxLength={30}
 						          onChangeText={(text) => this.setState({tempHeadline: text})}
         						  //value={this.state.tempHeadline}	
-						          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
+						          placeholder="ex. FCRH '15 or Gabelli '87 (30 characters or less, please.)"			      				          
 						        />
 						        </View>				       
 					        </View>						
@@ -291,10 +301,11 @@ class profilemodal extends Component {
 						          value = {this.props.location}			          
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
+						          maxLength={40}
 						          editable={true}			
 						          onChangeText={(text) => this.setState({tempLocation: text})}
         						  //value={this.state.tempLocation}	      				          
-						          placeholder="ex. Greater New York City Area"
+						          placeholder="ex. Greater New York City Area (40 characters or less, please.)"
 						        />
 						        </View>				        
 					        </View>						
@@ -320,6 +331,7 @@ class profilemodal extends Component {
 					</View>
 					</View>
 					</ScrollView>
+					<View backgroundColor="transparent" height={500}/>
 					</KeyboardAwareScrollView>
 				</View>
 				</ImageBackground>
@@ -361,6 +373,16 @@ const styles = ({
   //   fontSize: 13
   //   //paddingHorizontal: 10
   // },
+  emailInput: {
+  	fontFamily: 'SFProText-Light',
+    height: 37,
+    //width: windowSize.width * .65,
+    color: 'rgb(115,115,115)',
+    fontSize: 13,
+    backgroundColor: 'transparent',
+    paddingLeft: 10,
+    marginRight: 10
+  },
   input:{
     fontFamily: 'SFProText-Light',
     height: 37,

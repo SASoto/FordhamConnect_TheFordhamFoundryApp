@@ -33,8 +33,10 @@ class LogoutButton extends Component {
 		return (
 			<TouchableOpacity onPress={this.onButtonPress.bind(this)}>
 				<View flexDirection="row">
-					<MatIcon name="exit-to-app" size={20} color="lightgrey"/>
-					<View marginLeft={36}>
+					<View justifyContent="center">
+						<MatIcon name="exit-to-app" size={25} color="lightgrey"/>
+					</View>
+					<View marginLeft={28} justifyContent="center">
 						<Text style={styles.buttonTxt}>Log Out</Text>
 					</View>
 				</View>

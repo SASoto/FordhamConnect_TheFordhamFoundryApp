@@ -9,6 +9,10 @@ import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 const REQUEST_URL_EVENTS = 'https://fordhamfoundry.org/wp-json/tribe/events/v1/events';
 const REQUEST_URL_POSTS  = 'https://fordhamfoundry.org/wp-json/wp/v2/posts';
 const REQUEST_URL_IMAGES = 'https://fordhamfoundry.org/wp-json/wp/v2/media';
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+]
 // Windowsize is referenced in the styles below.
 
 class SectionListItem extends Component {
@@ -165,6 +169,8 @@ export default class foundryevents_screen extends Component {
 
   createSectionedList() {
     //EVENTS
+    if(this.state.sitedata_events.events == null || this.state.sitedata_events.events == undefined) return;
+    
     const setOfEvents = this.state.sitedata_events.events;
     // console.log("SET OF EVENTS ARR: ",this.state.sitedata_events)
     // console.log("SET OF EVENTS OBJ: ",this.state.sitedata_events.events)
@@ -262,17 +268,22 @@ export default class foundryevents_screen extends Component {
     // const regex_1 = /(<([^>]+)>)/ig;
     // const regex_2 = /&#([0-9]{1,4});/g;
 
-    if(event.date == null || event.date == undefined)
+
+    if(event.date_utc == null || event.date_utc == undefined)
       return 'undefined'
     else {
       var date = event.date;
-      var formattedDate = new Date(date);
-      //console.log("FORMATTED DATE: ",formattedDate);
-      var newDate = formattedDate.toString();
-      var dateArr = newDate = newDate.split(' ');
-      //console.log("DATE OF EVENT: ",dateArr);
-      date = dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
-      //console.log("DATE OBJECT: ",date);
+      var splitDate = date.split(' ');
+      var firstHalfOfDate = splitDate[0].split('-');
+      var dayofEvent = firstHalfOfDate[2];
+
+      if(firstHalfOfDate[1][0] == '0')
+        var monthOfEvent = monthNames[(firstHalfOfDate[1].slice(1)-1)];
+      else
+        var monthOfEvent = monthNames[(firstHalfOfDate[1]-1)];
+      var yearOfEvent = firstHalfOfDate[0];
+
+      date = dayofEvent + ' ' + monthOfEvent + ', ' + yearOfEvent;
 
       return date;
     }

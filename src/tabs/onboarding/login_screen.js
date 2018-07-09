@@ -101,10 +101,10 @@ class login_screen extends Component {
             height: '100%',
           }}
 
-          source={require('../../../Images/background_splash.jpg')}
+          source={require('../../../Images/launchscreenblur.png')}
         >
-        <KeyboardAwareScrollView flex={1} scrollEnabled={false}>
-        <View flex={1}>
+        <KeyboardAwareScrollView flex={1} scrollEnabled={true}>
+        <ScrollView flex={1} scrollEnabled={false} showsVerticalScrollIndicator={false}>
         <View alignItems="center">
           <TitleFordhamConnect marginTop={(windowSize.height * 1/10) * 1.5}/>
           <View style={styles.signInCont}>
@@ -150,7 +150,8 @@ class login_screen extends Component {
            </TouchableOpacity>
         </View>
         </View>
-        </View>
+        <View backgroundColor="transparent" height={500}/>
+        </ScrollView>
         </KeyboardAwareScrollView>
         </ImageBackground>
         {this.checkStuff()}
