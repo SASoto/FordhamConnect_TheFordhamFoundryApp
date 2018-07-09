@@ -7,33 +7,6 @@ import {MainViewTabNav} from '../router';
 
 const windowSize = Dimensions.get('window');
 export default class mainview_screen2 extends Component {
-	// static navigationOptions = ({navigation}) => {
- //    return {
- //      tabBarOnPress({ navigation, defaultHandler }) {
- //        // perform your logic here
- //        // this is mandatory to perform the actual switch
- //        // you can omit this if you want to prevent it
- //        // defaultHandler: {console.log("HELLO")}
- //        console.log("HELLO")
- //        //jumpToIndex(scene.index);
- //      }
- //    };
- //  };
-	// static navigationOptions = {
-	// 	  tabBarOnPress: ({ scene, jumpToIndex, previousScene }) => {
-	// 	  const { route, index } = scene;
-
-	// 	  if (route.key === previousScene.key) {
-	// 	    const stackNavigation = route.routes[0];
-	// 	    if (!!stackNavigation && !!stackNavigation.params && !!stackNavigation.params.scrollToTop) {
-	// 	      stackNavigation.params.scrollToTop();
-	// 	    }
-	// 	  }
-	// 	  console.log("wtf is going on")
-
-	// 	  jumpToIndex(index);
-	// 	}
-	// }
 
 	constructor(props) {
 		super(props)
@@ -44,22 +17,11 @@ export default class mainview_screen2 extends Component {
 
 		this.goToTop = this.goToTop.bind(this);
 		this.onTabButtonPress = this.onTabButtonPress.bind(this);
-		//this.handleScroll = this.handleScroll.bind(this);
 	}
 
 	goToTop() {
 		this.refs._scrollView.scrollTo({x:0, y:0, animated: false});
 	}
-
-	// handleScroll() {
-	// 	if(this.refs._scrollView.)
-	// }
-
-	// handleScroll (event: Object) {
-	//  console.log(event.nativeEvent.contentOffset.y);
-	//  if(event.nativeEvent.contentOffset.y == 10 || event.nativeEvent.contentOffset.y > 10)
-	//  	this.refs._scrollView.scrollTo({x:0, y:0, animated: false});
-	// }
 
 	onTabButtonPress() {
 		if(!this.state.hasScrolled) {
@@ -72,7 +34,6 @@ export default class mainview_screen2 extends Component {
 		}
 
 		console.log("KEVIN SMITH")
-		//this.state.scrollState = false
 	}
 
 	render() {
@@ -96,9 +57,6 @@ export default class mainview_screen2 extends Component {
 
 const styles = StyleSheet.create({
 	touchSpace: {
-		// position: 'absolute',
-		// flex: 1,
-		// marginLeft: -50
 	},
 	absView: {
 		flex:1 ,
@@ -114,11 +72,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'HelveticaNeue-Medium'
 	},
 	tabBarStyle: {
-		//flex: 1,
 		flexDirection: "row",
 		height: 40,
-		// position: 'absolute',
-		// top: 40,
-		// left: 0,
 	}
 })

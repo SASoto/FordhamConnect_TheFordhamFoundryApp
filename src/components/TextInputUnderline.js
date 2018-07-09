@@ -8,8 +8,6 @@ import InputErrorBox from './InputErrorBox';
 const windowSize = Dimensions.get('window')
 export default class TextInputUnderline extends Component {
   render(){
-    //const {input, textStyle} = styles;
-
     if(this.props.secureTextEntry) {
       var secureOrNot = true;
     } else {
@@ -37,7 +35,6 @@ export default class TextInputUnderline extends Component {
         width: windowSize.width * .85,
         color: 'white',
         fontSize: passedfontsize_input
-        //paddingHorizontal: 10
       }
     });
 

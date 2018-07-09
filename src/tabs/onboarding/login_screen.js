@@ -13,8 +13,6 @@ import FilledTextInput from '../../components/FilledTextInput';
 import ButtonRounded from '../../components/ButtonRounded';
 import ButtonOutline from '../../components/ButtonOutline';
 import TitleFordhamConnect from '../../components/TitleFordhamConnect';
-// import {Button, Spinner} from '../../Components/Common';
-// import ViewContainer from '../../Components/Common/ViewContainer';
 
 const windowSize = Dimensions.get('window');
 
@@ -40,24 +38,6 @@ class login_screen extends Component {
     const {email, password} = this.props;
     this.props.loginUser({ email, password})
   }
-
-  // componentDidMount() {
-  //   this.checkStuff();
-  // }
-  // Sends a password reset email to the user via Firebase
-  // onResetPress(){
-  //   var auth = firebase.auth()
-  //   const {email} = this.props
-  //   var emailAddress = email
-
-  //   auth.sendPasswordResetEmail(emailAddress).then(function() {
-  //   // Email sent.
-  //     alert('An email with a password reset link has been sent to your email address.')
-  //   }).catch(function(error) {
-  //     // An error happened.
-  //     alert(error)
-  //   });
-  // }
 
   // Checks if loggedIn value has changed to true
   checkFlag() {
@@ -189,7 +169,6 @@ const styles = ({
     width: windowSize.width * .85,
     color: 'rgb(255,255,255)',
     fontSize: 16,
-    // backgroundColor: 'rgba(106,46,52,0.68)',
     padding: 8,
   },
   inputBackground: {
@@ -230,11 +209,6 @@ const mapStateToProps = state => {
     user: state.auth.user,
     email: state.auth.email,
     password: state.auth.password,
-    // initials: state.auth.initials,
-    // headline: state.auth.headline,
-    // website: state.auth.website,
-    // location: state.auth.location,
-    // bio: state.auth.bio,
     error: state.auth.error,
     loading: state.auth.loading,
     loggedIn: state.auth.loggedIn

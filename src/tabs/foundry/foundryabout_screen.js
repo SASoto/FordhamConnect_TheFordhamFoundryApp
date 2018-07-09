@@ -136,9 +136,5 @@ const styles = ({
 		borderRadius: 8
 	},
 	imgCont: {
-		//flex:1,
-		//marginTop: 20
 	}
 })
-
-//<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

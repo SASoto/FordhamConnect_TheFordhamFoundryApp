@@ -63,7 +63,6 @@ export default class foundryevents_screen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //isLoading: true,
       sitedata_posts:[],
       sitedata_images:[],
       sitedata_events:[],
@@ -91,40 +90,18 @@ export default class foundryevents_screen extends Component {
 		.then((response) => {
       response.json().then((responseJson) => {
   			events = responseJson
-        //console.log('POSTS:',posts)
         if(this.mounted && events != null)
           this.setState({sitedata_events: events});
-  			 //this.setState({sitedata_posts: posts});
-         //console.log("STATE EVENTS:",this.state.sitedata_posts)
-         //return posts;
   		})
       .then(() => {
         this.createSectionedList()
       })
     })
     .catch((error) => {
-      console.log(error)//this.setState({refreshing: false});
+      console.log(error)
     })
 
     this.setState({refreshing: false});
-		// .then(() => {
-  //     if(this.mounted)
-  //       return fetch(REQUEST_URL_IMAGES)
-		// })
-		// .then((response) => {
-  //     response.json().then((responseJson) => {
-  // 		// this.setState() will cause the new data to be applied to the UI that is created by the `render` function below.
-  // 			images = responseJson
-  //       if(this.mounted)
-  // 			 this.setState({sitedata_images: images});
-  // 		})
-  //   })
-    // .then(() => {
-    //   //this.setState({sitedata_posts: posts});
-    //   const sectionedList = this.createSectionedList();
-    //   if(this.mounted)
-    //     this.setState({postList: sectionedList});
-    // })
   }
 
   fetchLatestData() {
@@ -132,14 +109,10 @@ export default class foundryevents_screen extends Component {
     .then((response) => {
       response.json().then((responseJson) => {
         events = responseJson
-        //console.log('POSTS:',posts)
         if(events != null) {
           const lengthofcurrevents = this.state.sitedata_events.events.length;
           const curreventsarr = this.state.sitedata_events.events;
           const latesteventsarr = events.events;
-          //console.log("WHAT IS THE EVENT: ",latesteventsarr);
-          // const latesteventincurrlistid = this.state.sitedata_events.events[lengthofcurrevents-1];
-          // const latesteventinlistid = events.events[events.events[events.events.length-1]].id;
 
           if(latesteventsarr.length > lengthofcurrevents) {
             console.log("LATEST EVENTS IS GREATER THAN curreventsarr")
@@ -149,8 +122,6 @@ export default class foundryevents_screen extends Component {
           }
 
         }
-         //console.log("STATE EVENTS:",this.state.sitedata_posts)
-         //return posts;
       })
       .then(() => {
         this.createSectionedList()
@@ -166,10 +137,6 @@ export default class foundryevents_screen extends Component {
   createSectionedList() {
     //EVENTS
     const setOfEvents = this.state.sitedata_events.events;
-    // console.log("SET OF EVENTS ARR: ",this.state.sitedata_events)
-    // console.log("SET OF EVENTS OBJ: ",this.state.sitedata_events.events)
-    // console.log("SINGLE EVENT OBJ: ",this.state.sitedata_events.events[0])
-    //console.log("SET OF EVENTSL",this.state.sitedata_posts)
     var sectionedList = [];
     var eventsInOneDay = [];
       
@@ -194,139 +161,36 @@ export default class foundryevents_screen extends Component {
     }
 
     this.setState({postList: sectionedList});
-
-    //POSTS
-        // const setOfEvents = this.state.sitedata_posts;
-        // //console.log("SET OF EVENTSL",this.state.sitedata_posts)
-        // var sectionedList = [];
-        // var eventsInOneDay = [];
-          
-        // var onDate = this.returnEventDate(setOfEvents[0]);
-        // for(var i=0; i<setOfEvents.length; i++) {
-        //   var currDate = this.returnEventDate(setOfEvents[i]);
-        //   if(currDate != onDate) {
-        //       sectionedList.push({title: onDate, data: eventsInOneDay});
-        //       onDate = currDate;
-        //       eventsInOneDay = [];
-        //       var eventData = this.returnEventData(setOfEvents[i]);
-        //       eventsInOneDay.push(eventData);
-        //   } else { //Name starts with the same letter we are currently on
-        //       var eventData = this.returnEventData(setOfEvents[i]);
-        //       eventsInOneDay.push(eventData)
-        //   }
-
-        // }
-        // sectionedList.push({title: onDate, data: eventsInOneDay});
-        // for(var i=0; i<12; i++) {
-        //   sectionedList.push({title: '', data: []});
-        // }
-
-        // this.setState({postList: sectionedList});
-        //return sectionedList;
-    }
+  }
 
   // Instead of immediately rendering the template, we now check if there is data in the 'card' variable
   // and render a loading view if it's empty, or the 'card' template if there is data.
   render() {
-    //if(this.state.postList.length > 0)
       return (this.renderCard());
-    // else 
-    //   return (this.renderLoadingView());
   }
 
-  // The loading view template just shows the message "Wait for it..."
-  // renderLoadingView() {
-  //   return (
-  //     <View style={styles.container}>
-  //       <ImageBackground
-  //         resizeMode='cover'
-  //         style={{
-  //           flex: 1,
-  //           position: 'absolute',
-  //           width: '100%',
-  //           height: '100%',
-  //         }}
-
-  //         source={require('../../../Images/plussilvergradient.png')}
-  //       >
-  //       <View marginTop={50} alignItems="center">
-  //         <MaterialIndicator color='rgb(115,115,115)' size={35}/>
-  //       </View>
-  //       </ImageBackground>
-  //     </View>
-  //   );
-  // }
-
   returnEventDate(event) {
-    //console.log("EXAMPLE OF AN EVENT:", event)
-    // const regex_1 = /(<([^>]+)>)/ig;
-    // const regex_2 = /&#([0-9]{1,4});/g;
-
     if(event.date == null || event.date == undefined)
       return 'undefined'
     else {
       var date = event.date;
       var formattedDate = new Date(date);
-      //console.log("FORMATTED DATE: ",formattedDate);
       var newDate = formattedDate.toString();
       var dateArr = newDate = newDate.split(' ');
-      //console.log("DATE OF EVENT: ",dateArr);
       date = dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
-      //console.log("DATE OBJECT: ",date);
 
       return date;
     }
   }
 
   returnEventData(event) {
-    // const regex_1 = /(<([^>]+)>)/ig;
-    // const regex_2 = /&#([0-9]{1,4});/g;
 
-    var title = event.title;//.rendered.replace(regex_1, '');
-    // title = title.replace(regex_2, '');
-    // title = title.replace("&nbsp", '');
-    // title = title.replace("&hellip", '...');
-
-    // var desc = event.excerpt.rendered.replace(regex_1, '');
-    // desc = desc.replace(regex_2, '');
-    // desc = desc.replace("&nbsp", '');
-    // desc = desc.replace("&hellip", '...');
-    // desc = desc.replace(";", '');
+    var title = event.title;
 
     var link = event.url
-    // var media = event.featured_media
-    // var imageUrl = this.getImageData(media)
-    //console.log("IMAGE URL:",imageUrl)
 
     return {title: title, link: link};
   }
-
-  // getImageData(media_id) {
-  //   //console.log("STATE IMAGES:",this.state.sitedata_images)
-  //   //console.log("MEDIA ID HERE:",media_id)
-  //   const numImages = this.state.sitedata_images.length
-  //   for(var i = 0; i < numImages; i++) {
-  //     if(this.state.sitedata_images[i].id == media_id)
-  //     {
-  //       const image_url = this.state.sitedata_images[i].guid.rendered;
-  //       return image_url;
-  //     }
-  //   }
-
-  //   return;
-  // }
-
-  // renderSeparator() {
-  //   return (
-  //     <View
-  //       style={{
-  //         height: 2,
-  //         width: windowSize.width,
-  //         backgroundColor: "#CED0CE",
-  //       }}
-  //     />
-  //   );
-  // }
 
   renderSeparator() {
     return (

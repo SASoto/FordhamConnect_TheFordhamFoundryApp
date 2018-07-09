@@ -16,8 +16,3 @@ export const handleLogout = (navigation) => /*async (dispatch) =>*/ {
             actions: [NavigationActions.navigate({routeName})]
         }))
 }
-
-// export const handleLogout = () => {StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: {routeName} })],
-// });}

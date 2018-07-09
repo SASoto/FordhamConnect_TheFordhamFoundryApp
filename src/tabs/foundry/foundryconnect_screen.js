@@ -45,5 +45,3 @@ const styles = ({
 		borderRadius: 8
 	}
 })
-
-//<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

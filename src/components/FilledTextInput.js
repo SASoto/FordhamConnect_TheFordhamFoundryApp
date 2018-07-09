@@ -28,7 +28,6 @@ export default class FilledTextInput extends Component {
       textStyle: {
         fontFamily: 'SFProText-Light',
         color: 'rgb(255,255,255)',
-        //fontWeight: '300',
         fontSize: passedfontsize_text
       },
       input:{
@@ -39,8 +38,6 @@ export default class FilledTextInput extends Component {
         fontSize: passedfontsize_input,
         backgroundColor: 'transparent',
         padding: 8,
-        //marginLeft: 10
-        //paddingHorizontal: 10
       },
       inputBackground: {
         marginTop: 10,

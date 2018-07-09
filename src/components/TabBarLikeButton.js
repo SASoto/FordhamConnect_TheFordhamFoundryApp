@@ -23,17 +23,14 @@ const styles = ({
 
   },
   contUnderlined: {
-    //backgroundColor: '#bdbdbd',
     padding: 8,
     borderColor: 'blue',
     borderBottomWidth: 1,
-    //borderRadius: 10,
   },
   textStyle: {
     alignSelf: 'center',
     color: 'black',
     fontSize: 15,
     fontFamily: 'HelveticaNeue-Medium',
-    // fontWeight: '300',
   },
 });

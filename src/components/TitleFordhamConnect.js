@@ -18,7 +18,6 @@ export default class TitleFordhamConnect extends Component {
 
 const styles = ({
   imgCont: {
-    //flex: 1,
     height: 90, 
     width: 270
   },
@@ -41,7 +40,6 @@ const styles = ({
   },
   foundryCont: {
     marginTop: -5,
-    //alignItems: "flex-start"
   },
   foundryTxt: {
     color: 'white',

@@ -17,11 +17,6 @@ export default class CustomTabBarTop extends Component {
 };
 
 const styles = {
-  // positionStyle: {
-  //   flex: 1,
-  //   //top: 0,
-    
-  // },
   actionButton: {
     backgroundColor: "#6200EE",
     width: 50,

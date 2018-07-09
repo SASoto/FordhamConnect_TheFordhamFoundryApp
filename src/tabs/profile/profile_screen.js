@@ -13,11 +13,9 @@ export default class profile_screen extends Component {
 					resizeMode="cover"
 					style={{
 		                flex: 1,
-		                //resizeMode,
 		                position: 'absolute',
 		                width: '100%',
 		                height: '100%',
-		                //alignItems: 'center',
 	              	}}
 
 	              	source={require('../../../Images/plussilvergradient.png')}
@@ -144,15 +142,6 @@ export default class profile_screen extends Component {
 	}
 }
 
-//<View flexDirection="column">
-//<View width={windowSize.width * .85}>
-//<Text style={styles.textStyle}>FORDHAM AFFILIATION</Text>
-//<Text style={styles.textStyle}>I AM A(N)</Text>
-//</View>
-//<View marginVertical={10} width={windowSize.width * .85} height={100} style={styles.fordhamAffilCont}>
-//</View>
-//</View>
-
 const styles = ({
 	photoTxt: {
 		fontFamily: 'HelveticaNeue-Medium',
@@ -170,38 +159,24 @@ const styles = ({
     width: windowSize.width * .85,
     color: 'rgb(115,115,115)',
     fontSize: 15
-    //paddingHorizontal: 10
   },
-  // multilineInput: {
-  // 	fontFamily: 'SFProText-Regular',
-  //   height: 40,
-  //   width: windowSize.width * .85,
-  //   color: 'rgb(115,115,115)',
-  //   fontSize: 15
-  // },
   fordhamAffilCont: {
   	borderRadius: 4,
   	borderWidth: 1,
   	borderColor: 'grey'
   },
   saveButtonCont: {
-  	//width: 75,
   	marginRight: 14,
   	backgroundColor: '#47101E',
   	borderRadius: 8,
-  	// paddingLeft: 1,
-  	// paddingRight: 1,
   	paddingTop: 10,
   	paddingBottom: 10,
   	paddingHorizontal: 25,
-  	//position: 'absolute'
-  	//paddingBottom: 8
   },
   saveTxt: {
     alignSelf: 'center',
     color: 'white',
     fontSize: 14,
     fontFamily: 'SFProText-Regular',
-    // fontWeight: '300',
   }
 });

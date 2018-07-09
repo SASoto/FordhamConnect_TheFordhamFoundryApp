@@ -17,7 +17,6 @@ class mainview_screen2 extends Component {
 
 		this.goToTop = this.goToTop.bind(this);
 		this.onTabButtonPress = this.onTabButtonPress.bind(this);
-		//this.handleScroll = this.handleScroll.bind(this);
 	}
 
 	goToTop() {
@@ -29,18 +28,8 @@ class mainview_screen2 extends Component {
 	}
 
 	onTabButtonPress() {
-		// if(!this.state.hasScrolled) {
-		// 	this.setState({hasScrolled: true});
-			this.setState({touchDisabled: true})
-			this.refs._scrollView.scrollTo({x:0, y:240, animated: true});
-		//}
-		// else {
-		// 	this.setState({hasScrolled: false});
-		// 	this.refs._scrollView.scrollTo({x:0, y:0, animated: true});
-		// }
-
-		//console.log("KEVIN SMITH")
-		//this.state.scrollState = false
+		this.setState({touchDisabled: true})
+		this.refs._scrollView.scrollTo({x:0, y:240, animated: true});
 	}
 
 	checkIfConnected(url) {
@@ -52,10 +41,7 @@ class mainview_screen2 extends Component {
 	}
 
 	render() {
-		//console.log("FROM MAINVIEW SCREEN: ",this.props.email)
-		//console.log("FROM MAINVIEW SCREEN: ",this.props.password)
 		return (
-			//pagingEnabled={true}
 			<ScrollView ref='_scrollView' flex={1}  pagingEnabled={true} overScrollMode={"never"} showsVerticalScrollIndicator={false} stickyHeaderIndices={[1]}>
 				
 				<View flex={1}>
@@ -63,7 +49,6 @@ class mainview_screen2 extends Component {
 					resizeMode="cover"
 					style={{
 			            flex: 1,
-			            //position: 'absolute',
 			            width: '100%',
 			            height: 220,
 			            alignItems: "center",
@@ -114,9 +99,6 @@ class mainview_screen2 extends Component {
 
 const styles = StyleSheet.create({
 	touchSpace: {
-		// position: 'absolute',
-		// flex: 1,
-		// marginLeft: -50
 	},
 	absView: {
 		flex:1 ,
@@ -124,8 +106,6 @@ const styles = StyleSheet.create({
 		
 	},
 	imgCont: {
-		//flex: 1,
-		//alignItems: 'center',
 		height: 235
 	},
 	buttonTxt: {
@@ -133,12 +113,8 @@ const styles = StyleSheet.create({
 		fontFamily: 'HelveticaNeue-Medium'
 	},
 	tabBarStyle: {
-		//flex: 1,
 		flexDirection: "row",
 		height: 40,
-		// position: 'absolute',
-		// top: 40,
-		// left: 0,
 	},
 	circleButton: {
 		flex: 1,
@@ -148,7 +124,6 @@ const styles = StyleSheet.create({
 	      width: 5,
 	      height: 4
 	    },
-	    //shadowRadius: 8,
 	    shadowOpacity: 1
 	}
 })

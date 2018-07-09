@@ -49,9 +49,6 @@ import SettingsForgotPasswordScreen from './settings/forgotpassword_screen';
 const windowSize = Dimensions.get('window');
 const noTransitionConfig = () => ({
   transitionSpec: {
-  	// duration: 5,
-   //    easing: Easing.out(Easing.poly(4)),
-   //    timing: Animated.step0,
     duration: 1,
     timing: Animated.timing,
     easing: Easing.step0
@@ -65,15 +62,6 @@ export const Splash_Stack = createStackNavigator ({
 })
 
 export const Onboard_Stack = createStackNavigator ({
-	// Onboard: {
-	// 	screen: OnboardScreen,
- //    	navigationOptions: {
-	// 		headerStyle: {
-	// 			borderBottomWidth: 0,
-	// 			elevation: null
- //       		}
- //  		}	
-	// },
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {
@@ -92,13 +80,6 @@ export const Onboard_Stack = createStackNavigator ({
 			headerVisible: false,
   		}
 	},
-	// ExtraInfo: {
-	// 	screen: ExtraInfoScreen,
-	// 	navigationOptions: {
-	// 		headerVisible: false,
-	// 		gesturesEnabled: true
- //  		}
-	// }
 
 }, {
 	initialRouteName: 'SignUp',
@@ -152,35 +133,6 @@ export const FoundryConnectStack = createStackNavigator ({
 		}
 	}
 })
-
-// const ProfileStack = createStackNavigator ({
-// 	Profile: {
-// 		screen: ProfileScreen,
-// 		navigationOptions: ({navigation}) => ({
-// 			headerBackground: 
-// 			<ImageBackground
-// 				resizeMode="cover"
-// 				style={{
-//                 flex: 1,               
-//                 position: 'absolute',
-//                 width: '100%',
-//                 height: '100%',
-//                 //alignItems: 'center',
-//               }}
-
-//               source={require('../../Images/positionedblur.png')}
-
-// 			/>,
-// 			title: 'Profile',
-// 			headerTintColor: 'white',
-// 			headerLeft:
-// 				<View paddingLeft={5}>
-// 					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-// 				</View>
-
-// 		})
-// 	}
-// })
 
 const NetworkStack = createStackNavigator ({
 	ContactList: {
@@ -247,12 +199,6 @@ export const DiscussionStack = createStackNavigator ({
 			header: null
 		}
 	},
-	// SinglePost: {
-	// 	screen: SinglePostScreen,
-	// 	navigationOptions: {
-	// 		header: null
-	// 	}
-	// }
 })
 
 export const ChatStack = createStackNavigator ({
@@ -306,7 +252,6 @@ export const SettingsStack = createStackNavigator ({
 			headerStyle: {
 				shadowOpacity: 1,
 				shadowColor: '#010000',
-				//elevation: 1,
 				shadowOffset: {
 					width: 0,
 					height: 2
@@ -327,17 +272,6 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 	},
 	Discussion: {
 		screen: DiscussionStack,
-		// navigationOptions: ({ navigation }) => ({
-		// 	// gesturesEnabled: false,
-		// 	tabBarOnPress: ({ navigation, defaultHandler }) => {
-		//         // perform your logic here
-		//         // this is mandatory to perform the actual switch
-		//         // you can omit this if you want to prevent it
-		//         console.log("WTF3")
-		//         navigation.navigate('DiscussionBoard');
-		//         //jumpToIndex(1);
-	 //        }
-		// })
 	},
 	About: {
 		screen: FoundryAboutStack,
@@ -345,10 +279,6 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 },
 	{
 		initialRouteName: 'News',
-		// navigationOptions: {
-		// 	swipeEnabled: false
-		// },
-		//tabBarComponent: props => <CustomTabBarTop {...props}/>,
 		tabBarOptions: {
 			activeTintColor: 'rgb(106,46,52)',
 			inactiveTintColor: 'rgb(115,115,115)',
@@ -378,32 +308,9 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 export const FoundryTabNav = createMaterialTopTabNavigator ({
 	Events: {
 		screen: FoundryEventsStack,
-		// navigationOptions: ({ navigation }) => ({
-		// 	// gesturesEnabled: false,
-		// 	tabBarOnPress: ({ navigation, defaultHandler }) => {
-		//         // perform your logic here
-		//         // this is mandatory to perform the actual switch
-		//         // you can omit this if you want to prevent it
-		//         console.log("WTF3")
-		//         navigation.navigate('DiscussionBoard');
-		//         //jumpToIndex(1);
-	 //        }
-		// })
 	},
 	About: {
 		screen: FoundryAboutStack,
-		// navigationOptions: ({ navigation }) => ({
-		// 	// gesturesEnabled: false,
-		// 	tabBarOnPress: ({ navigation, defaultHandler }) => {
-		//         // perform your logic here
-		//         // this is mandatory to perform the actual switch
-		//         // you can omit this if you want to prevent it
-		//         console.log("WTF3")
-		//         navigation.navigate('Feed');
-		//         this.defaultHandler.state.
-		//         //jumpToIndex(1);
-	 //        }
-		// }),
 	},
 	Connect: {
 		screen: FoundryConnectStack
@@ -506,7 +413,6 @@ const FoundryStack = createStackNavigator ({
 			headerStyle: {
 				shadowOpacity: 1,
 				shadowColor: '#010000',
-				//elevation: 1,
 				shadowOffset: {
 					width: 0,
 					height: 2
@@ -517,83 +423,7 @@ const FoundryStack = createStackNavigator ({
 })
 
 
-//<TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}>
-// class SideDrawer extends Component {
-// 	constructor(props) {
-// 		super(props)
 
-// 		this.state={
-// 			modalVisible: false
-// 		}
-// 	}
-
-// 	setModalVisible() {
-// 		this.setState({modalVisible: false});
-// 	}
-
-// 	// const userEmail = firebase.auth().currentUser.email;
-// 	render() {
-// 		const userEmail = this.props.email;
-// 		console.log("USER EMAIL FROM DRAWER: ", this.props.email);
-// 		//console.log("USER PASSWORD FROM ROUTER", this.props.password);
-// 		const userFName = this.props.firstname;
-// 		//console.log("USER FIRSTNAME FROM ROUTER: ",userFName);
-// 		const userLName = this.props.lastname;
-// 		//console.log("USER LASTNAME FROM ROUTER: ",userLName);
-
-// 	return (
-// 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
-// 	<ImageBackground
-//           resizeMode='cover'
-//           style={{
-//             flex: 1,
-//             position: 'absolute',
-//             width: '100%',
-//             height: '100%',
-//           }}
-
-//             source={require('../../Images/background_splash.jpg')}
-//         >
-// 		<SafeAreaView flexDirection="column">
-// 			<TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
-// 				<View flexDirection="column" marginLeft={30} marginTop={40}>
-					
-// 						<View style={styles.profPic}/>
-// 						<View marginTop={20}>
-// 							<Text style={styles.accountInfoTxtStyle}>Hello There</Text>
-// 						</View>
-// 					</View>
-				
-// 			</TouchableOpacity>
-
-// 			<ProfileModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)}/>
-
-// 			<View marginTop={37} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>
-// 				<View marginTop={20}>
-// 					<DrawerItems 
-// 					{...this.props}
-// 					labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
-// 					//items={items.filter((item) => item.routeName !== 'Profile')}
-// 					/>
-// 				</View>
-// 			<TouchableOpacity style={styles.logoutCont}>
-// 				<LogoutButton {...this.props} />
-// 			</TouchableOpacity>
-// 		</SafeAreaView>
-// 		</ImageBackground>
-// 	</View>
-// 	);
-// 	}
-// };
-
-// const mapStateToProps = state => {
-//   return {
-//     email: state.auth.email,
-//     user: state.auth.user,
-//   }
-// }
-
-// export default connect(mapStateToProps)(SideDrawer)
 
 const DrawerRoutes = {
   // Profile: {

@@ -52,26 +52,18 @@ export default class DBMainCard extends Component {
 
 const styles = ({
 	encompCont: {
-		//flex: 1,
 		backgroundColor: 'rgba(106, 46, 52, 0.1)',
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		width: windowSize.width * .9,
-		//borderWidth: 0.2,
 		borderRadius: 6,
 		borderWidth: 0.3,
 		borderBottomWidth: 2,
 		borderColor: 'darkgrey'
-		//elevation: 1,
-    	//shadowOpacity: 0.8,
-		//shadowOpacity: 1
-		//shadowOpacity: 0
-		//shadowRadius: 1
 	},
 	imageContainer: {
 		flex: 1,
 		height: 200,
-		//width: windowSize.width * .75//344
 	},
 	titleTxtStyle: {
 		fontSize: 14,

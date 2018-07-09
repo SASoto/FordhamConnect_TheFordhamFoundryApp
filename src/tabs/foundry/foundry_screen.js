@@ -8,13 +8,8 @@ export default class foundry_screen extends Component {
 	constructor(props) {
 		super(props)
 
-		// this.state = {
-		// 	hasScrolled: false
-		// }
-
 		this.goToTop = this.goToTop.bind(this);
 		this.onTabButtonPress = this.onTabButtonPress.bind(this);
-		//this.handleScroll = this.handleScroll.bind(this);
 	}
 
 	goToTop() {
@@ -22,17 +17,7 @@ export default class foundry_screen extends Component {
 	}
 
 	onTabButtonPress() {
-		// if(!this.state.hasScrolled) {
-		// 	this.setState({hasScrolled: true});
 			this.refs._scrollView.scrollTo({x:0, y:219, animated: true});
-		//}
-		// else {
-		// 	this.setState({hasScrolled: false});
-		// 	this.refs._scrollView.scrollTo({x:0, y:0, animated: true});
-		// }
-
-		//console.log("KEVIN SMITH")
-		//this.state.scrollState = false
 	}
 
 	render () {
@@ -51,9 +36,6 @@ export default class foundry_screen extends Component {
 
 const styles = ({
 	imgCont: {
-		//flex: 1,
-		//alignItems: 'center',
 		height: 235
 	}
 })
-//<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

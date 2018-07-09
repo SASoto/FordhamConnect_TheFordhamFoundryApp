@@ -14,7 +14,6 @@ class createpost_modal extends Component {
 
 	constructor(props) {
 		super(props);
-		//var userID = firebase.auth().currentUser.uid
 
 		this.state = {
 		 	postAuthor: this.props.firstname + " " + this.props.lastname,
@@ -25,13 +24,10 @@ class createpost_modal extends Component {
 		 	postText: "",
 		 	postCommentCount: 0,
 		}
-		//console.log("Construction complete!")
 	}
 
 	componentDidMount() {
-		//console.log("MOUNTING CRESTE POST MODLA")
 		this.checkFlag();
-		//this.setState({postAuthID: firebase.auth().currentUser.uid});
 	}
 
 	checkFlag() {
@@ -43,9 +39,7 @@ class createpost_modal extends Component {
 	}
 
 	checkStuff() {
-		// if(this.props.loggedIn) {
-		  // console.log("IS THE USER LOADING? ",this.props.loading)
-		  {this.checkFlag()}		    
+		{this.checkFlag()}		    
 		//}
 	}
 
@@ -56,22 +50,10 @@ class createpost_modal extends Component {
 		var day = days[today.getDay()];
 		var month = months[ today.getMonth() ];
 		var dd = today.getDate();
-		//var mm = today.getMonth()+1; //January is 0!
 		var yyyy = today.getFullYear();
-		
-
-		// if(dd<10) {
-  //   		dd = '0'+dd
-		// } 
-
-		// if(mm<10) {
-  //   		mm = '0'+mm
-		// } 
-		// var date = yyyy+'-'+mm+'-'+dd;
 
 		var hh = today.getHours();
 		var minmin = today.getMinutes();
-		// var ss = today.getSeconds();
 		var mid = 'am'
 		if(hh ==0){
 			hh = 12;
@@ -80,19 +62,10 @@ class createpost_modal extends Component {
 			mid = 'pm'
 		}
 
-		// if(hh<10) {
-  //   		hh = '0'+hh
-		// } 
-
 		if(minmin<10) {
     		minmin = '0'+minmin
 		} 
 
-		// if(ss<10) {
-  //   		ss = '0'+ss
-		// } 
-
-		//var time = hh + ":" + minmin + ":" + ss;
 		var dateTime = day + " " + month + " " + dd + " " + yyyy + " " + hh + ":" + minmin + " " + mid;
 
 		return(dateTime)
@@ -127,53 +100,15 @@ class createpost_modal extends Component {
   				'post_date_time': newDateTime,
   				'post_text': this.state.postText,
 			})
-			//console.log("Post text is still... ", this.state.postText)
-			// var connectedRef = firebase.database().ref(".info/connected");
-			// connectedRef.on('value', function(connectedSnap) {
-  	// 		if (connectedSnap.val() === true) {
-    		/* we're connected! */
-    			//console.log("We're connected, so posting should have worked already.")
-    			Alert.alert(
-  					'Success!',
-  					"Your post has been added to the discussion board. If you're offline, the post won't appear until you reconnect.",
-  					[
-    					{text: 'OK', onPress: () => {this.resetNewPost()}},
-  					],
-  					{ cancelable: false }
-				)
-  			// } else {
-    		/* we're disconnected! */
-    			//console.log("We're NOT connected, so posting won't work until we reconnect.")
-    // 			Alert.alert(
-  		// 			'Posted from Offline!',
-  		// 			'You appear to be offline, but your post will automatically post to the discussion board when your connection resumes.',
-  		// 			[
-    // 					{text: 'OK', onPress: () => {this.resetNewPost()}},
-  		// 			],
-  		// 			{ cancelable: false }
-				// )
+    		Alert.alert(
+  				'Success!',
+  				"Your post has been added to the discussion board. If you're offline, the post won't appear until you reconnect.",
+  				[
+    				{text: 'OK', onPress: () => {this.resetNewPost()}},
+  				],
+  				{ cancelable: false }
+			)
   			}
-		//});
-		// // .then(() => {
-		// // 	//this.props.modalFunc()	
-		// // })
-		// .then(() => {
-		//alert("Success! Your post has been added to the discussion board.")
-			
-
-		//}
-
-		
-		// .catch(function(error) {
-  //   	console.log("Posting failed: " + error.message)
-  // 		});
-
-		
-		// We've appended a new message to the message_list location.
-		// var path = newMessageRef.toString();
-		// console.log(path)
-		// path will be something like
-		// 'https://sample-app.firebaseio.com/message_list/-IKo28nwJLH0Nc5XeFmj'
 	}
 	render () {
 		if(this.state.postAuthID == null) {
@@ -188,11 +123,9 @@ class createpost_modal extends Component {
 							resizeMode="cover"
 							style={{
 				                flex: 1,
-				                //resizeMode,
 				                position: 'absolute',
 				                width: '100%',
 				                height: '100%',
-				                //alignItems: 'center',
 			              	}}
 
 			              	source={require('../../../Images/plussilvergradient.png')}
@@ -217,11 +150,9 @@ class createpost_modal extends Component {
 						resizeMode="cover"
 						style={{
 			                flex: 1,
-			                //resizeMode,
 			                position: 'absolute',
 			                width: '100%',
 			                height: '100%',
-			                //alignItems: 'center',
 		              	}}
 
 		              	source={require('../../../Images/plussilvergradient.png')}
@@ -233,13 +164,7 @@ class createpost_modal extends Component {
 							<ImageBackground
 								resizeMode='cover'
 								style={{
-									//flex: 1,
 									height: Header.HEIGHT * 1.5,
-									//position: 'absolute',
-									//top:0,
-
-									//width: '100%',
-									//height: '100%',
 								}}
 
 				              source={require('../../../Images/positionedblur.png')}
@@ -321,9 +246,6 @@ const styles = ({
 		color: 'rgb(115,115,115)',
 		fontSize: 16,
 		backgroundColor: 'transparent',
-		//paddingLeft: 10,
-		//marginLeft: 10
-		//paddingHorizontal: 10
 	},
 	postButtonStyle: {
 		fontFamily: 'SFProText-Regular',
@@ -353,5 +275,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(createpost_modal)
-
-//<Button onPress = {() => Linking.openURL('https://www.fordhamfoundry.org/about-us/team/')}> Click to learn more </Button>

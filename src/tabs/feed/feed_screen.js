@@ -34,9 +34,7 @@ export default class feed_screen extends Component {
         this.state = {
             retToken: null,
             feedData: [],
-            //loading: true,
             refreshing: false,
-
             sinceId: null,
             retSinceId: null,
             getNewerTweets: null,
@@ -48,8 +46,6 @@ export default class feed_screen extends Component {
         this.fetchTwitterFeed = this.fetchTwitterFeed.bind(this);
         this.fetchOldTweets = this.fetchOldTweets.bind(this);
         this.fetchNewTweets = this.fetchNewTweets.bind(this);   
-        // this.loadOlderTweets = this.loadOlderTweets.bind(this);
-        // this.loadNewerTweets = this.loadNewerTweets.bind(this);
     }
 
 	componentDidMount() {
@@ -115,9 +111,6 @@ export default class feed_screen extends Component {
 	}
 
 	fetchTwitterFeed() {
-      // if(!this.state.loading)
-      //   this.setState({loading: true})
-      //this.setState({refreshing: true})
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1&tweet_mode=extended`;
 
     	const header = {
@@ -144,9 +137,6 @@ export default class feed_screen extends Component {
   }
 
   fetchNewTweets() {
-    // if(!this.state.loading)
-    //     this.setState({loading: true})
-
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${FOR_OLD_AND_NEW}&since_id=${this.state.sinceId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
@@ -183,13 +173,7 @@ export default class feed_screen extends Component {
   }
 
   fetchOldTweets() {
-    // if(!this.state.loading)
-    //     this.setState({loading: true})
       if(!this.canAction) return;
-
-      // console.log("CURRENT LENGTH OF FEED: ",this.state.feedData.length);
-      // console.log("FETCHING OLD TWEETS NOW")
-
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${FOR_OLD_AND_NEW}&max_id=${this.state.maxId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
@@ -222,18 +206,6 @@ export default class feed_screen extends Component {
       this.setState({refreshing: false, /*loading: false*/})
   }
 
-	// renderSeparator() {
-	// 	return (
-	// 		<View
-	// 		style={{
-	// 			height: 1,
-	// 			width: windowSize.width,
-	// 			backgroundColor: "#CED0CE",
-	// 		}}
-	// 		/>
-	// 	);
-	// }
-
   parseFeedData(tweet){
     var name = tweet.item.user.name;
     var screenname = tweet.item.user.screen_name;
@@ -252,15 +224,11 @@ export default class feed_screen extends Component {
     var tweettext = tweet.item.full_text;//text
     var tweettextsplit = tweettext.split(' ');
     var symbolTweetTextSplit = tweettext.split('$')
-    //console.log("SYMBOL SPLIT IS:",symbolTweetTextSplit);
 
     var tweetTitle = symbolTweetTextSplit[1];
-    //console.log("THE TWEET TITLE IS: ",tweetTitle);
 
     var firstHalf = symbolTweetTextSplit.slice(0,1);
-    //console.log("FIRST HALF IS:",firstHalf);
     var firstHalfSplit = firstHalf.toString().split(' ')
-    //console.log("FIRST HALF SPLIT IS:",firstHalfSplit);
 
     if(firstHalfSplit.length == 3) {
       //IMAGE AND NEWS LINK
@@ -280,7 +248,6 @@ export default class feed_screen extends Component {
 
     if(secondHalf != '') {
       var tweetDesc = secondHalf;
-      //console.log('TWEET DESCRIPTION IS:',tweetDesc);
     } else {
       var tweetDesc = null
     }
@@ -396,7 +363,6 @@ export default class feed_screen extends Component {
           	  }
               onEndReached={this.fetchOldTweets}
               onEndThreshold={0}
-              //onEndReached={this._onEndReached}
               onEndReachedThreshold={0.2}
               onMomentumScrollBegin={() => {
                 console.log('onMomentumScrollBegin');
