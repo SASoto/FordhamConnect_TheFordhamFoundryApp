@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, ActivityIndicator, View, ImageBackground, Image} from 'react-native';
@@ -24,21 +18,15 @@ class splash_screen extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if(user) {
         this.props.loggedInUser()
-        //this.checkIfLoggedIn()
         setTimeout(() => {this.props.navigation.navigate('SignedIn')},1200)
         
       } else {
         this.props.logoutUser()
-        //this.checkIfLoggedIn()
         setTimeout(() => {this.props.navigation.navigate('SignedOut')},1200)
       }
-    })//.then(() => {this.checkIfLoggedIn()})
+    })
   }
 
-  // checkIfLoggedIn() {
-  //   const routeName = this.props.loggedIn ? "SignedIn" : "SignedOut";
-  //   setTimeout(() => {this.props.navigation.navigate(routeName)},1200)
-  // }
 
     render() {
             return (

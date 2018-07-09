@@ -14,9 +14,7 @@ export default class DiscussionPostCard extends Component {
 	render() {
 		const styles =({
 			encompCont: {
-				//alignItems:"center",
 				marginTop: 20,
-				//flex: 1,
 				alignItems: 'center',
 				backgroundColor: '#dbd1ce',
 				borderRadius: 8,
@@ -55,7 +53,6 @@ export default class DiscussionPostCard extends Component {
 				fontFamily: 'SFProText-Light',
 				fontSize: 14,
 				color: 'rgb(115,115,115)',
-				//textAlign: 'center'
 			},
 			gradientCont: {
 				flex: 1,
@@ -64,7 +61,6 @@ export default class DiscussionPostCard extends Component {
 				shadowOffset: {
 					width: 0,height: 2
 				},
-				//height: 300,
 				shadowRadius: 4,
 				shadowOpacity: 1,
 				width: windowSize.width * .9,

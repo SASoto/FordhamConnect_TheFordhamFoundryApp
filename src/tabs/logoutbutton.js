@@ -21,7 +21,6 @@ class LogoutButton extends Component {
 
 	checkFlag() {
 		if(this.props.loggedIn === true) {
-		//console.log("logging out")
 		setTimeout(this.checkFlag.bind(this), 1000)
 		}
 		else {
@@ -45,10 +44,6 @@ class LogoutButton extends Component {
 	}
 }
 
-//<View marginRight={35}>
-//	<EntIcon name="arrow-long-left" size={20} color="rgb(255,255,255)"/>
-//</View>
-
 const styles = StyleSheet.create({
 	buttonTxt: {
 		fontSize: 14,
@@ -56,45 +51,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'SFProText-Bold'
 	}
 })
-
-// class logoutbutton extends Component {
-
-// 	static navigationOptions = {
-// 		// drawerIcon: () => (
-// 		// )
-// 	}
-
-// 	onButtonPress(){
-// 		this.props.logoutUser()
-
-// 		if(this.props.loggedIn === true) {
-// 		{this.checkFlag()}
-// 		}
-// 	}
-
-// 	checkFlag() {
-// 		if(this.props.loggedIn === true) {
-// 		//console.log("logging out")
-// 		setTimeout(this.checkFlag.bind(this), 1000)
-// 		}
-// 		else {
-// 		handleLogout(this.props.navigation)
-// 		}
-// 	}
-
-// 	componentDidMount() {
-// 		this.onButtonPress()
-// 	}
-
-// 	render() {
-// 		return (
-// 			<View flex={1} justifyContent="center" alignItems="center">
-// 			<Text>FORDHAM BANNER GOES HERE</Text>
-// 			</View>
-// 		)
-// 	}
-
-// }
 
 const mapStateToProps = state => {
   return {

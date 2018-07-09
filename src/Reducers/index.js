@@ -11,7 +11,5 @@ export default combineReducers({
 	selectedJobId: SelectionReducer,
 	auth: AuthReducer,
 	jobForm: JobFormReducer,
-	//eventList: EventsReducer,
 	updateList: UpdatesReducer,
-	//nav: Router //added
 });

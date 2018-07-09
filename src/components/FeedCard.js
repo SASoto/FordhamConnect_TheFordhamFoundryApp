@@ -123,48 +123,23 @@ export default class LogoutButton extends React.PureComponent {
 
 const styles = ({
 	encompCont: {
-		//marginTop: 10,
 		flex: 1,
-		//width: windowSize.width*.9,
 		flexDirection: 'column',
 		width: '95%',
 		backgroundColor: 'transparent',
-		//height: 250,
-		//backgroundColor: "rgba(106, 46, 52, 0.1)",
-		//borderRadius: 6,		
-		// borderBottomWidth: 2,
-		// borderRadius: 4,
-		// borderColor: 'rgba(0, 0, 0, 0.5)'
-		// shadowColor: 'rgba(0, 0, 0, 0.5)',
-		// shadowOffset: {
-		// 	width: 0,height: 2
-		// },
-		// // height: 260,
-		// shadowRadius: 4,
-		// shadowOpacity: 1,
 	},
 	profilePicCont: {
-		//backgroundColor: 'black',
 		borderRadius: 14,
 		width: 28,
 		height: 28,
-		//marginLeft: 13,
-		//marginTop: 9,
 		marginRight: 7.5
-		//justifyContent: 'center'
 	},
 	imageContainer: {
 		flex: 1,
 		height: 155,
-		//backgroundColor: 'transparent'
-		//tintColor: 'rgba(78,9,14,.55)'
 		opacity: 0.85,
-		//backgroundColor: 'rgba(78,9,14,1)'
-		//backgroundColor: 'red'
-		//width: windowSize.width * .75//344
 	},
 	textCont: {
-		//alignItems: "center",
 		justifyContent: 'center',
 		margin: 16
 	},

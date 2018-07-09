@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, {Component} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {Dimensions, Alert, Text, View, ScrollView, ImageBackground, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity} from 'react-native';
@@ -59,7 +53,6 @@ class signup_screen extends Component {
 
     onNewHere() {
         const {email, password, confirm, firstname, lastname} = this.props
-        //console.log("In onNewHere email is " + email + ", password is " + password + ", firstname is " + firstname + ", headline is " + headline + ", location is " + location + ", bio is " + bio)
         this.props.newUser({email: email || '', password: password || '', confirm: confirm || '', firstname: firstname || '', lastname: lastname || ''})
     }
 

@@ -132,76 +132,41 @@ export default class discboard_screen extends Component {
 
 	componentDidMount() {
         var fullPostsArr = [];
-        //usersList = firebase.database().ref('users/').orderByChild('firstname');//.startAt('Cha').endAt('Cha\uf8ff');
         return firebase.database().ref('discBoardposts/').once('value')
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                //console.log("Another person in da list...")
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                //console.log(childData.firstname + ' ' + childData.lastname)
                 var postObj = {'post_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'comment_count': childData.comment_count, 'post_date_time': childData.post_date_time, 'post_text': childData.post_text, 'author_id': childData.author_id};
-                //console.log("OBJECT: ", contactObj);
                 fullPostsArr.push(postObj);
-                //testArray.push("foo")
-                //console.log(postObj)//.postKey)
             });
-            //console.log(fullPostsArr.author_name)
         }).then(() => {
             this.setState({discussionBoardPosts: fullPostsArr.reverse()})
             console.log("DISCUSSION BOARD POSTS: ",this.state.discussionBoardPosts)
-        }).then(() => {this.createSectionedList()})//.then(() => {
-        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
-        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
-        // 	}
-        	
-        // })
+        }).then(() => {this.createSectionedList()})
     }
 
     fetchLatestPosts() {
     	var fullPostsArr = [];
-    	//console.log("IN HERE GETTING NEW POSTS")
         firebase.database().ref('discBoardposts/').once('value')
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                //console.log("Another person in da list...")
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                //console.log(childData.firstname + ' ' + childData.lastname)
                 var postObj = {'post_key': childKey, 'author_name': childData.author_name, 'author_initials': childData.author_initials, 'author_headline': childData.author_headline, 'comment_count': childData.comment_count, 'post_date_time': childData.post_date_time, 'post_text': childData.post_text, 'author_id': childData.author_id};
-                //console.log("OBJECT: ", postObj);
                 fullPostsArr.push(postObj);
-                //testArray.push("foo")
-                //console.log(postObj)//.postKey)
             });
         }).then(() => {
-        	//const olderPosts = this.state.discussionBoardPosts;
         	const revArr = fullPostsArr.reverse()
-        	//console.log("NEW SET OF POSTS:",revArr)
-        	//this.setState({discussionBoardPosts: []})
-        	//if(revArr[0].post_key != this.state.discussionBoardPosts[0].post_key) {
             	this.setState({discussionBoardPosts: revArr})
-            	//console.log("ADDING NEW SET OF DISCUSSIOMN BOARD POSTS")
             	this.createSectionedList()
-        	//}
-        	//console.log("CALLING FROM NEW")
-        	// this.createSectionedList()
-        })//.then(() => {
-        	//console.log("CALLING FROM NEW")
-        	//this.createSectionedList()
-       // })//.then(() => {
-        // 	for (var i = 0; i < this.state.discussionBoardPosts.length; i++) {
-        // 		console.log("Post is by..." + this.state.discussionBoardPosts[i].post_key)
-        // 	}
-        	
-        // })
+        })
         this.setState({refreshing: false})
         console.log("FINISHED RUNNING fetchLatestPosts!")
     }
 
 	createSectionedList() {
         const setOfPosts = this.state.discussionBoardPosts;
-        //console.log("SET OF EVENTSL",this.state.sitedata_posts)
         var sectionedList = [];
         var postsInOneDay = [];
           
@@ -226,8 +191,7 @@ export default class discboard_screen extends Component {
         }
 
         this.setState({discussionBoardSectionedList: sectionedList});
-        //console.log("POST SECTIONED LIST: ", this.state.discussionBoardSectionedList);
-        //return sectionedList;
+
     }
 
 	returnPostDate(postObj) {
@@ -235,14 +199,9 @@ export default class discboard_screen extends Component {
 		  return 'undefined'
 		else {
 		  var date = postObj.post_date_time;
-		  var formattedDate = date.toString();//new Date(date);
-		  //var newDate = formattedDate.toString();
-		  //console.log("DATE STRING: ",formattedDate)
+		  var formattedDate = date.toString();
 		  var dateArr = formattedDate.split(' ');
-		  //console.log("DATE ARR: ",dateArr)
 		  date = dateArr[0] + ', ' + dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
-		  //console.log('DATE OBJ: ',date)
-
 		  return date;
 		}
 	}
@@ -252,14 +211,9 @@ export default class discboard_screen extends Component {
 		  return 'undefined'
 		else {
 		  var date = postObj.post_date_time;
-		  var formattedDate = date.toString();//new Date(date);
-		  //var newDate = formattedDate.toString();
-		  //console.log("DATE ARR: ",newDate)
-		  var dateArr = formattedDate.split(' ');//newDate = newDate.split(' ');
-		  //console.log("DATE ARR: ",dateArr)
+		  var formattedDate = date.toString();
+		  var dateArr = formattedDate.split(' ');
 		  date = dateArr[0] + ' ' + dateArr[4] + ' ' + dateArr[5];
-		  // console.log('DATE OBJ: ',date)
-
 		  return date;
 		}
 	}
@@ -274,19 +228,11 @@ export default class discboard_screen extends Component {
 		var postFullDesc = postObj.post_text;
 		var postDesc = postObj.post_text;
 		var postDescArr = postDesc.split(' ')
-		//console.log("POST DESC ARR: ", postDescArr)
-		//if(postDescArr.length != null || postDesc.length != undefined) {
 		if(postDescArr.length > 40) {
 			postDescArr = postDescArr.slice(0,40);
-			//console.log("NON ACT POST ARR: ",postDescArr);
 			postDescArr.push("\n...")
-			//console.log("NON ACT POST ARR: ",postDescArr);
-			//console.log("NON ACT POST ARR: ",postDescArr);
-			//console.log("ACT ARR: ", actualPostdescArr);
-			//actualPostdescArr = actualPostdescArr.join('');
 			postDescArr = postDescArr.join(' ');
 			postDesc = postDescArr;
-			//console.log("POST DESC: ", postDescArr)
 		}
 
 		var postDateAndTime = this.returnPostDateAndTime(postObj);
@@ -297,83 +243,6 @@ export default class discboard_screen extends Component {
 				postDesc: postDesc, fullPostDesc: postFullDesc,postDateAndTime: postDateAndTime,
 				postCommentCount: postCommentCount, postKey: postKey};
 	}
-
-	// fetchDateTime() {
-	// 	var today = new Date();
-	// 	var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-	// 	var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-	// 	var day = days[today.getDay()];
-	// 	var month = months[ today.getMonth() ];
-	// 	var dd = today.getDate();
-	// 	//var mm = today.getMonth()+1; //January is 0!
-	// 	var yyyy = today.getFullYear();
-		
-
-	// 	// if(dd<10) {
- //  //   		dd = '0'+dd
-	// 	// } 
-
-	// 	// if(mm<10) {
- //  //   		mm = '0'+mm
-	// 	// } 
-	// 	// var date = yyyy+'-'+mm+'-'+dd;
-
-	// 	var hh = today.getHours();
-	// 	var minmin = today.getMinutes();
-	// 	// var ss = today.getSeconds();
-	// 	var mid = 'am'
-	// 	if(hh ==0){
-	// 		hh = 12;
-	// 	} else if (hh > 12) {
-	// 		hh = hh % 12;
-	// 		mid = 'pm'
-	// 	}
-
-	// 	// if(hh<10) {
- //  //   		hh = '0'+hh
-	// 	// } 
-
-	// 	if(minmin<10) {
- //    		minmin = '0'+minmin
-	// 	} 
-
-	// 	// if(ss<10) {
- //  //   		ss = '0'+ss
-	// 	// } 
-
-	// 	//var time = hh + ":" + minmin + ":" + ss;
-	// 	var dateTime = day + " " + month + " " + dd + " " + yyyy + " " + hh + ":" + minmin + " " + mid;
-
-	// 	return(dateTime)
-	// }
-
-	// //If this is a modal, should it have the postID as a state?
-	// replyTest() {
-	// 	var postID = "-LGkHRzQcq_sqphPpOL6" //This should come from the state as well.
-	// 	// console.log("Test was pushed!")
-	// 	// console.log("With postID ", postID)
-		
-	// 	//Tests replying to a given post just on the back end database
-	// 	var newDateTime = this.fetchDateTime()
-	// 	var parentPostCommentCount = 0    //TO DO: This needs to be in the state, not a constant value!
-	// 	var userID = firebase.auth().currentUser.uid
-	// 	var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
-	// 	var newReplyRef = repliesListRef.push();
-	// 	newReplyRef.set({
-	// 		'author_name': "Firstname" + ' ' + "Lastname", //TO DO: This should be referenced from props
- //  			'author_headline': "Example Headline",			//TO DO: This should be referenced from props
- //  			'author_initials': "FL",						//TO DO: So should this!
- //  			'author_id': userID,
- //  			'reply_date_time': newDateTime,
- //  			'reply_text': "Foo!",							//TO DO: What the user typed in, This should be from state.
-	// 	})
-	// 	.then(() => {
-	// 		//This part increments the comment count on the parent post
-	// 		console.log("Created the reply post. Now trying to increment comment count...")
-	// 		firebase.database().ref('/discBoardposts/' + postID +'/comment_count/').set(parentPostCommentCount + 1)//{
-	// 		console.log("Incremented comment count on parent post, I think.")
-	// 	 })
-	// }
 
 	renderSeparator() {
 		return (

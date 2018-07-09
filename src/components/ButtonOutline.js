@@ -41,17 +41,10 @@ export default class ButtonOutline extends Component {
 }
 
 const styles = ({
-  // container: {
-  //   //backgroundColor: '#bdbdbd',
-  //   //borderColor: '#bdbdbd',
-  //   //borderWidth: 1,
-  //   borderRadius: 10,
-  // },
   textStyle: {
     alignSelf: 'center',
     color: 'rgb(255,255,255)',
     fontSize: 12,
     fontFamily: 'SFProText-Semibold',
-    // fontWeight: '300',
   },
 });

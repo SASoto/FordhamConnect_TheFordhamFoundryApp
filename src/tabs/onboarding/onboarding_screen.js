@@ -22,11 +22,9 @@ export default class onboarding_screen extends Component {
         <ImageBackground
           style={{
             flex: 1,
-            //resizeMode,
             position: 'absolute',
             width: '100%',
             height: '100%',
-            //alignItems: 'center',
           }}
 
           source={require('../../../Images/background_splash.jpg')}
@@ -50,8 +48,6 @@ export default class onboarding_screen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
-    //justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     marginTop: 100,
@@ -74,9 +70,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: 'center',
-    // color: 'white',
     fontSize: 15,
     fontFamily: 'HelveticaNeue-Medium',
-    // fontWeight: '300',
   }
 });

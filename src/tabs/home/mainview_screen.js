@@ -28,8 +28,6 @@ export default class mainview_screen extends Component {
 	renderFeed() {
 		if(!this.state.hasScrolled) {
 			this.setState({hasScrolled: true});
-			//if(this.refs._scrollView.y != 250);
-				// this.refs._scrollView.scrollTo(250);
 		}
 		this.refs._scrollView.scrollTo({x:0, y:250, animated: true});
 		this.setState({loadFeed: true, loadDB: false, loadMyDB: false});
@@ -38,8 +36,6 @@ export default class mainview_screen extends Component {
 	renderDB() {
 		if(!this.state.hasScrolled) {
 			this.setState({hasScrolled: true});
-			//if(this.refs._scrollView.y != 250);
-				//this.refs._scrollView.scrollTo({x:0,y:250,animated:true});
 		}
 		this.refs._scrollView.scrollTo({x:0, y:250, animated: true});
 		this.setState({loadFeed: false, loadDB: true, loadMyDB: false});
@@ -48,7 +44,6 @@ export default class mainview_screen extends Component {
 	renderMyDB() {
 		if(!this.state.hasScrolled) {
 			this.setState({hasScrolled: true});
-			//if(this.refs._scrollView.y != 250);
 				this.refs._scrollView.scrollTo({x:0,y:250,animated:true});
 		}
 
@@ -111,11 +106,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'HelveticaNeue-Medium'
 	},
 	tabBarStyle: {
-		//flex: 1,
 		flexDirection: "row",
 		height: 40,
-		// position: 'absolute',
-		// top: 40,
-		// left: 0,
 	}
 })

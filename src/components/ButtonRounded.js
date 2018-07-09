@@ -47,12 +47,6 @@ export default class ButtonRounded extends Component {
 }
 
 const styles = ({
-  // container: {
-  //   //backgroundColor: '#bdbdbd',
-  //   //borderColor: '#bdbdbd',
-  //   //borderWidth: 1,
-  //   borderRadius: 10,
-  // },
   textStyle: {
     alignSelf: 'center',
     color: 'white',

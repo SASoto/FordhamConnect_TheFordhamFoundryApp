@@ -64,10 +64,7 @@ export default class ProfileCard extends Component {
 	render() {
 		const styles =({
 			encompCont: {
-				//alignItems:"center",
 				marginTop: 20,
-				//flex: 1,
-				//alignItems: 'center',
 				backgroundColor: '#dbd1ce',
 				borderRadius: 8,
 	            width: windowSize.width*.95,
@@ -105,7 +102,6 @@ export default class ProfileCard extends Component {
 				fontFamily: 'SFProText-Light',
 				fontSize: 14,
 				color: 'rgb(115,115,115)',
-				//textAlign: 'center'
 			},
 			gradientCont: {
 				flex: 1,
@@ -114,7 +110,6 @@ export default class ProfileCard extends Component {
 				shadowOffset: {
 					width: 0,height: 2
 				},
-				//height: 300,
 				shadowRadius: 4,
 				shadowOpacity: 1,
 				width: windowSize.width * .9,
@@ -162,25 +157,6 @@ export default class ProfileCard extends Component {
 		)
 	}
 }
-
-
-
-// <ImageBackground
-// 		          resizeMode='cover'
-// 		          style={{
-// 		            //flex: 1,
-		   //          //borderRadius: 8,
-		   //          width: windowSize.width*.9,
-		   //          shadowColor: 'rgba(0, 0, 0, 0.5)',
-					// shadowOffset: {
-					// 	width: 0,height: 2
-					// },			
-					// shadowRadius: 4,
-					// shadowOpacity: 1,      
-// 		          }}
-
-// 		            //source={require('../../Images/plussilvergradient.png')}
-// 		        >
 
 const styles2 = ({
 	loadingOverlay: {

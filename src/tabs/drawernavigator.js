@@ -21,7 +21,6 @@ class drawernavigator extends Component {
 		this.setState({modalVisible: false});
 	}
 
-	// const userEmail = firebase.auth().currentUser.email;
 	render() {
 	return (
 	<View flex={1} borderBottomWidth={0} borderTopWidth={0} borderLeftWidth={0} borderRightWidth={0.5} borderColor="rgba(0,0,0,34)">
@@ -64,8 +63,6 @@ class drawernavigator extends Component {
 				<View marginTop={20}>
 					<DrawerItems 
 					{...this.props}
-					//labelStyle={{fontFamily: 'SFProText-Bold', fontSize: 14}}
-					//items={items.filter((item) => item.routeName !== 'Profile')}
 					/>
 				</View>
 			<View marginTop={20} marginBottom={17} borderTopWidth={1} borderColor='rgba(112,68,68,0.64)'/>	
@@ -87,7 +84,6 @@ const styles = ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginRight: 10
-		//backgroundColor: 'grey'
 	},
 	userNameTxtStyle: {
 		fontFamily: 'SFProText-Regular',

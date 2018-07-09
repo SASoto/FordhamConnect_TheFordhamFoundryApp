@@ -49,15 +49,8 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_USER:
       console.log("EMAIL IS FROM REDUCER:", state.email)
       console.log("password IS FROM REDUCER:", state.password)
-      //console.log("firstname IS FROM REDUCER:", state.firstname)
       return {...state, /*...INITIAL_STATE,*/ loading: true, error: ''}
     case LOGIN_USER_SUCCESS:
-      //console.log("USER PAYLOAD IS: ", INITIAL_STATE.email)
-      // console.log("EMAIL IS FROM SUCCESS TYPE:", state.email)
-      // console.log("password IS FROM SUCCESS TYPE:", state.password)
-      // console.log("firstname IS FROM SUCCESS TYPE:", state.firstname)
-      // console.log("lastname IS FROM SUCCESS TYPE:" , state.lastname)
-      // console.log("website IS FROM SUCCESS TYPE:" , state.website)
       return {...state, /*...INITIAL_STATE,*/ user: action.payload, loading: false, loggedIn: true}
     case LOGIN_USER_FAIL:
       return {...INITIAL_STATE, error: 'Authentication Failed.'}

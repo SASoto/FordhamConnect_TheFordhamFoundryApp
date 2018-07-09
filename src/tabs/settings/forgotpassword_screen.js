@@ -19,8 +19,6 @@ const windowSize = Dimensions.get('window');
 class forgotpassword_screen extends Component {
   constructor(props) {
     super(props)
-
-    //this.checkStuff = this.checkStuff.bind(this)
   }
 
   onEmailChange(text){
@@ -100,7 +98,6 @@ class forgotpassword_screen extends Component {
     );
   }
 }
-//#6A2E34
 
 const styles = ({
   signInCont: {
@@ -121,7 +118,6 @@ const styles = ({
   goBackTxtStyle: {
     fontFamily: 'SFProText-Regular',
     color: 'rgb(255,255,255)',
-    //fontWeight: '300',
     fontSize: 12
   },
   passTxtStyle: {
@@ -136,7 +132,6 @@ const styles = ({
     width: windowSize.width * .85,
     color: 'rgb(255,255,255)',
     fontSize: 16,
-    // backgroundColor: 'rgba(106,46,52,0.68)',
     paddingLeft: 10,
   },
   inputBackground: {
@@ -168,7 +163,6 @@ const styles = ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.3)'
-    //backgroundColor: 'grey'
   }
 })
 
