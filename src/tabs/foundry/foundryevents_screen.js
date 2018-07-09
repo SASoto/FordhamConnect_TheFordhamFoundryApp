@@ -6,6 +6,7 @@ import {MaterialIndicator} from 'react-native-indicators';
 import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 
 // WP REST API 
+const REQUEST_URL_EVENTS = 'https://fordhamfoundry.org/wp-json/tribe/events/v1/events';
 const REQUEST_URL_POSTS  = 'https://fordhamfoundry.org/wp-json/wp/v2/posts';
 const REQUEST_URL_IMAGES = 'https://fordhamfoundry.org/wp-json/wp/v2/media';
 // Windowsize is referenced in the styles below.
@@ -65,9 +66,12 @@ export default class foundryevents_screen extends Component {
       //isLoading: true,
       sitedata_posts:[],
       sitedata_images:[],
-      postList: []
+      sitedata_events:[],
+      postList: [],
+      refreshing: false,
     }
     this.fetch_Data = this.fetch_Data.bind(this);
+    this.fetchLatestData = this.fetchLatestData.bind(this);
   }
 
   componentDidMount() {
@@ -81,15 +85,16 @@ export default class foundryevents_screen extends Component {
 
   // This is where the magic happens! Fetches the data from our API and updates the application state.
   fetch_Data() {
-    this.setState({sitedata_posts: [], sitedata_images: []});
+    this.setState({sitedata_posts: []});
 
-    fetch(REQUEST_URL_POSTS)
+    fetch(REQUEST_URL_EVENTS)
 		.then((response) => {
       response.json().then((responseJson) => {
-  			posts = responseJson
+  			events = responseJson
         //console.log('POSTS:',posts)
-        if(this.mounted && posts != null)
-  			 this.setState({sitedata_posts: posts});
+        if(this.mounted && events != null)
+          this.setState({sitedata_events: events});
+  			 //this.setState({sitedata_posts: posts});
          //console.log("STATE EVENTS:",this.state.sitedata_posts)
          //return posts;
   		})
@@ -122,55 +127,101 @@ export default class foundryevents_screen extends Component {
     // })
   }
 
-  // fetchLatestData() {
-  //   fetch(REQUEST_URL_POSTS)
-  //   .then((response) => {
-  //     response.json().then((responseJson) => {
-  //       posts = responseJson
-  //       //console.log('POSTS:',posts)
-  //       //if(this.mounted && posts != null)
-  //        this.setState({sitedata_posts: posts});
-  //        //console.log("STATE EVENTS:",this.state.sitedata_posts)
-  //        //return posts;
-  //     })
-  //     .then(() => {
-  //       this.createSectionedList()
-  //     })
-  //   })
-  //   .catch((error) => {
-  //     this.setState({refreshing: false});
-  //   })
+  fetchLatestData() {
+    fetch(REQUEST_URL_EVENTS)
+    .then((response) => {
+      response.json().then((responseJson) => {
+        events = responseJson
+        //console.log('POSTS:',posts)
+        if(events != null) {
+          const lengthofcurrevents = this.state.sitedata_events.events.length;
+          const curreventsarr = this.state.sitedata_events.events;
+          const latesteventsarr = events.events;
+          //console.log("WHAT IS THE EVENT: ",latesteventsarr);
+          // const latesteventincurrlistid = this.state.sitedata_events.events[lengthofcurrevents-1];
+          // const latesteventinlistid = events.events[events.events[events.events.length-1]].id;
 
-  //   this.setState({refreshing: false});
-  // }
-
-  createSectionedList() {
-        const setOfEvents = this.state.sitedata_posts;
-        //console.log("SET OF EVENTSL",this.state.sitedata_posts)
-        var sectionedList = [];
-        var eventsInOneDay = [];
-          
-        var onDate = this.returnEventDate(setOfEvents[0]);
-        for(var i=0; i<setOfEvents.length; i++) {
-          var currDate = this.returnEventDate(setOfEvents[i]);
-          if(currDate != onDate) {
-              sectionedList.push({title: onDate, data: eventsInOneDay});
-              onDate = currDate;
-              eventsInOneDay = [];
-              var eventData = this.returnEventData(setOfEvents[i]);
-              eventsInOneDay.push(eventData);
-          } else { //Name starts with the same letter we are currently on
-              var eventData = this.returnEventData(setOfEvents[i]);
-              eventsInOneDay.push(eventData)
+          if(latesteventsarr.length > lengthofcurrevents) {
+            console.log("LATEST EVENTS IS GREATER THAN curreventsarr")
+            const olderEvents = this.state.sitedata_events;
+            latesteventsarr = latesteventsarr.slice(lengthofcurrevents);
+            this.setState({sitedata_events: [...latesteventsarr,...olderEvents]});
           }
 
         }
-        sectionedList.push({title: onDate, data: eventsInOneDay});
-        for(var i=0; i<12; i++) {
-          sectionedList.push({title: '', data: []});
-        }
+         //console.log("STATE EVENTS:",this.state.sitedata_posts)
+         //return posts;
+      })
+      .then(() => {
+        this.createSectionedList()
+      })
+    })
+    .catch((error) => {
+      this.setState({refreshing: false});
+    })
 
-        this.setState({postList: sectionedList});
+    this.setState({refreshing: false});
+  }
+
+  createSectionedList() {
+    //EVENTS
+    const setOfEvents = this.state.sitedata_events.events;
+    // console.log("SET OF EVENTS ARR: ",this.state.sitedata_events)
+    // console.log("SET OF EVENTS OBJ: ",this.state.sitedata_events.events)
+    // console.log("SINGLE EVENT OBJ: ",this.state.sitedata_events.events[0])
+    //console.log("SET OF EVENTSL",this.state.sitedata_posts)
+    var sectionedList = [];
+    var eventsInOneDay = [];
+      
+    var onDate = this.returnEventDate(setOfEvents[0]);
+    for(var i=0; i<setOfEvents.length; i++) {
+      var currDate = this.returnEventDate(setOfEvents[i]);
+      if(currDate != onDate) {
+          sectionedList.push({title: onDate, data: eventsInOneDay});
+          onDate = currDate;
+          eventsInOneDay = [];
+          var eventData = this.returnEventData(setOfEvents[i]);
+          eventsInOneDay.push(eventData);
+      } else { //Name starts with the same letter we are currently on
+          var eventData = this.returnEventData(setOfEvents[i]);
+          eventsInOneDay.push(eventData)
+      }
+
+    }
+    sectionedList.push({title: onDate, data: eventsInOneDay});
+    for(var i=0; i<12; i++) {
+      sectionedList.push({title: '', data: []});
+    }
+
+    this.setState({postList: sectionedList});
+
+    //POSTS
+        // const setOfEvents = this.state.sitedata_posts;
+        // //console.log("SET OF EVENTSL",this.state.sitedata_posts)
+        // var sectionedList = [];
+        // var eventsInOneDay = [];
+          
+        // var onDate = this.returnEventDate(setOfEvents[0]);
+        // for(var i=0; i<setOfEvents.length; i++) {
+        //   var currDate = this.returnEventDate(setOfEvents[i]);
+        //   if(currDate != onDate) {
+        //       sectionedList.push({title: onDate, data: eventsInOneDay});
+        //       onDate = currDate;
+        //       eventsInOneDay = [];
+        //       var eventData = this.returnEventData(setOfEvents[i]);
+        //       eventsInOneDay.push(eventData);
+        //   } else { //Name starts with the same letter we are currently on
+        //       var eventData = this.returnEventData(setOfEvents[i]);
+        //       eventsInOneDay.push(eventData)
+        //   }
+
+        // }
+        // sectionedList.push({title: onDate, data: eventsInOneDay});
+        // for(var i=0; i<12; i++) {
+        //   sectionedList.push({title: '', data: []});
+        // }
+
+        // this.setState({postList: sectionedList});
         //return sectionedList;
     }
 
@@ -216,51 +267,54 @@ export default class foundryevents_screen extends Component {
     else {
       var date = event.date;
       var formattedDate = new Date(date);
+      //console.log("FORMATTED DATE: ",formattedDate);
       var newDate = formattedDate.toString();
       var dateArr = newDate = newDate.split(' ');
+      //console.log("DATE OF EVENT: ",dateArr);
       date = dateArr[1] + ' ' + dateArr[2] + ', ' + dateArr[3];
+      //console.log("DATE OBJECT: ",date);
 
       return date;
     }
   }
 
   returnEventData(event) {
-    const regex_1 = /(<([^>]+)>)/ig;
-    const regex_2 = /&#([0-9]{1,4});/g;
+    // const regex_1 = /(<([^>]+)>)/ig;
+    // const regex_2 = /&#([0-9]{1,4});/g;
 
-    var title = event.title.rendered.replace(regex_1, '');
-    title = title.replace(regex_2, '');
-    title = title.replace("&nbsp", '');
-    title = title.replace("&hellip", '...');
+    var title = event.title;//.rendered.replace(regex_1, '');
+    // title = title.replace(regex_2, '');
+    // title = title.replace("&nbsp", '');
+    // title = title.replace("&hellip", '...');
 
-    var desc = event.excerpt.rendered.replace(regex_1, '');
-    desc = desc.replace(regex_2, '');
-    desc = desc.replace("&nbsp", '');
-    desc = desc.replace("&hellip", '...');
-    desc = desc.replace(";", '');
+    // var desc = event.excerpt.rendered.replace(regex_1, '');
+    // desc = desc.replace(regex_2, '');
+    // desc = desc.replace("&nbsp", '');
+    // desc = desc.replace("&hellip", '...');
+    // desc = desc.replace(";", '');
 
-    var link = event.link
+    var link = event.url
     // var media = event.featured_media
     // var imageUrl = this.getImageData(media)
     //console.log("IMAGE URL:",imageUrl)
 
-    return {title: title, desc: desc, /*imageUrl: imageUrl,*/ link: link};
+    return {title: title, link: link};
   }
 
-  getImageData(media_id) {
-    //console.log("STATE IMAGES:",this.state.sitedata_images)
-    //console.log("MEDIA ID HERE:",media_id)
-    const numImages = this.state.sitedata_images.length
-    for(var i = 0; i < numImages; i++) {
-      if(this.state.sitedata_images[i].id == media_id)
-      {
-        const image_url = this.state.sitedata_images[i].guid.rendered;
-        return image_url;
-      }
-    }
+  // getImageData(media_id) {
+  //   //console.log("STATE IMAGES:",this.state.sitedata_images)
+  //   //console.log("MEDIA ID HERE:",media_id)
+  //   const numImages = this.state.sitedata_images.length
+  //   for(var i = 0; i < numImages; i++) {
+  //     if(this.state.sitedata_images[i].id == media_id)
+  //     {
+  //       const image_url = this.state.sitedata_images[i].guid.rendered;
+  //       return image_url;
+  //     }
+  //   }
 
-    return;
-  }
+  //   return;
+  // }
 
   // renderSeparator() {
   //   return (
@@ -273,6 +327,17 @@ export default class foundryevents_screen extends Component {
   //     />
   //   );
   // }
+
+  renderSeparator() {
+    return (
+      <View
+        style={{
+          height: 20,          
+          backgroundColor: "transparent",
+        }}
+      />
+    );
+  }
 
   renderCard() {
     return (
@@ -288,19 +353,20 @@ export default class foundryevents_screen extends Component {
 
           source={require('../../../Images/plussilvergradient.png')}
         >
-            <SectionList
+            <SectionList        
                 ListEmptyComponent={<View marginTop={50} alignItems="center">
                                       <MaterialIndicator color='rgb(115,115,115)' size={35}/>
                                     </View>}
                 stickySectionHeadersEnabled={false}
+                ItemSeparatorComponent={this.renderSeparator}
                 renderItem={({item, index}) => {
                     return (<SectionListItem item={item} index={index}/>)
                 }}
                 renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
                 sections={this.state.postList}
                 keyExtractor={(item, index) => index}
-                // refreshing={this.state.refreshing}
-                // onRefresh={this.fetchLatestData()}
+                refreshing={this.state.refreshing}
+                onRefresh={this.fetchLatestData}
             />
         </ImageBackground>
     	</View>

@@ -23,35 +23,57 @@ class profilemodal extends Component {
 		 	tempWebsite: "",
 		 	tempLocation: "",
 		 	tempBio: "",
+		 	propsShouldChange: false
 		}
 		//console.log("Construction complete!")
 	}
 
 	onEmailChange(text){
+		// if(!propsShouldChange)
+		// 	this.setState({propsShouldChange: true})
+
         this.props.emailChanged(text)
     }
 
     onFirstNameChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+
         this.props.firstnameChanged(text)
     }
 
     onLastNameChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+		
         this.props.lastnameChanged(text)
     }
 
     onHeadlineChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+		
         this.props.headlineChanged(text)
     }
 
     onWebsiteChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+		
         this.props.websiteChanged(text)
     }
 
     onLocationChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+		
         this.props.locationChanged(text)
     }
 
     onBioChange(text){
+   //  	if(!propsShouldChange)
+			// this.setState({propsShouldChange: true})
+		
         this.props.bioChanged(text)
     }
 
@@ -61,28 +83,30 @@ class profilemodal extends Component {
         // this.fetchuserProfileData()       
     }
 
-    componentWillUnmount() {
-    	console.log("componentWillUnmount is running from profilemodal")
-    }
+    // componentWillUnmount() {
+    // 	console.log("componentWillUnmount is running from profilemodal")
+    // }
 
     resetProfileModal() {
-    	console.log("resetProfileModal was run!!")
-    	this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
+    	//if(this.state.propsShouldChange) {
+    		console.log("resetProfileModal was run!!")
+    		this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio})
+    	//}
+    	
     	this.props.modalFunc()
     }
 
     setNewProfileData() {
-    	console.log("Trying to set new profile data.")
-    	console.log("localheadline is now...", this.state.tempHeadline)
-    	console.log("storeheadline is now...", this.props.headline)
-    	console.log("Trying to set to firebase...")
-
+    	// console.log("Trying to set new profile data.")
+    	// console.log("Trying to set to firebase...")
+    	// console.log("CURRENTY FIRST NAME IS: ",this.state.tempFirstName)
+    	// console.log("CURRENTLY LAST NAME IS: ",this.state.tempLastName)
     	var userID = firebase.auth().currentUser.uid
 
     	firebase.database().ref('users/' + userID).set({
-    		email: this.state.tempEmail,
-    		firstname: this.state.tempFirstName,
-    		lastname: this.state.tempLastName,
+    		email: this.props.email,
+    		firstname: this.state.tempFirstName[0].toUpperCase() + this.state.tempFirstName.slice(1),
+    		lastname: this.state.tempLastName[0].toUpperCase() + this.state.tempLastName.slice(1),
     		initials: this.state.tempInitials,
     		headline: this.state.tempHeadline,
     		website: this.state.tempWebsite,
@@ -90,45 +114,20 @@ class profilemodal extends Component {
     		bio: this.state.tempBio,
   		})
   		.then(() => {
-  			this.onEmailChange(this.state.tempEmail)
-  			this.onFirstNameChange(this.state.tempFirstName)
-  			this.onLastNameChange(this.state.tempLastName)
+  			// this.onEmailChange(this.state.tempEmail)
+  			this.onFirstNameChange(this.state.tempFirstName[0].toUpperCase() + this.state.tempFirstName.slice(1))
+  			this.onLastNameChange(this.state.tempLastName[0].toUpperCase() + this.state.tempLastName.slice(1))
   			this.onHeadlineChange(this.state.tempHeadline)
   			this.onWebsiteChange(this.state.tempWebsite)
   			this.onLocationChange(this.state.tempLocation)
   			this.onBioChange(this.state.tempBio)
-
   		})
   		.then(() =>{
   			console.log("Completed firebase calls.")
+  			this.setState({tempEmail: this.props.email, tempFirstName: this.props.firstname, tempLastName: this.props.lastname, tempInitials: this.props.initials, tempHeadline: this.props.headline, tempWebsite: this.props.website, tempLocation: this.props.location, tempBio: this.props.bio});
   			alert("Success! Your profile information has been updated.")
+
   		})
-		// var userID = firebase.auth().currentUser.uid;
-		// var contactInfo = {email: "", firstname: "", lastname: "", headline: "", website: "", location: "", bio: ""}
-
-		// firebase.database().ref('/users/' + userID).once('value').then(function(snapshot) {
-  // 			var contactEmail = snapshot.val().email
-  // 			var contactFirstName = snapshot.val().firstname
-  // 			var contactLastName = snapshot.val().lastname
-  // 			var contactHeadline = (snapshot.val().headline || "")
-  // 			var contactWebsite = (snapshot.val().website || "")
-  // 			var contactLocation = (snapshot.val().location || "")
-  // 			var contactBio = snapshot.val().bio
-
-  // 			//console.log("User headline is ...", contactHeadline)
-  // 			//console.log("User bio is ...", contactBio)
-  // 			contactInfo = {email: contactEmail, firstname: contactFirstName, lastname: contactLastName, headline: contactHeadline, website: contactWebsite, location: contactLocation, bio: contactBio}
-  // 			console.log("ContactInfo is ", contactInfo)
-  // 			console.log("ContactInfo bio is ", contactInfo.bio)
-  // 			//console.log("state headline is ", this.state.headline)
-
-  // 			//return contactInfo
-  // 			// ...
-		// })
-		// .then(() => {
-		// 	this.setState({userEmail: contactInfo.email, userFirstName: contactInfo.firstname, userLastName: contactInfo.lastname, userPersonalHeadline: contactInfo.headline, userWebsite: contactInfo.website, userLocation: contactInfo.location, userBio: contactInfo.bio})
-		// 	console.log("And now this.state has bio " + this.state.userBio)
-		// })
 	}
 
 	render () {
@@ -190,7 +189,7 @@ class profilemodal extends Component {
 						</ImageBackground>
 						<KeyboardAwareScrollView flex={1} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
 						<ScrollView flex={1} bounces={false} showsVerticalScrollIndicator={false}>
-						<View flex={1} alignItems="flex-start" backgroundColor="rgba(106,46,52,0.1)">
+						<View flex={1} alignItems="flex-start">
                         <View paddingTop={20} paddingLeft={28}>
 
                             <View flexDirection="row">
@@ -226,7 +225,7 @@ class profilemodal extends Component {
 						          autoCorrect = {false}
 						          editable={true}
 						          onChangeText={(text) => this.setState({tempFirstName: text})}
-        						  value={this.state.tempFirstName}				  		         				       
+        						  //value={this.state.tempFirstName}				  		         				       
 						        />
 						        </View>
 					        </View>
@@ -242,7 +241,7 @@ class profilemodal extends Component {
 						          autoCorrect = {false}
 						          editable={true}	
 						          onChangeText={(text) => this.setState({tempLastName: text})}
-        						  value={this.state.tempLastName}		     				          
+        						  //value={this.state.tempLastName}		     				          
 						        />
 						        </View>
 					        </View>
@@ -259,7 +258,7 @@ class profilemodal extends Component {
 						          editable={true}
 						          maxLength={30}
 						          onChangeText={(text) => this.setState({tempHeadline: text})}
-        						  value={this.state.tempHeadline}	
+        						  //value={this.state.tempHeadline}	
 						          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
 						        />
 						        </View>				       
@@ -277,7 +276,7 @@ class profilemodal extends Component {
 						          editable={true}	
 						          textContentType={URL}	
 						          onChangeText={(text) => this.setState({tempWebsite: text})}
-        						  value={this.state.tempWebsite}	
+        						  //value={this.state.tempWebsite}	
 						          placeholder="ex. LinkedIn/a personal site"	      				          
 						        />	
 						        </View>				        
@@ -294,7 +293,7 @@ class profilemodal extends Component {
 						          autoCorrect = {false}
 						          editable={true}			
 						          onChangeText={(text) => this.setState({tempLocation: text})}
-        						  value={this.state.tempLocation}	      				          
+        						  //value={this.state.tempLocation}	      				          
 						          placeholder="ex. Greater New York City Area"
 						        />
 						        </View>				        
@@ -313,8 +312,13 @@ class profilemodal extends Component {
 						          multiline={true}
 						          maxLength={600}
 						          onChangeText={(text) => this.setState({tempBio: text})}
+<<<<<<< HEAD
         						  value={this.state.tempBio}	
 						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career! (600 characters or less, please.)"      				          
+=======
+        						  //value={this.state.tempBio}	
+						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
+>>>>>>> 71a131f4138cd2283d42fc49f350ed82a3853de9
 						        />
 						        </View>
 					        </View>						

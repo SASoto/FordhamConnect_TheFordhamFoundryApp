@@ -21,6 +21,7 @@ const TIMELINE_URL = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 const USER_ID = '1006242115909771264';
 
 const TIMELINE_COUNT = '10';
+const FOR_OLD_AND_NEW = '20';
 
 const windowSize = Dimensions.get('window');
 
@@ -33,7 +34,7 @@ export default class feed_screen extends Component {
         this.state = {
             retToken: null,
             feedData: [],
-            loading: true,
+            //loading: true,
             refreshing: false,
 
             sinceId: null,
@@ -45,9 +46,10 @@ export default class feed_screen extends Component {
 
         this.fetchToken = this.fetchToken.bind(this);
         this.fetchTwitterFeed = this.fetchTwitterFeed.bind(this);
-        
-        this.loadOlderTweets = this.loadOlderTweets.bind(this);
-        this.loadNewerTweets = this.loadNewerTweets.bind(this);
+        this.fetchOldTweets = this.fetchOldTweets.bind(this);
+        this.fetchNewTweets = this.fetchNewTweets.bind(this);   
+        // this.loadOlderTweets = this.loadOlderTweets.bind(this);
+        // this.loadNewerTweets = this.loadNewerTweets.bind(this);
     }
 
 	componentDidMount() {
@@ -109,12 +111,12 @@ export default class feed_screen extends Component {
         }
   		})
 		})
-		.catch((error) => {this.setState({error, loading: false, refreshing: false})});
+		.catch((error) => {this.setState({error, /*loading: false,*/ refreshing: false})});
 	}
 
 	fetchTwitterFeed() {
-      if(!this.state.loading)
-        this.setState({loading: true})
+      // if(!this.state.loading)
+      //   this.setState({loading: true})
       //this.setState({refreshing: true})
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&include_rts=1&tweet_mode=extended`;
 
@@ -136,16 +138,16 @@ export default class feed_screen extends Component {
             this.setState({feedData: result, sinceId: result[0].id, maxId: result[result.length-1].id});
     	})
     	})
-    	.catch((error) => {this.setState({error, loading: false, refreshing: false})})
+    	.catch((error) => {this.setState({error, /*loading: false,*/ refreshing: false})})
 
-      this.setState({refreshing: false, loading: false})
+      this.setState({refreshing: false, /*loading: false*/})
   }
 
   fetchNewTweets() {
-    if(!this.state.loading)
-        this.setState({loading: true})
+    // if(!this.state.loading)
+    //     this.setState({loading: true})
 
-      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&since_id=${this.state.sinceId}&include_rts=1&tweet_mode=extended`;
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${FOR_OLD_AND_NEW}&since_id=${this.state.sinceId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
         Authorization: 'Bearer ' + this.state.retToken.access_token,
@@ -174,17 +176,21 @@ export default class feed_screen extends Component {
       }
       )
       })
-      .catch((error) => {this.setState({error, loading: false, refreshing: false})})
+      .catch((error) => {this.setState({error, /*loading: false,*/ refreshing: false})})
 
-      this.setState({refreshing: false, loading: false})
+      this.setState({refreshing: false, /*loading: false*/})
 
   }
 
   fetchOldTweets() {
-    if(!this.state.loading)
-        this.setState({loading: true})
+    // if(!this.state.loading)
+    //     this.setState({loading: true})
+      if(!this.canAction) return;
 
-      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${TIMELINE_COUNT}&max_id=${this.state.maxId}&include_rts=1&tweet_mode=extended`;
+      // console.log("CURRENT LENGTH OF FEED: ",this.state.feedData.length);
+      // console.log("FETCHING OLD TWEETS NOW")
+
+      var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${FOR_OLD_AND_NEW}&max_id=${this.state.maxId}&include_rts=1&tweet_mode=extended`;
 
       const header = {
         Authorization: 'Bearer ' + this.state.retToken.access_token,
@@ -211,9 +217,9 @@ export default class feed_screen extends Component {
           }
       })
       })
-      .catch((error) => {this.setState({error, loading: false, refreshing: false})})
+      .catch((error) => {this.setState({error, /*loading: false,*/ refreshing: false})})
 
-      this.setState({refreshing: false, loading: false})
+      this.setState({refreshing: false, /*loading: false*/})
   }
 
 	// renderSeparator() {
@@ -380,6 +386,7 @@ export default class feed_screen extends Component {
             <View marginTop={20} backgroundColor="transparent"/>
             
             <FlatList
+              bounces={false}
               ItemSeparatorComponent={this.renderSeparator}
               data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
                 <View alignItems="center">
@@ -387,12 +394,22 @@ export default class feed_screen extends Component {
                 </View>
                 
           	  }
-             onEndReached={this.loadOlderTweets}
-             onEndThreshold={1}
+              onEndReached={this.fetchOldTweets}
+              onEndThreshold={0}
+              //onEndReached={this._onEndReached}
+              onEndReachedThreshold={0.2}
+              onMomentumScrollBegin={() => {
+                console.log('onMomentumScrollBegin');
+                this.canAction = true;
+              }}
+              onMomentumScrollEnd={() => {
+                console.log('onMomentumScrollEnd');
+                this.canAction = false;
+              }}
              refreshControl={
                <RefreshControl
                    refreshing={this.state.refreshing}
-                   onRefresh={this.loadNewerTweets}
+                   onRefresh={this.fetchNewTweets}
                    title="Pull to refresh"
                    tintColor="darkgrey"
                 />
