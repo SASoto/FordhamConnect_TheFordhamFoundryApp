@@ -257,6 +257,7 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
 						          editable={true}
+						          maxLength={30}
 						          onChangeText={(text) => this.setState({tempHeadline: text})}
         						  value={this.state.tempHeadline}	
 						          placeholder="ex. FCRH '15 or Gabelli '87"			      				          
@@ -273,7 +274,8 @@ class profilemodal extends Component {
 						          value = {this.props.website}			          
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
-						          editable={true}		
+						          editable={true}	
+						          textContentType={URL}	
 						          onChangeText={(text) => this.setState({tempWebsite: text})}
         						  value={this.state.tempWebsite}	
 						          placeholder="ex. LinkedIn/a personal site"	      				          
@@ -309,9 +311,10 @@ class profilemodal extends Component {
 						          autoCorrect = {false}
 						          editable={true}
 						          multiline={true}
+						          maxLength={600}
 						          onChangeText={(text) => this.setState({tempBio: text})}
         						  value={this.state.tempBio}	
-						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career!"      				          
+						          placeholder="ex. Tell use about your work experience, association with the Fordham Foundry, or anything relevant to your education or career! (600 characters or less, please.)"      				          
 						        />
 						        </View>
 					        </View>						

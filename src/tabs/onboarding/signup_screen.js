@@ -101,22 +101,22 @@ class signup_screen extends Component {
             </View>
             <View marginTop={50}>
                 <View>
-                  <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
+                  <FilledTextInput fieldName="FORDHAM EMAIL*" fillColor="rgba(106,46,52,0.68)" fontSize={12} textContentType="username" passedFunc={this.onEmailChange.bind(this)} passedVal={this.props.email}/>
                 </View>
                 <View marginTop={15}>
-                  <FilledTextInput fieldName="FIRST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
+                  <FilledTextInput fieldName="FIRST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} textContentType="givenName" autoCapitalize="words" passedFunc={this.onFirstNameChange.bind(this)} passedVal={this.props.firstname}/>
                 </View>
                 <View marginTop={15}>
-                  <FilledTextInput fieldName="LAST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
+                  <FilledTextInput fieldName="LAST NAME*" fillColor="rgba(106,46,52,0.68)" fontSize={12} textContentType="familyName" autoCapitalize="words" passedFunc={this.onLastNameChange.bind(this)} passedVal={this.props.lastname}/>
                 </View>
                 <View marginTop={15}>
-                  <FilledTextInput fieldName="PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
+                  <FilledTextInput fieldName="PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} textContentType="password" secureTextEntry={true} passedFunc={this.onPasswordChange.bind(this)} passedVal={this.props.password}/>
                 </View>
                 <View marginTop={7}>
                     <Text style={styles.passMessageStyle}>*password must be at least 8 characters long</Text>
                 </View>
                 <View marginTop={10}>
-                    <FilledTextInput fieldName="CONFIRM PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
+                    <FilledTextInput fieldName="CONFIRM PASSWORD*" fillColor="rgba(106,46,52,0.68)" fontSize={12} textContentType="password" secureTextEntry={true} passedFunc={this.onConfirmChange.bind(this)} passedVal={this.props.confirm}/>
                 </View>
             </View>
             <View marginTop={26}>

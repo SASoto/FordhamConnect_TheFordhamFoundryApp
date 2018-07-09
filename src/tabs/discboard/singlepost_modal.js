@@ -340,7 +340,7 @@ class singlepost_modal extends Component {
 				//console.log("Incremented comment count on parent post, I think.")
 		 	})
 			.then(() => {
-				this.setState({replyText: ""})
+				this.setState({replyText: "", parentPostCommentCount: this.state.parentPostCommentCount + 1})
 				this.refs._repliesScrollView.scrollToEnd({animated: false})
 			})//.then(() => {
 			// 	this.fetchLatestReplies();
@@ -505,7 +505,7 @@ class singlepost_modal extends Component {
 			           	</ScrollView>
 		           		<View marginTop={8} justifyContent="center" borderTopWidth={1} borderColor='rgb(199,193,195)' bottom={0} paddingLeft={30} paddingVertical={15}>
 						
-		           		<Button title="Test" onPress={() => {this.testArray()}}/>
+		           		
 						<View flexDirection="row">
 							<View justifyContent="center">
 								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.userProfPic}>
@@ -521,6 +521,7 @@ class singlepost_modal extends Component {
 												autoCapitalize = 'none'
 												autoCorrect = {false}
 												editable={true}
+												multiline={true}
 												onChangeText={(text) => this.setState({replyText: text})}
 	        						  			value={this.state.replyText}												
 												placeholder="Add a comment..."
@@ -643,6 +644,7 @@ const styles = ({
 	},
 	replyTextInput: {
 		padding: 12,
+		height: 40,
 		width: 200,
 		fontFamily: 'SFProText-Regular',
 		fontSize: 16,
