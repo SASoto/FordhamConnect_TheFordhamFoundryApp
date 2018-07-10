@@ -122,7 +122,7 @@ class singlepost_modal extends Component {
 
 	componentDidMount() {
 		const replyEndpoint = '/discBoardreplies/' + this.props.postKey + '/';
-		console.log("Earlier in componentDidMount... DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		
+		//console.log("Earlier in componentDidMount... DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		
 		firebase.database().ref(replyEndpoint).on('value', (snap) => {
 			console.log("New listener is on!")
 		  //do something with snap
@@ -133,7 +133,7 @@ class singlepost_modal extends Component {
 			else {
 				const latestReplies = Object.values(snap.val());
 		        this.setState({discussionBoardReplies: latestReplies, backupDiscussionBoardReplies: latestReplies})
-		        console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
+		        //console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
 			}
 		})
 		//this.onDeletePress()
@@ -141,7 +141,7 @@ class singlepost_modal extends Component {
 
     componentWillUnmount() {
     	firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off()
-    	console.log("IS THIS UNMOUNT RUNNING: ",this.props.postKey)
+    	//console.log("IS THIS UNMOUNT RUNNING: ",this.props.postKey)
     }
 
     fetchLatestReplies() {
@@ -168,7 +168,7 @@ class singlepost_modal extends Component {
     }
 
     secondButtonPress() {
-    	console.log("Boom! We totally deleted it.")
+    	//console.log("Boom! We totally deleted it.")
     	//PLACE THE FOLLOWING CODE SOMEWHERE HERE TO EXECUTE BACKEND REMOVAL OF POSTS AND REPLIES
 			var postRef = firebase.database().ref("/discBoardposts/" + this.props.postKey + "/");
 			postRef.remove()
@@ -198,7 +198,7 @@ class singlepost_modal extends Component {
     }
 
     onDeletePress() {
-    	console.log("State of postauthID for this post is...", this.state.postauthID)
+    	//console.log("State of postauthID for this post is...", this.state.postauthID)
 
 		var user = firebase.auth().currentUser;
 		var uid;
@@ -209,9 +209,9 @@ class singlepost_modal extends Component {
                    // you have one. Use User.getToken() instead.
 		}
 		if (uid == this.state.postauthID){
-			console.log("USER SHOULD BE ABLE TO DELETE this post!")
-			console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
-			console.log("And at /discBoardreplies/" + this.props.postKey + "/")
+			//console.log("USER SHOULD BE ABLE TO DELETE this post!")
+			//console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
+			//console.log("And at /discBoardreplies/" + this.props.postKey + "/")
 
 			AlertIOS.alert(  
 				'Are You Sure You Want to Delete?', 
@@ -227,15 +227,15 @@ class singlepost_modal extends Component {
     }
 
     returnAfterDelete() {
-    	console.log("Trying to return to the discussion board now...")
+    	//console.log("Trying to return to the discussion board now...")
     	this.resetAndExit()
     }
 
     appendLatestReplies(setOfNewReplies) {
     	if(setOfNewReplies.length > this.state.discussionBoardReplies.length) {
     		const latestReplies = setOfNewReplies.slice(this.state.discussionBoardReplies.length);
-    		console.log("LIST OF REPLIES WE ALREADY HAVE: ",this.state.discussionBoardReplies)
-    		console.log("FRESH BATCH: ",latestReplies);
+    		//console.log("LIST OF REPLIES WE ALREADY HAVE: ",this.state.discussionBoardReplies)
+    		//console.log("FRESH BATCH: ",latestReplies);
     		const olderReplies = this.state.discussionBoardReplies;
     		this.setState({discussionBoardReplies: [...olderReplies,...latestReplies]});
     	}
@@ -288,7 +288,7 @@ class singlepost_modal extends Component {
 			var newDateTime = this.fetchDateTime()
 			var commentCount = this.state.parentPostCommentCount    //TO DO: This needs to be in the state, not a constant value!
 		//console.log(this.props.postCommentCount)
-			console.log("Old comment count was", commentCount)
+			//console.log("Old comment count was", commentCount)
 			var userID = firebase.auth().currentUser.uid
 			var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
 			var newReplyRef = repliesListRef.push();
@@ -312,15 +312,15 @@ class singlepost_modal extends Component {
 	}
 
 	resetAndExit() {
-		console.log("Exit process started...")
-		console.log("Latest Posts have been fetched.")
+		// console.log("Exit process started...")
+		// console.log("Latest Posts have been fetched.")
 		//this.props.fetchLatestPosts()
 		this.cleanState();
 
-		console.log("About to run the modalFunc")
+		// console.log("About to run the modalFunc")
 		setTimeout(() => {this.props.modalFunc()},250)
 		setTimeout(() => {this.props.fetchLatestPosts()},250)
-		console.log("And now the modalFunc has run.")
+		// console.log("And now the modalFunc has run.")
 	}
 
 	newRepliesArrived() {
@@ -333,7 +333,7 @@ class singlepost_modal extends Component {
 
 	cleanState() {
 		this.setState({discussionBoardReplies: [{'reply_key': 12345, 'author_name': ' ', 'author_initials': ' ', 'author_headline': ' ', 'reply_date_time': ' ', 'reply_text': ' ', 'author_id': 12345}]})
-		console.log("The testArray is in place.")
+		//console.log("The testArray is in place.")
 	}
 
 	renderIf(condition) {
