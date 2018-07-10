@@ -1,5 +1,6 @@
 import {EMAIL_CHANGED, PASSWORD_CHANGED, CONFIRM_CHANGED, FIRSTNAME_CHANGED, LASTNAME_CHANGED, INITIALS_CHANGED, HEADLINE_CHANGED, WEBSITE_CHANGED, LOCATION_CHANGED, BIO_CHANGED, IS_EMPTY,LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,LOGIN_USER, EXISTS_FAIL, NO_USER, NEW_USER, LOGOUT_USER_SUCCESS, LOGGEDIN_USER} from './types' 
 import {Actions} from 'react-native-router-flux'
+import {Alert} from 'react-native'
 import firebase from 'firebase'
 
 export const emailChanged = (text) => {
@@ -159,7 +160,37 @@ export const loginUser = ({email, password}) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       loginUserFail(dispatch);
-      alert(errorMessage);
+      if (errorMessage == "The email address is badly formatted.") {
+        Alert.alert(
+          'Oops!',
+          "That doesn't look like a valid email address – try again.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else  if (errorMessage == "The password is invalid or the user does not have a password.") {
+        Alert.alert(
+          'Oops!',
+          "That's not the password we have on file for that account – try again.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else if (errorMessage == "There is no user record corresponding to this identifier. The user may have been deleted.") {
+        Alert.alert(
+          'Oops!',
+          "This account doesn't exist – try again, or tap 'First time user?' to create a new account.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else {
+        alert(errorMessage)
+      }
+
     })
 
     //CHECK THAT PROMISE CONTAINS A CERTAIN VALUE      
@@ -207,7 +238,36 @@ export const loginNewUser = ({email, password}) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       loginUserFail(dispatch);
-      alert(errorMessage);
+      if (errorMessage == "The email address is badly formatted.") {
+        Alert.alert(
+          'Oops!',
+          "That doesn't look like a valid email address – try again.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else  if (errorMessage == "The password is invalid or the user does not have a password.") {
+        Alert.alert(
+          'Oops!',
+          "That's not the password we have on file for that account – try again.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else if (errorMessage == "There is no user record corresponding to this identifier. The user may have been deleted.") {
+        Alert.alert(
+          'Oops!',
+          "This account doesn't exist – try again, or tap 'First time user?' to create a new account.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+      } else {
+        alert(errorMessage)
+      }
     })
     //CHECK THAT PROMISE CONTAINS A CERTAIN VALUE      
     .catch(()=> loginUserFail(dispatch))
@@ -269,21 +329,51 @@ export const newUser = ({email, password, confirm, firstname, lastname, headline
     return(dispatch) => {
       isEmpty(email,password,confirm,firstname,lastname),
       console.log("email is " + email + ", password is " + password + ", confirm is " + confirm + ", firstname is " + firstname + ", lastname is " + lastname)
-      alert ("Oops! Sign Up By Filling out Each Field.")
+      Alert.alert(
+          'Oops!',
+          "To sign up, all fields must be filled out.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
+
     }
   } else if (validFordham == false) {
     return(dispatch) => {
-      alert("Oops! Your email must be a valid @fordham.edu address.")
+      //alert("Oops! Your email must be a valid @fordham.edu address.")
+      Alert.alert(
+          'Oops!',
+          "Your email must be a valid @fordham.edu address.",
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+      )
     }
   }
     else if (password.length < 8) {
     return(dispatch) => {
-      alert ("Oops! Password is too short – it should be at least 8 characters.")
+      //alert ("Oops! Password is too short – it should be at least 8 characters.")
+      Alert.alert(
+          'Oops!',
+          "Password is too short – it should be at least 8 characters.",
+          [
+            {text: 'OK'},
+          ],
+      )
     }
   } else if (password != confirm){
     return(dispatch) => {
       console.log(password + " " + confirm)
-      alert("Oops! Password and Confirm Password did not match. Please try again.")
+      //alert("Oops! Password and Confirm Password did not match. Please try again.")
+      Alert.alert(
+          'Oops!',
+          "Password and Confirm Password did not match. Please try again.",
+          [
+            {text: 'OK'},
+          ],
+      )
     }
   }
   else
@@ -319,7 +409,26 @@ export const newUser = ({email, password, confirm, firstname, lastname, headline
         console.log("Email verification was sent!!")
       })
       .catch(function(error) {
-        alert(error)
+        //alert(error)
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        if (errorCode == 'auth/weak-password') {
+          alert("Oops! Try a stronger password.");
+        } else if (errorCode == 'auth/email-already-in-use') {
+          Alert.alert(
+          'Oops!',
+          "An account based on that email address already exists. Try again or tap 'I already have an account.'",
+          [
+            {text: 'OK'},
+          ],
+      )
+        } else if (errorCode == 'auth/invalid-email') {
+          alert("Oops! That doesn't appear to be a valid email address.")
+        } else if (errorCode == 'auth/operation-not-allowed') {
+          alert("Oops! There's a problem with the server. Please contact us at fordhamfoundryapp@gmail.com and let us know.")
+        }
+        console.log(error);
       })
       .then (() => {
           //alert ('Your Account Was Created!');
@@ -332,22 +441,22 @@ export const newUser = ({email, password, confirm, firstname, lastname, headline
         })
       })
       .catch(() => existsFail(dispatch))
-      .catch(function(error) {
-        //Handling Errors...
-        var errorCode = error.code;
-        var errorMessage = error.message;
+      // .catch(function(error) {
+      //   //Handling Errors...
+      //   var errorCode = error.code;
+      //   var errorMessage = error.message;
 
-        if (errorCode == 'auth/weak-password') {
-          alert("Oops! Try a stronger password.");
-        } else if (errorCode == 'auth/email-already-in-use') {
-          alert("Oops! There already exists an account with the given email address.")
-        } else if (errorCode == 'auth/invalid-email') {
-          alert("Oops! That doesn't appear to be a valid email address.")
-        } else if (errorCode == 'auth/operation-not-allowed') {
-          alert("Oops! There's a problem with the server. Please contact us at fordhamfoundryapp@gmail.com and let us know.")
-        }
-        console.log(error);
-      })
+      //   if (errorCode == 'auth/weak-password') {
+      //     alert("Oops! Try a stronger password.");
+      //   } else if (errorCode == 'auth/email-already-in-use') {
+      //     alert("Oops! There already exists an account with the given email address.")
+      //   } else if (errorCode == 'auth/invalid-email') {
+      //     alert("Oops! That doesn't appear to be a valid email address.")
+      //   } else if (errorCode == 'auth/operation-not-allowed') {
+      //     alert("Oops! There's a problem with the server. Please contact us at fordhamfoundryapp@gmail.com and let us know.")
+      //   }
+      //   console.log(error);
+      // })
     }
   }
 }

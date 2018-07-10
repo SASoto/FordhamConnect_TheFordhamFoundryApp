@@ -74,6 +74,7 @@ class SectionListItem extends Component {
 						authorInitials={this.props.item.authorInitials} postCommentCount={this.props.item.postCommentCount}
 						postDesc={this.props.item.postDesc} fullPostDesc={this.props.item.fullPostDesc} postDateAndTime={this.props.item.postDateAndTime}
 						postKey={this.props.item.postKey}
+						postauthID={this.props.item.authorID}
 						modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.props.fetchLatestPosts}/>
 						: null }
 						
@@ -181,6 +182,7 @@ export default class discboard_screen extends Component {
               postsInOneDay.push(postData);
           } else { //Name starts with the same letter we are currently on
               var postData = this.returnPostData(setOfPosts[i]);
+              //console.log("In createSectionedList, postData.authorID = ", postData.authorID)
               postsInOneDay.push(postData)
           }
 
@@ -225,6 +227,7 @@ export default class discboard_screen extends Component {
 		var authorName = postObj.author_name;
 		var authorInitials = postObj.author_initials;
 		var authorHeadline = postObj.author_headline;
+		var authorID = postObj.author_id;
 		var postFullDesc = postObj.post_text;
 		var postDesc = postObj.post_text;
 		var postDescArr = postDesc.split(' ')
@@ -239,8 +242,9 @@ export default class discboard_screen extends Component {
 		var postCommentCount = postObj.comment_count;
 		var postKey = postObj.post_key;
 
+		//console.log("In returnPostData, authorID is...", authorID)
 		return {authorName: authorName, authorInitials: authorInitials, authorHeadline: authorHeadline,
-				postDesc: postDesc, fullPostDesc: postFullDesc,postDateAndTime: postDateAndTime,
+				authorID: authorID, postDesc: postDesc, fullPostDesc: postFullDesc,postDateAndTime: postDateAndTime,
 				postCommentCount: postCommentCount, postKey: postKey};
 	}
 
