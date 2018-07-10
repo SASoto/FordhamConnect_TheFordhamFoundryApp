@@ -66,8 +66,7 @@ export default class ProfileCard extends Component {
 			encompCont: {
 				marginTop: 20,
 				backgroundColor: '#dbd1ce',
-				borderRadius: 8,
-	            width: windowSize.width*.95,
+	            width: '90%',
 	            shadowColor: 'rgba(0, 0, 0, 0.5)',
 				shadowOffset: {
 					width: 0,height: 2
@@ -81,7 +80,13 @@ export default class ProfileCard extends Component {
 				borderRadius: 30,
 				marginRight: 14,
 				justifyContent: 'center',
-				alignItems: 'center'
+				alignItems: 'center',
+				shadowColor: 'rgba(0, 0, 0, 0.5)',
+		        shadowOffset: {
+		            width: 0,height: 2
+		        },          
+		        shadowRadius: 4,
+		        shadowOpacity: 1,
 			},
 			nameStyle: {
 				fontFamily: 'SFProText-Regular',
@@ -119,37 +124,40 @@ export default class ProfileCard extends Component {
 		
 		return (
 			<View style={styles.encompCont}>
-
-		        	<View flexDirection="row" paddingTop={20} paddingLeft={20} paddingRight={5} paddingBottom={20}>
-		        		<View marginRight={5}>
+			
+		        	<View paddingTop={30} paddingBottom={20} paddingLeft={40} paddingRight={20}>
+		        		
 		        			<View flexDirection="row">
 								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
 		                            <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.state.initials}</Text>
-		                        </LinearGradient>						
-								<View justifyContent = "center" flexDirection="column" width={150}>
-									<Text style={styles.nameStyle}>{this.props.userfname}</Text>
-									<Text style={styles.headlineStyle}>{this.state.headline}</Text> 
-								</View>						
+		                        </LinearGradient>
+		                        <View flexDirection="row">						
+									<View justifyContent = "center" flexDirection="column">									
+										<View flexDirection="row">
+											<View justifyContent="center" marginRight={8}>
+												<Text style={styles.nameStyle}>{this.props.userfname}</Text>
+											</View>
+											<View justifyContent="center">
+						        				<FavoriteButton changeFavoritedStatus={this.props.changeFavoritedStatus} favorited={this.props.favorited} userID={this.props.userID}/>
+						        			</View>
+										</View>
+										<Text style={styles.headlineStyle}>{this.state.headline}</Text> 
+									</View>
+								</View>	
 							</View>
 							
 							<View marginTop={10}>
 								<Text style={styles.locationStyle}>{this.state.location}</Text> 
 							</View>
 							<View marginVertical={7} height={1} width={250} backgroundColor="rgb(151,151,151)"/>
-							<View width={285}>
+							<View width={250}>
 								<Text style={styles.bioStyle}>{this.state.bio}</Text> 
 							</View>
-		        		</View>
-		        		<View justifyContent="center">
-		        			<View flexGrow={1} marginLeft={1}>
-		        				<FavoriteButton changeFavoritedStatus={this.props.changeFavoritedStatus} favorited={this.props.favorited} userID={this.props.userID}/>
-		        			</View>
-		        			<View marginBottom={-10} justifyContent="center">
-			        			<TouchableOpacity onPress={() => Linking.openURL('mailto:'+this.state.email)}>
+							<View alignItems="flex-end" marginTop={10}>
+								<TouchableOpacity onPress={() => Linking.openURL('mailto:'+this.state.email)}>
 									<MatIcon name="mail-outline" size={25} color="rgb(106,46,52)"/>
-								</TouchableOpacity> 
-							</View>
-		        		</View>
+								</TouchableOpacity>
+							</View>    		
 		        	</View>			
 				{this.checkStuff()}
 				

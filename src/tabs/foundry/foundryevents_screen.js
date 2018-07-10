@@ -231,6 +231,7 @@ export default class foundryevents_screen extends Component {
 
           source={require('../../../Images/plussilvergradient.png')}
         >
+        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
             <SectionList        
                 ListEmptyComponent={<View marginTop={50} alignItems="center">
                                       <MaterialIndicator color='rgb(115,115,115)' size={35}/>

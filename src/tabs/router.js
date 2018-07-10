@@ -66,27 +66,30 @@ export const Onboard_Stack = createStackNavigator ({
 		screen: LoginScreen,
 		navigationOptions: {
 			headerVisible: false,
+			gesturesEnabled: true
   		}
 	},
 	ForgotPass: {
 		screen: ForgotPassScreen,
 		navigationOptions: {
-			headerVisible: false
+			headerVisible: false,
+			gesturesEnabled: true
 		}
 	},
 	SignUp: {
 		screen: SignupScreen,
 		navigationOptions: {
 			headerVisible: false,
+			gesturesEnabled: false
   		}
 	},
 
 }, {
 	initialRouteName: 'SignUp',
 	headerMode: 'none',
-	navigationOptions: {
-    	gesturesEnabled: false,
-	}
+	// navigationOptions: {
+ //    	gesturesEnabled: false,
+	// }
 });
 
 export const DummyFeedStack = createStackNavigator ({
@@ -165,6 +168,7 @@ const NetworkStack = createStackNavigator ({
 				}
 			}
 
+
 		})
 	},
 	ContactProfile: {
@@ -187,7 +191,15 @@ const NetworkStack = createStackNavigator ({
 			headerLeft: 
 				<View paddingLeft={30}>
 					<BackButton onPress={() => navigation.goBack()}/>
-				</View>
+				</View>,
+			headerStyle: {
+				shadowOpacity: 1,
+				shadowColor: '#010000',
+				shadowOffset: {
+					width: 0,
+					height: 2
+				}
+			}
 		})
 	}
 })
@@ -270,7 +282,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 	Events: {
 		screen: FoundryEventsStack,
 	},
-	Discussion: {
+	Discuss: {
 		screen: DiscussionStack,
 	},
 	About: {
@@ -290,7 +302,7 @@ export const MainViewTabNav = createMaterialTopTabNavigator ({
 			},
 			tabStyle: {
 				height: 50,
-				width: 105,
+				width: 90,
 
 			},
 			indicatorStyle: {

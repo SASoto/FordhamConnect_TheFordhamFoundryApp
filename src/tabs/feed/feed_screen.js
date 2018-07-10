@@ -350,11 +350,11 @@ export default class feed_screen extends Component {
 
             source={require('../../../Images/plussilvergradient.png')}
         >
-        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
+        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
             <View marginTop={20} backgroundColor="transparent"/>
             
             <FlatList
-              bounces={false}
+              //bounces={false}
               ItemSeparatorComponent={this.renderSeparator}
               data={this.state.feedData} keyExtractor={(x,i) => i.toString()} renderItem={({item}) =>      
                 <View alignItems="center">
@@ -403,6 +403,7 @@ export default class feed_screen extends Component {
 
           source={require('../../../Images/plussilvergradient.png')}
         >
+        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
         <View marginTop={50} alignItems="center">
           <MaterialIndicator color='rgb(115,115,115)' size={35}/>
         </View>

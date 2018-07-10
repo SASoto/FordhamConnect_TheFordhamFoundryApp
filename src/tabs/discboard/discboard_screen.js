@@ -30,14 +30,18 @@ class SectionListItem extends Component {
         return (
             <View style={styles.encompCont}>
 				<View flexDirection="column">
-					<View paddingTop={20} paddingBottom={10} paddingHorizontal={38}>
+					<View paddingTop={30} paddingBottom={10} paddingHorizontal={38}>
 						<View flexDirection="row">
 							<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
-					            <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.item.authorInitials}</Text>
+					            <Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.item.authorInitials}</Text>
 					        </LinearGradient>						
-							<View justifyContent = "center" flexDirection="column">
-								<Text style={styles.nameStyle}>{this.props.item.authorName}</Text>
-								<Text style={styles.headlineStyle}>{this.props.item.authorHeadline}</Text> 
+							<View justifyContent="center" flexDirection="column" width={250}>
+								<View justifyContent="center" marginBottom={1}>
+									<Text style={styles.nameStyle}>{this.props.item.authorName}</Text>
+								</View>
+								<View justifyContent="center">
+									<Text style={styles.headlineStyle}>{this.props.item.authorHeadline}</Text>
+								</View>
 							</View>						
 						</View>
 						<View marginTop={15}>
@@ -45,7 +49,7 @@ class SectionListItem extends Component {
 								<Text style={styles.descStyle}>{this.props.item.postDesc}</Text> 
 							</View>
 						</View>
-						<View marginTop={10} flexDirection="row" justifyContent="space-between">
+						<View marginTop={12} flexDirection="row" justifyContent="space-between">
 							<View paddingLeft={8}>
 								<Text style={styles.additionalInfoStyle}>{this.props.item.postDateAndTime}</Text>
 							</View>
@@ -64,7 +68,7 @@ class SectionListItem extends Component {
 						>
 							<View flexDirection="row" alignItems="center">
 								<View justifyContent="center">
-									<Text style={styles.joinButtonAddStyle}>view post</Text>
+									<Text style={styles.joinButtonAddStyle}>Discuss!</Text>
 								</View>
 							</View>
 						</TouchableOpacity>
@@ -88,26 +92,32 @@ class SectionListItem extends Component {
 class SectionHeader extends Component {
     render() {
     	if(this.props.section.title == '') {
-    		var sectionTitle = (null)
-    	} else {
-    		var sectionTitle = (
-    			<View flexDirection="row">
-	    			<View justifyContent="center" paddingTop={2} marginRight={3}>
-	        		<MatCommIcon name="clock" size={12} color="rgb(115,115,115)"/>
-	        		</View>
+    		return (<View height={50}/>)
+    	} else if(this.props.section.title == 'This is where the discussion started') {
+    		return (
+    			<View flex={1} paddingVertical={15} alignItems="center">
 	        		<View justifyContent="center">
-	            	<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
-	            	</View>
-            	</View>
+	            		<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+	            	</View>		            	
+	            </View>
     		)
     	}
-        return (
-            <View flex={1} paddingHorizontal={18} paddingVertical={15} alignItems="flex-end">
-            	<View flexDirection="row">
-            		{sectionTitle}
-                </View>
-            </View>
-        )
+    	else {
+    		return (
+	            <View flex={1} paddingHorizontal={18} paddingVertical={15} alignItems="flex-end">
+	            	<View flexDirection="row">
+	            		<View flexDirection="row">
+			    			<View justifyContent="center" paddingTop={2} marginRight={3}>
+			        		<MatCommIcon name="clock" size={12} color="rgb(115,115,115)"/>
+			        		</View>
+			        		<View justifyContent="center">
+			            	<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+			            	</View>
+		            	</View>
+	                </View>
+	            </View>
+	        )
+    	}
     }
 }
 
@@ -187,7 +197,10 @@ export default class discboard_screen extends Component {
         }
         sectionedList.push({title: onDate, data: postsInOneDay});
         for(var i=0; i<12; i++) {
-          sectionedList.push({title: '', data: []});
+        	if(i == 0)
+        		sectionedList.push({title: 'This is where the discussion started', data: []});
+       		else
+          		sectionedList.push({title: '', data: []});
         }
 
         this.setState({discussionBoardSectionedList: sectionedList});
@@ -265,33 +278,29 @@ export default class discboard_screen extends Component {
 	            position: 'absolute',
 	            width: '100%',
 	            height: '100%',
+	            
 	          }}
 
 	          source={require('../../../Images/plussilvergradient.png')}
 	        >
-	        <View height={2} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
-				<View flexDirection="column">
+	        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
+				<View flexDirection="column" marginTop={20}>
 					
 					<TouchableOpacity style={styles.postButtonStyle} onPress={() => this.setState({modalVisible: true})}>
 						
-							<View flexDirection="row" alignItems="center">
-								<View paddingRight={11}>
-								<Text style={styles.postButtonPlusStyle}>+</Text>
-								</View>
+							<View flexDirection="row">
+								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={{height: 26, width:26, borderRadius: 13, marginRight: 14, justifyContent: 'center'}}/>																		
 								<View justifyContent="center">
-									<Text style={styles.postButtonAddStyle}>Add post</Text>
+									<Text style={{fontFamily: 'SFProText-Light', fontSize: 12, color: '#737373'}}>Add a post...</Text>
 								</View>
 							</View>
 						
 					</TouchableOpacity>
-
+				
 					
 					
 				<CreatePostModal modalVisible={this.state.modalVisible} modalFunc={this.setModalVisible.bind(this)} fetchLatestPosts={this.fetchLatestPosts.bind(this)}/>
 				</View>
-	 			<View alignItems="center">
-		 			<View marginTop={10} width={windowSize.width*.95} height={1} backgroundColor="rgb(199,193,195)"/>
-		 		</View>
 		 		<SectionList
 		 			showsVerticalScrollIndicator={false}
 	                ListEmptyComponent={<View marginTop={50} alignItems="center">
@@ -307,7 +316,8 @@ export default class discboard_screen extends Component {
 	                keyExtractor={(item, index) => index}
 	                refreshing={this.state.refreshing}
 	                onRefresh={this.fetchLatestPosts}
-	            />		 		
+	            />
+	        
 			</ImageBackground>
 			</View>
   		);
@@ -328,30 +338,33 @@ export default class discboard_screen extends Component {
 
 const styles = ({
 	postButtonStyle: {
-		marginLeft: 10,
-		marginTop: 10,
-		alignItems: 'center',
+		paddingLeft: 38,
+		height: 50,
+		//paddingTop: 10,
+		// alignItems: 'center',
 		justifyContent: 'center',
-		width: 150,
-		height: 44,
+		// width: 106,
+		// height: 35,
 		backgroundColor: '#dbd1ce',
-		borderRadius: 8,
-		borderWidth: 0.7,
-		borderColor: 'rgb(204,180,182)',
-		shadowColor: 'rgba(0, 0, 0, 0.5)',
-		shadowOffset: {
-			width: 0,height: 2
-		},			
-		shadowRadius: 4,
-		shadowOpacity: 1,
+		borderColor: '#bfbbbb',
+		borderBottomWidth: 1,
+		// borderRadius: 8,
+		//borderWidth: 0.7,
+		//borderColor: 'rgb(204,180,182)',
+		// shadowColor: 'rgba(0, 0, 0, 0.5)',
+		// shadowOffset: {
+		// 	width: 0,height: 2
+		// },			
+		// shadowRadius: 4,
+		// shadowOpacity: 1,
 	},
 	postButtonPlusStyle: {
-		fontSize: 26,
+		fontSize: 12,
 		fontFamily: 'SFProText-Light',
 		color: 'rgb(115,115,115)'
 	},
 	postButtonAddStyle: {
-		fontSize: 14,
+		fontSize: 12,
 		fontFamily: 'SFProText-Semibold',
 		color: 'rgb(115,115,115)'
 	},
@@ -365,25 +378,31 @@ const styles = ({
 		shadowOffset: {
 			width: 0,height: 2
 		},			
-		shadowRadius: 4,
+		shadowRadius: 3,
 		shadowOpacity: 1,
 	},
 	profPic: {
-		width: 60,
-		height: 60,
-		borderRadius: 30,
+		width: 46,
+		height: 46,
+		borderRadius: 23,
 		marginRight: 14,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
 	},
 	nameStyle: {
 		fontFamily: 'SFProText-Regular',
-		fontSize: 20,
+		fontSize: 16,
 		color: 'rgb(115,115,115)'
 	},
 	headlineStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 16,
+		fontSize: 14,
 		color: 'rgb(115,115,115)'
 	},
 	locationStyle: {
@@ -393,7 +412,7 @@ const styles = ({
 	},
 	descStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 20,
+		fontSize: 16,
 		color: 'rgb(115,115,115)',
 		//textAlign: 'center'
 	},
@@ -414,8 +433,8 @@ const styles = ({
 		//marginTop: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
-		width: 150,
-		height: 44,
+		width: 106,
+		height: 35,
 		backgroundColor: '#dbd1ce',
 		borderRadius: 8,
 		borderWidth: 0.7,
@@ -428,13 +447,13 @@ const styles = ({
 		shadowOpacity: 1,
 	},
 	joinButtonAddStyle: {
-		fontSize: 16,
+		fontSize: 12,
 		fontFamily: 'SFProText-Regular',
 		color: 'rgb(115,115,115)'
 	},
 	additionalInfoStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 16,
+		fontSize: 13,
 		color: 'rgb(115,115,115)'
 	}
 })
