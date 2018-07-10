@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, ImageBackground, Modal, Keyboard, ScrollView, Text, Button, TextInput, StyleSheet, View, FlatList, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
+import {Alert, AlertIOS, Dimensions, ImageBackground, Modal, Keyboard, ScrollView, Text, Button, TextInput, StyleSheet, View, FlatList, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
 import {Header} from 'react-navigation';
 
 import {connect} from 'react-redux';
@@ -10,6 +10,14 @@ import MatIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import firebase from 'firebase';
+
+export function renderIf(condition, content) {
+    if (condition) {
+        return content;
+    } else {
+        return null;
+    }
+}
 
 class CustomFlatListItem extends Component {
 	render() {
@@ -101,6 +109,8 @@ class CustomFlatListItem extends Component {
 	}
 }
 
+
+
 class singlepost_modal extends Component {
 
 	constructor(props) {
@@ -111,6 +121,7 @@ class singlepost_modal extends Component {
 			backupDiscussionBoardReplies: [],
 			newReplies: false,
 		 	postKey: "",
+		 	postauthID: this.props.postauthID,
 		 	replyText: "",
 		 	parentPostCommentCount: this.props.postCommentCount,
 		}
@@ -133,6 +144,7 @@ class singlepost_modal extends Component {
 		        console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
 			}
 		})
+		//this.onDeletePress()
     }
 
     componentWillUnmount() {
@@ -157,6 +169,74 @@ class singlepost_modal extends Component {
         }).then(() => {
         	this.refs._repliesScrollView.scrollToEnd({animated: false})
         })
+    }
+
+    firstButtonPress() {
+    	console.log("Fine! Fine! We won't delete it.")
+    }
+
+    secondButtonPress() {
+    	console.log("Boom! We totally deleted it.")
+    	//PLACE THE FOLLOWING CODE SOMEWHERE HERE TO EXECUTE BACKEND REMOVAL OF POSTS AND REPLIES
+			var postRef = firebase.database().ref("/discBoardposts/" + this.props.postKey + "/");
+			postRef.remove()
+  			.then(function() {
+    			console.log("Post Remove succeeded.")
+  			})
+  			.catch(function(error) {
+    			console.log("Post Remove failed: " + error.message)
+  			});
+  			var replyRef = firebase.database().ref("/discBoardreplies/" + this.props.postKey + "/");
+			replyRef.remove()
+  			.then(function() {
+    			console.log("Reply Remove succeeded.")
+  			})
+  			.catch(function(error) {
+    			console.log("Reply Remove failed: " + error.message)
+  			});
+  		Alert.alert(
+          	'Deleted!',
+          	"Your post and all replies to it have been deleted.",
+          	[
+            	{text: 'Okay', onPress: this.returnAfterDelete.bind(this)},
+          	],
+    	)
+  			//this.resetAndExit()
+  			
+    }
+
+    onDeletePress() {
+    	console.log("State of postauthID for this post is...", this.state.postauthID)
+
+		var user = firebase.auth().currentUser;
+		var uid;
+
+		if (user != null) {
+  			uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                   // this value to authenticate with your backend server, if
+                   // you have one. Use User.getToken() instead.
+		}
+		if (uid == this.state.postauthID){
+			console.log("USER SHOULD BE ABLE TO DELETE this post!")
+			console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
+			console.log("And at /discBoardreplies/" + this.props.postKey + "/")
+
+			AlertIOS.alert(  
+				'Are You Sure You Want to Delete?', 
+				'Deleting this post will permanently remove it, along with all comments attached to it.',  
+				[{text: 'Cancel', onPress: this.firstButtonPress.bind(this), style: 'cancel'}, 
+				{text: 'Delete', onPress: this.secondButtonPress.bind(this), style: 'destructive'}]
+			)
+
+			
+		} else {
+			console.log("User should NOT be able to delete this post.")
+		}
+    }
+
+    returnAfterDelete() {
+    	console.log("Trying to return to the discussion board now...")
+    	this.resetAndExit()
     }
 
     appendLatestReplies(setOfNewReplies) {
@@ -201,7 +281,14 @@ class singlepost_modal extends Component {
 
 		//DO A CHECK TO SEE IF COMMENT COUNT IS EQUAL TO 10 ALREADY
 		if(this.state.replyText.length == 0) {
-			alert("Oops! Your comment contains no text.")
+			//alert("Oops! Your comment contains no text.")
+			Alert.alert(
+          	'Oops!',
+          	"Your comment contains no text. Try again.",
+          	[
+            	{text: 'OK'},
+          	],
+        )
 		} else {
 			var postID = this.props.postKey //This should come from the state as well.
 		
@@ -270,8 +357,13 @@ class singlepost_modal extends Component {
 		var dateAndTime = this.props.postDateAndTime;
 		dateAndTime = dateAndTime.split(' ');
 		dateAndTime = dateAndTime[0] + ' at ' + dateAndTime[1] + ' ' + dateAndTime[2];
-		console.log("We need the full list of replies by here – do we have it?", this.state.discussionBoardReplies)
+		//console.log("We need the full list of replies by here – do we have it?", this.state.discussionBoardReplies)
+		var user = firebase.auth().currentUser;
+		var uid;
 
+		if (user != null) {
+  			uid = user.uid;
+		}
 		return (
 			<Modal
 				animationType="slide"
@@ -297,6 +389,13 @@ class singlepost_modal extends Component {
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
 										</View>
 									</TouchableOpacity>									
+								</View>
+								<View paddingRight={30}>
+									{renderIf(uid == this.state.postauthID,									
+										<TouchableOpacity onPress={this.onDeletePress.bind(this)}>
+											<Text style={styles.postButtonStyle}>Delete Post</Text>
+										</TouchableOpacity>
+										)}									
 								</View>
 							</View>
 						</ImageBackground>

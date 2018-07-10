@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Keyboard, Dimensions, Text, TextInput, View, ScrollView, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {Alert, Keyboard, Dimensions, Text, TextInput, View, ScrollView, ImageBackground, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import {emailChanged, passwordChanged, loginUser, loggedInUser, newUser} from '../../Actions';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
@@ -33,7 +33,14 @@ class forgotpassword_screen extends Component {
 
     auth.sendPasswordResetEmail(emailAddress).then(function() {
     // Email sent.
-      alert('An email with a password reset link has been sent to your email address.')
+      //alert('An email with a password reset link has been sent to your email address.')
+      Alert.alert(
+          'Help is on the way!',
+          "An email with a password reset link has been sent to your email address, " + emailAddress,
+          [
+            {text: 'OK'},
+          ],
+        )
     }).catch(function(error) {
       // An error happened.
       alert(error)
