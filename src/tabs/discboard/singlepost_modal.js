@@ -11,14 +11,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import firebase from 'firebase';
 
-export function renderIf(condition, content) {
-    if (condition) {
-        return content;
-    } else {
-        return null;
-    }
-}
-
 class CustomFlatListItem extends Component {
 	render() {
 		const replyStyles = ({
@@ -321,11 +313,13 @@ class singlepost_modal extends Component {
 
 	resetAndExit() {
 		console.log("Exit process started...")
-		this.props.fetchLatestPosts();
 		console.log("Latest Posts have been fetched.")
+		//this.props.fetchLatestPosts()
 		this.cleanState();
+
 		console.log("About to run the modalFunc")
 		setTimeout(() => {this.props.modalFunc()},250)
+		setTimeout(() => {this.props.fetchLatestPosts()},250)
 		console.log("And now the modalFunc has run.")
 	}
 
@@ -340,6 +334,18 @@ class singlepost_modal extends Component {
 	cleanState() {
 		this.setState({discussionBoardReplies: [{'reply_key': 12345, 'author_name': ' ', 'author_initials': ' ', 'author_headline': ' ', 'reply_date_time': ' ', 'reply_text': ' ', 'author_id': 12345}]})
 		console.log("The testArray is in place.")
+	}
+
+	renderIf(condition) {
+	    if (condition) {
+	        return (
+	        	<TouchableOpacity onPress={this.onDeletePress.bind(this)}>
+					<Text style={styles.deleteButtonStyle}>Delete</Text>
+				</TouchableOpacity>
+	        );
+	    } else {
+	        return null;
+	    }
 	}
 
 	renderSeparator() {
@@ -389,14 +395,7 @@ class singlepost_modal extends Component {
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
 										</View>
 									</TouchableOpacity>									
-								</View>
-								<View paddingRight={30}>
-									{renderIf(uid == this.state.postauthID,									
-										<TouchableOpacity onPress={this.onDeletePress.bind(this)}>
-											<Text style={styles.postButtonStyle}>Delete Post</Text>
-										</TouchableOpacity>
-										)}									
-								</View>
+								</View>									
 							</View>
 						</ImageBackground>
 						<KeyboardAwareScrollView contentContainerStyle={{flex:1}} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
@@ -422,10 +421,11 @@ class singlepost_modal extends Component {
 											<Text style={styles.descStyle}>{this.props.fullPostDesc}</Text> 
 										</View>
 									</View>
-									<View marginTop={12} flexDirection="row">
+									<View marginTop={12} flexDirection="row" justifyContent="space-between">
 										<View paddingLeft={8}>
 											<Text style={styles.additionalInfoStyle}>Posted on {dateAndTime}</Text>
 										</View>
+										{this.renderIf(uid == this.state.postauthID)}
 									</View>
 								</View>
 								<View marginTop={6} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
@@ -594,6 +594,11 @@ const styles = ({
 		fontFamily: 'SFProText-Regular',
 		fontSize: 14,
 		color: '#afacac'
+	},
+	deleteButtonStyle: {
+		fontFamily: 'SFProText-Medium',
+		fontSize: 12,
+		color: '#6A2E34',
 	}
 })
 

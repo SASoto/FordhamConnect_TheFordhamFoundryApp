@@ -28,7 +28,6 @@ import ProfileScreen from './profile/profile_screen';
 
 import FeedScreen from './feed/feed_screen';
 
-import FoundryScreen from './foundry/foundry_screen';
 import FoundryEventsScreen from './foundry/foundryevents_screen';
 import FoundryAboutScreen from './foundry/foundryabout_screen';
 import FoundryConnectScreen from './foundry/foundryconnect_screen';
@@ -394,48 +393,6 @@ const MainStack = createStackNavigator ({
 		})
 	}
 })
-
-const FoundryStack = createStackNavigator ({
-	Foundry: {
-		screen: FoundryScreen,
-		navigationOptions: ({navigation}) => ({
-			headerBackground:
-			<ImageBackground
-				resizeMode='cover'
-				style={{
-					flex: 1,
-					position: 'absolute',
-					width: '101%',
-					height: '101%',
-				}}
-
-              source={require('../../Images/launchscreenblur.png')}
-
-			/>,
-			headerTitleStyle: {
-			    color: 'white',
-			    fontFamily: 'SFProText-Regular',
-			    fontSize: 16,
-  			},
-			title: 'The Fordham Foundry',
-			headerLeft: 
-				<View paddingLeft={5}>
-					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-				</View>,
-			headerStyle: {
-				shadowOpacity: 1,
-				shadowColor: '#010000',
-				shadowOffset: {
-					width: 0,
-					height: 2
-				}
-			}
-		})
-	}
-})
-
-
-
 
 const DrawerRoutes = {
   // Profile: {
