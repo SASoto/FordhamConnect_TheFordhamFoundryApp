@@ -149,7 +149,7 @@ export default class ProfileCard extends Component {
 							<View marginTop={10}>
 								<Text style={styles.locationStyle}>{this.state.location}</Text> 
 							</View>
-							<View marginVertical={7} height={1} width={250} backgroundColor="rgb(151,151,151)"/>
+							<View marginVertical={7} height={1} backgroundColor="rgb(151,151,151)"/>
 							<View width={250}>
 								<Text style={styles.bioStyle}>{this.state.bio}</Text> 
 							</View>

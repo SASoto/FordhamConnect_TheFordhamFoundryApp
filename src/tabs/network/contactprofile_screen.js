@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, ImageBackground, View, Text, Image, Button, FlatList} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, Text, Image, Button, FlatList} from 'react-native';
 
 import ProfileCard from '../../components/ProfileCard';
 import CustomTabButton from '../../components/CustomTabButton';
@@ -26,9 +26,10 @@ export default class contactprofile_screen extends Component {
       >
         <View flex={1}>
           <CustomTabButton tabName="Profile"/>
-          <View alignItems="center">
+          <ScrollView alignItems="center">
   				<ProfileCard userID = {this.props.navigation.state.params.userID} favorited={this.props.navigation.state.params.favorited} userfname={this.props.navigation.state.params.userfname} changeFavoritedStatus={this.props.navigation.state.params.changeFavoritedStatus}/>					
-  			  </View>
+  			  <View height={500} backgroundColor="transparent"/>
+          </ScrollView>
         </View>
 			</ImageBackground>
 			</View>
