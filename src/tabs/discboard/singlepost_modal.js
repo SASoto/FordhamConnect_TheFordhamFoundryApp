@@ -269,12 +269,12 @@ class singlepost_modal extends Component {
 
 	resetAndExit() {
 		console.log("Exit process started...")
-		this.props.fetchLatestPosts();
-		console.log("Latest Posts have been fetched.")
 		this.testArray();
 		console.log("About to run the modalFunc")
 		setTimeout(() => {this.props.modalFunc()},250)
 		console.log("And now the modalFunc has run.")
+		setTimeout(() => {this.props.fetchLatestPosts()},250);
+		console.log("Latest Posts have been fetched.")
 	}
 
 	newRepliesArrived() {
