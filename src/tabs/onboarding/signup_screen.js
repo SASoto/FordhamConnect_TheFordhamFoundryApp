@@ -113,7 +113,7 @@ class signup_screen extends Component {
                 </View>
             </View>
             <View marginTop={26}>
-              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGNUP</ButtonOutline>
+              <ButtonOutline width={windowSize.width*.85} fillWithColor={'#007AFF'} onPress={this.onNewHere.bind(this)}>SIGN UP</ButtonOutline>
             </View>
             <View marginTop={20}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>

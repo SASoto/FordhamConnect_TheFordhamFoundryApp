@@ -37,6 +37,13 @@ class CustomFlatListItem extends Component {
 				borderRadius: 20,
 				justifyContent: 'center',
 				alignItems: 'center',
+				shadowColor: 'rgba(0, 0, 0, 0.5)',
+				shadowOffset: {
+					width: 0,height: 2
+				},
+				//height: 300,
+				shadowRadius: 4,
+				shadowOpacity: 1,
 				// shadowColor: 'rgba(0, 0, 0, 0.5)',
 				// shadowOffset: {
 				// 	width: 0,height: 2
@@ -208,7 +215,7 @@ class singlepost_modal extends Component {
                    // this value to authenticate with your backend server, if
                    // you have one. Use User.getToken() instead.
 		}
-		if (uid == this.state.postauthID){
+		if (uid == this.state.postauthID || uid == 'yVXMElLOjGTqQDid8znTmvxNIyx1'){
 			//console.log("USER SHOULD BE ABLE TO DELETE this post!")
 			//console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
 			//console.log("And at /discBoardreplies/" + this.props.postKey + "/")
@@ -425,8 +432,8 @@ class singlepost_modal extends Component {
 										<View paddingLeft={8}>
 											<Text style={styles.additionalInfoStyle}>Posted on {dateAndTime}</Text>
 										</View>
-										{this.renderIf(uid == this.state.postauthID)}
-									</View>
+										{this.renderIf((uid == this.state.postauthID) || (uid == 'yVXMElLOjGTqQDid8znTmvxNIyx1'))}
+									</View>													
 								</View>
 								<View marginTop={6} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
 								

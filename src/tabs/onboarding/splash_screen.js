@@ -43,7 +43,7 @@ class splash_screen extends Component {
                       source={require('../../../Images/launchscreenblur.png')}
                     >
                     <View alignItems='center'>
-                    <Image style={{justifyContent: 'center', alignItems: 'center', marginTop: (windowSize.height * 2/10)}} resizeMode="contain" source={require('../../../Images/Circular.png')}/>
+                    <Image style={{marginTop: (windowSize.height * 2/10)}} source={require('../../../Images/Circularupdate2.png')}/>
                     </View>
                     <MaterialIndicator color='white' size={40} />
                     </ImageBackground>

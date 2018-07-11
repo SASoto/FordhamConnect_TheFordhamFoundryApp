@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Text, View, TouchableOpacity, Button, FlatList, ImageBackground, RefreshControl} from 'react-native';
+import {Dimensions, Text, View, Image, TouchableOpacity, Button, FlatList, ImageBackground, RefreshControl} from 'react-native';
 import {createStackNavigator, createTabNavigator, createDrawerNavigator, createMaterialTopTabNavigator, DrawerActions, DrawerView, DrawerItems, SafeAreaView} from 'react-navigation';
 import {connect} from 'react-redux';
 
@@ -353,7 +353,16 @@ export default class feed_screen extends Component {
             source={require('../../../Images/plussilvergradient.png')}
         >
         <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
-            <View marginTop={20} backgroundColor="transparent"/>
+            <View marginTop={5} marginBottom={5} alignItems="center" backgroundColor="transparent">
+              <View flexDirection="row">
+                <View justifyContent="center" marginRight={5}>
+                  <Image source={require('../../../Images/arrow_downward_24px.png')}/>
+                </View>
+                <View justifyContent="center">
+                  <Text style={{fontSize: 10, fontFamily: 'SFProText-Light', color: '#737373'}}>pull down to refresh</Text>
+                </View>
+              </View>
+            </View>
             
             <FlatList
               //bounces={false}
@@ -378,8 +387,7 @@ export default class feed_screen extends Component {
              refreshControl={
                <RefreshControl
                    refreshing={this.state.refreshing}
-                   onRefresh={this.fetchNewTweets}
-                   title="Pull to refresh"
+                   onRefresh={this.fetchNewTweets}                   
                    tintColor="darkgrey"
                 />
               }

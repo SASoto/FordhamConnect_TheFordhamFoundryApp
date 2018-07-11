@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {Platform, StyleSheet, ImageBackground, View, Linking, List, FlatList, Text, Button, SectionList, Dimensions, TouchableHighlight, TouchableOpacity, Image} from 'react-native';
+import {Platform, StyleSheet, ImageBackground, 
+        View, Linking, List, FlatList, Text, Button, SectionList, 
+        Dimensions, TouchableHighlight, TouchableOpacity, Image, RefreshControl} from 'react-native';
 
 import TransPanel from './comp_transpanel';
 import {MaterialIndicator} from 'react-native-indicators';
@@ -27,14 +29,15 @@ class SectionListItem extends Component {
     render () {
         return (
             <TouchableOpacity style={styles.sectionListItemEncompCont} onPress={() => this.checkIfConnected(this.props.item.link)}>
-              <View flex={1}>
-                <View flexDirection="row" paddingLeft={20} paddingVertical={20}>
-                    <View flex={8} justifyContent="center" marginRight={10}>
-                    <Text style={{fontFamily:'SFProText-Regular', fontSize:16, color:'rgb(115,115,115)'}}>{this.props.item.title}</Text>
+              <View flex={1} flexDirection="row" paddingLeft={20} paddingVertical={30}>
+                <View flex={8} flexDirection="column" justifyContent="center">
+                    <View justifyContent="center">
+                      <Text style={{fontFamily:'SFProText-Regular', fontSize:15, color:'rgb(115,115,115)'}}>{this.props.item.title}</Text>
+                      <Text style={{fontFamily:'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.item.excerpt}</Text>
                     </View>
-                    <View flex={1} justifyContent="center">
-                      <MatIcon name="keyboard-arrow-right" size={20} color="rgba(15,14,14,0.5)"/>
-                    </View>
+                </View>
+                <View flex={1} justifyContent="center">
+                  <MatIcon name="keyboard-arrow-right" size={20} color="rgba(15,14,14,0.5)"/>
                 </View>
               </View>
             </TouchableOpacity>
@@ -49,13 +52,13 @@ class SectionHeader extends Component {
       } else {
         var sectionTitle = (
           <View justifyContent="center">
-            <Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+            <Text style={{fontFamily: 'SFProText-Light', fontSize: 12, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
           </View>
         )
       }
 
         return (
-            <View flex={1} paddingHorizontal={18} paddingVertical={15} alignItems="flex-end">
+            <View flex={1} paddingHorizontal={18} paddingTop={5} paddingBottom={15} alignItems="flex-end">
               {sectionTitle}
             </View>
         )
@@ -191,27 +194,35 @@ export default class foundryevents_screen extends Component {
         var monthOfEvent = monthNames[(firstHalfOfDate[1]-1)];
       var yearOfEvent = firstHalfOfDate[0];
 
-      date = dayofEvent + ' ' + monthOfEvent + ', ' + yearOfEvent;
+      date = monthOfEvent + ' ' + dayofEvent + ', ' + yearOfEvent;
 
       return date;
     }
   }
 
   returnEventData(event) {
+    const regex_1 = /(<([^>]+)>)/ig;
+    const regex_2 = /&#([0-9]{1,4});/g;
 
     var title = event.title;
-
+    var excerpt = event.excerpt.replace(regex_1, '');
+    excerpt = excerpt.replace(regex_2, '');
     var link = event.url
 
-    return {title: title, link: link};
+    return {title: title, excerpt: excerpt, link: link};
   }
 
   renderSeparator() {
     return (
       <View
         style={{
-          height: 20,          
-          backgroundColor: "transparent",
+          height: 2,          
+          shadowOffset: {
+            width: 0,
+            height: 2
+          },
+          shadowRadius: 1.3,
+          shadowOpacity: 1
         }}
       />
     );
@@ -232,6 +243,16 @@ export default class foundryevents_screen extends Component {
           source={require('../../../Images/plussilvergradient.png')}
         >
         <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
+            <View marginTop={5} marginBottom={5} alignItems="center" backgroundColor="transparent">
+              <View flexDirection="row">
+                <View justifyContent="center" marginRight={5}>
+                  <Image source={require('../../../Images/arrow_downward_24px.png')}/>
+                </View>
+                <View justifyContent="center">
+                  <Text style={{fontSize: 10, fontFamily: 'SFProText-Light', color: '#737373'}}>pull down to refresh</Text>
+                </View>
+              </View>
+            </View>
             <SectionList        
                 ListEmptyComponent={<View marginTop={50} alignItems="center">
                                       <MaterialIndicator color='rgb(115,115,115)' size={35}/>
@@ -243,9 +264,14 @@ export default class foundryevents_screen extends Component {
                 }}
                 renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
                 sections={this.state.postList}
-                keyExtractor={(item, index) => index}
-                refreshing={this.state.refreshing}
-                onRefresh={this.fetchLatestData}
+                keyExtractor={(item, index) => index}          
+                refreshControl={
+                  <RefreshControl
+                     refreshing={this.state.refreshing}
+                     onRefresh={this.fetchLatestData}                     
+                     tintColor="darkgrey"
+                  />
+                }
             />
         </ImageBackground>
     	</View>

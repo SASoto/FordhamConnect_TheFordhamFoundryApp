@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, SectionList, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, View, ScrollView, SectionList, Text, 
+		FlatList, Image, TouchableOpacity, RefreshControl} from 'react-native';
 
 import firebase from 'firebase';
 import {connect} from 'react-redux';
@@ -98,7 +99,7 @@ class SectionHeader extends Component {
     		return (
     			<View flex={1} paddingVertical={15} alignItems="center">
 	        		<View justifyContent="center">
-	            		<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+	            		<Text style={{fontFamily: 'SFProText-Light', fontSize: 12, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
 	            	</View>		            	
 	            </View>
     		)
@@ -112,7 +113,7 @@ class SectionHeader extends Component {
 			        		<MatCommIcon name="clock" size={12} color="rgb(115,115,115)"/>
 			        		</View>
 			        		<View justifyContent="center">
-			            	<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
+			            	<Text style={{fontFamily: 'SFProText-Light', fontSize: 12, color: 'rgb(115,115,115)'}}>{this.props.section.title}</Text>
 			            	</View>
 		            	</View>
 	                </View>
@@ -288,12 +289,26 @@ export default class discboard_screen extends Component {
 	          source={require('../../../Images/plussilvergradient.png')}
 	        >
 	        <View height={3} backgroundColor="rgb(191, 187, 187)" elevation={null}/>
-				<View flexDirection="column" marginTop={20}>
+	        	<View marginTop={5} marginBottom={5} alignItems="center" backgroundColor="transparent">
+	              <View flexDirection="row">
+	                <View justifyContent="center" marginRight={5}>
+	                  <Image source={require('../../../Images/arrow_downward_24px.png')}/>
+	                </View>
+	                <View justifyContent="center">
+	                  <Text style={{fontSize: 10, fontFamily: 'SFProText-Light', color: '#737373'}}>pull down to refresh</Text>
+	                </View>
+	              </View>
+	            </View>
+				<View flexDirection="column" marginTop={5}>
 					
 					<TouchableOpacity style={styles.postButtonStyle} onPress={() => this.setState({modalVisible: true})}>
 						
 							<View flexDirection="row">
-								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={{height: 26, width:26, borderRadius: 13, marginRight: 14, justifyContent: 'center'}}/>																		
+								<LinearGradient 
+								colors={['rgb(0,122,255)', 'rgb(85,181,255)']} 
+								style={{height: 26, width:26, borderRadius: 13, marginRight: 14, justifyContent: 'center',
+										shadowColor: 'rgba(0, 0, 0, 0.5)', shadowOffset: {width: 0,height: 2},shadowRadius: 4,shadowOpacity: 1,
+									   }}/>																		
 								<View justifyContent="center">
 									<Text style={{fontFamily: 'SFProText-Light', fontSize: 12, color: '#737373'}}>Add a post...</Text>
 								</View>
@@ -317,9 +332,14 @@ export default class discboard_screen extends Component {
 	                }}
 	                renderSectionHeader={({section}) => {return(<SectionHeader section={section}/>)}}
 	                sections={this.state.discussionBoardSectionedList}
-	                keyExtractor={(item, index) => index}
-	                refreshing={this.state.refreshing}
-	                onRefresh={this.fetchLatestPosts}
+	                keyExtractor={(item, index) => index}	                
+	                refreshControl={
+		               <RefreshControl
+			               refreshing={this.state.refreshing}
+		                   onRefresh={this.fetchLatestPosts}		                   
+		                   tintColor="darkgrey"
+		                />
+		            }
 	            />
 	        
 			</ImageBackground>

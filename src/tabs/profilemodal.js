@@ -339,6 +339,7 @@ const styles = ({
     paddingHorizontal: 10,
   },
   inputBackground: {
+  	justifyContent: 'center',
     marginTop: 10,
     height: 37,
     width: windowSize.width * .85,
@@ -361,6 +362,7 @@ const styles = ({
     backgroundColor: 'transparent',
     //paddingVertical: 20,
     paddingHorizontal: 10,
+    paddingTop: 11,
     lineHeight: 30
   },
   inputBackground4Bio: {
