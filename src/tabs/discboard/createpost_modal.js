@@ -100,7 +100,8 @@ class createpost_modal extends Component {
   				'post_date_time': newDateTime,
   				'post_text': this.state.postText,
 			})
-    		Alert.alert(
+			.then(() =>{
+				Alert.alert(
   				'Success!',
   				"Your post has been added to the discussion board. If you're offline, the post won't appear until you reconnect.",
   				[
@@ -108,6 +109,8 @@ class createpost_modal extends Component {
   				],
   				{ cancelable: false }
 			)
+			})
+    		
   			}
 	}
 	render () {
