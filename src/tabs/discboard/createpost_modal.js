@@ -146,18 +146,7 @@ class createpost_modal extends Component {
 	        	visible={this.props.modalVisible}
 			>
 				<View flex={1}>
-					<ImageBackground
-						resizeMode="cover"
-						style={{
-			                flex: 1,
-			                position: 'absolute',
-			                width: '100%',
-			                height: '100%',
-		              	}}
-
-		              	source={require('../../../Images/plussilvergradient.png')}
-
-		            >
+					
 		            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 						
 							<View flex={1}>
@@ -171,17 +160,14 @@ class createpost_modal extends Component {
 
 							>
 								
-							<View flex={1} paddingTop={20} justifyContent="center">
+							<View flex={1} paddingTop={25} justifyContent="center">
 								<View flexDirection="row" justifyContent="space-between">
-									<TouchableOpacity onPress={() => this.props.modalFunc()}>
+									<TouchableOpacity justifyContent="center" onPress={() => this.props.modalFunc()}>
 										<View paddingLeft={30}>
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
 										</View>
 									</TouchableOpacity>									
-									<View alignItems="center" padding={5}>
-										<Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>New Post</Text>
-									</View>
-									<View paddingRight={30}>									
+									<View paddingRight={30} justifyContent="center">									
 										<TouchableOpacity onPress={this.postNewPost.bind(this)}>
 											<Text style={styles.postButtonStyle}>Share</Text>
 										</TouchableOpacity>									
@@ -189,22 +175,12 @@ class createpost_modal extends Component {
 								</View>
 							</View>
 							</ImageBackground>						
-							<View flex={1}>
+							<View flex={1} backgroundColor='#dbd1ce'>
 								<View paddingLeft={36}>
 								<View flexDirection="row" marginTop={28}>					
 									<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
 										<Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
-									</LinearGradient>
-									<View flexDirection="column" justifyContent="center" width={250}>
-										<View>
-											<Text style={styles.userNameTxtStyle}>{this.props.firstname} {this.props.lastname}</Text>
-										</View>
-										<View>
-											<Text style={styles.headerTxtStyle}>{this.props.headline}</Text>
-										</View>
-									</View>															
-								</View>
-								<View marginTop={15}>
+									</LinearGradient>									
 									<TextInput
 										style={styles.input}
 										autoCapitalize = 'none'
@@ -215,15 +191,16 @@ class createpost_modal extends Component {
 	        						  	value={this.state.postText}	
 		          						placeholder="Post about job opportunities, Fordham events, news or anything else worth discussing..."
 										placeholderTextColor="rgba(99,96,96,0.21)"
-									/>			
+									/>																			
 								</View>
+								
 								</View>							
-							<View marginTop={10} flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
+							<View marginTop={40} flex={1} backgroundColor="rgba(15,14,14,0.5)"/>
 							</View>
 							</View>
 					</TouchableWithoutFeedback>
 
-					</ImageBackground>
+					
 				</View>
 			</Modal>
 			);
@@ -232,24 +209,30 @@ class createpost_modal extends Component {
 
 const styles = ({
 	profPic: {
-		width: 50,
-		height: 50,
-		borderRadius: 25,
+		width: 46,
+		height: 46,
+		borderRadius: 23,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginRight: 16
+		marginRight: 14,
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
 	},
 	input:{
 		fontFamily: 'SFProText-Light',
 		height:100,
-		width: windowSize.width * .85,
+		width: 225,
 		color: 'rgb(115,115,115)',
 		fontSize: 16,
 		backgroundColor: 'transparent',
 	},
 	postButtonStyle: {
 		fontFamily: 'SFProText-Regular',
-		fontSize: 16,
+		fontSize: 14,
 		color: 'rgb(255,255,255)'
 	},
 	userNameTxtStyle: {

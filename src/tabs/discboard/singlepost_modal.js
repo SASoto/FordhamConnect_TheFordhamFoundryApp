@@ -11,49 +11,93 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import firebase from 'firebase';
 
-export function renderIf(condition, content) {
-    if (condition) {
-        return content;
-    } else {
-        return null;
-    }
-}
-
 class CustomFlatListItem extends Component {
 	render() {
-		const styles = ({
+		const replyStyles = ({
+			replyEncompCont: {
+				flex: 1,
+				width: "80%",
+				flexDirection: "column",
+			},
+			replyTextEncompCont: {
+				backgroundColor: "#dbd1ce",
+				paddingHorizontal: 40,
+				paddingVertical: 22,
+				borderRadius: 8,
+				shadowColor: 'rgba(0, 0, 0, 0.5)',
+				shadowOffset: {
+					width: 0,height: 1
+				},
+				shadowRadius: 2,
+				shadowOpacity: 1,
+			},
 			replyAuthProfPic: {
 				height: 40,
 				width: 40,
 				borderRadius: 20,
 				justifyContent: 'center',
-				alignItems: 'center'
+				alignItems: 'center',
+				// shadowColor: 'rgba(0, 0, 0, 0.5)',
+				// shadowOffset: {
+				// 	width: 0,height: 2
+				// },
+				// shadowRadius: 4,
+				// shadowOpacity: 1,
+			},
+			replyTextStyle: {
+				fontFamily: 'SFProText-Light',
+				fontSize: 14,
+				color: 'rgb(115,115,115)'
+			},
+			authorNameStyle: {
+				fontFamily: 'SFProText-Light',
+				fontSize: 14,
+				color: 'rgb(115,115,115)'
 			}
 		})
 
-		return (
-			
-			<View flex={1} width="80%" backgroundColor="purple" flexDirection="column">
-				<View backgroundColor="red" justifyContent="center">
-			
-					<View paddingHorizontal={40} paddingVertical={22} borderRadius={8} backgroundColor="#dbd1ce">
-						<Text>{this.props.item.reply_text}</Text>
-					</View>
-			
+		if(this.props.item.reply_key == 12345 && this.props.item.author_id == 12345) {
+			return (
+				<View marginTop={30} alignItems="center">
+					<Text style={styles.additionalInfoStyle}>Goobye!</Text>
 				</View>
-				<View flexDirection="row">
-					<View marginTop={-20} marginLeft={-15}>
-						<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.replyAuthProfPic}>
-		            <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
-		        </LinearGradient>
+			)
+		}
+		else {
+			if(this.props.item.author_name == 'Fordham Foundry') {
+ 				var gradientColor = (
+	 				<LinearGradient colors={['rgb(242,56,90)', 'rgb(85,181,255)']} style={replyStyles.replyAuthProfPic}>
+	 		            <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
+	 		        </LinearGradient>
+	 			)
+	 		} else {
+	 			var gradientColor = (
+	 				<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={replyStyles.replyAuthProfPic}>
+	 		            <Text style={{fontFamily: 'SFProText-Light', fontSize: 16, color: 'rgb(255,255,255)'}}>{this.props.item.author_initials}</Text>
+	 		        </LinearGradient>
+	 			)
+	 		}
+
+	 		return (
+	 			<View style={replyStyles.replyEncompCont}>
+					<View justifyContent="center">
+				
+						<View style={replyStyles.replyTextEncompCont}>
+							<Text style={replyStyles.replyTextStyle}>{this.props.item.reply_text}</Text>
+						</View>
+				
 					</View>
-					<View marginLeft={15} marginTop={10}>
-						<Text>{this.props.item.author_name}</Text>
+					<View flexDirection="row">
+						<View marginTop={-20} marginLeft={-15}>
+							{gradientColor}
+						</View>
+						<View marginLeft={15} marginTop={8}>
+							<Text style={replyStyles.authorNameStyle}>{this.props.item.author_name}</Text>
+						</View>
 					</View>
 				</View>
-			</View>
-			
-		)
+	 		)
+	 	}
 	}
 }
 
@@ -73,12 +117,12 @@ class singlepost_modal extends Component {
 		 	replyText: "",
 		 	parentPostCommentCount: this.props.postCommentCount,
 		}
-		this.testArray = this.testArray.bind(this)
+		this.cleanState = this.cleanState.bind(this)
 	}
 
 	componentDidMount() {
 		const replyEndpoint = '/discBoardreplies/' + this.props.postKey + '/';
-		console.log("Earlier in componentDidMount... DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		
+		//console.log("Earlier in componentDidMount... DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		
 		firebase.database().ref(replyEndpoint).on('value', (snap) => {
 			console.log("New listener is on!")
 		  //do something with snap
@@ -89,7 +133,7 @@ class singlepost_modal extends Component {
 			else {
 				const latestReplies = Object.values(snap.val());
 		        this.setState({discussionBoardReplies: latestReplies, backupDiscussionBoardReplies: latestReplies})
-		        console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
+		        //console.log("DISCUSSION BOARD REPLIES: ",this.state.discussionBoardReplies)		   
 			}
 		})
 		//this.onDeletePress()
@@ -97,7 +141,7 @@ class singlepost_modal extends Component {
 
     componentWillUnmount() {
     	firebase.database().ref('/discBoardreplies/' + this.props.postKey + '/').off()
-    	console.log("IS THIS UNMOUNT RUNNING: ",this.props.postKey)
+    	//console.log("IS THIS UNMOUNT RUNNING: ",this.props.postKey)
     }
 
     fetchLatestReplies() {
@@ -124,7 +168,7 @@ class singlepost_modal extends Component {
     }
 
     secondButtonPress() {
-    	console.log("Boom! We totally deleted it.")
+    	//console.log("Boom! We totally deleted it.")
     	//PLACE THE FOLLOWING CODE SOMEWHERE HERE TO EXECUTE BACKEND REMOVAL OF POSTS AND REPLIES
 			var postRef = firebase.database().ref("/discBoardposts/" + this.props.postKey + "/");
 			postRef.remove()
@@ -154,7 +198,7 @@ class singlepost_modal extends Component {
     }
 
     onDeletePress() {
-    	console.log("State of postauthID for this post is...", this.state.postauthID)
+    	//console.log("State of postauthID for this post is...", this.state.postauthID)
 
 		var user = firebase.auth().currentUser;
 		var uid;
@@ -165,9 +209,9 @@ class singlepost_modal extends Component {
                    // you have one. Use User.getToken() instead.
 		}
 		if (uid == this.state.postauthID){
-			console.log("USER SHOULD BE ABLE TO DELETE this post!")
-			console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
-			console.log("And at /discBoardreplies/" + this.props.postKey + "/")
+			//console.log("USER SHOULD BE ABLE TO DELETE this post!")
+			//console.log("Doing so would remove post /discBoardposts/" + this.props.postKey + "/")
+			//console.log("And at /discBoardreplies/" + this.props.postKey + "/")
 
 			AlertIOS.alert(  
 				'Are You Sure You Want to Delete?', 
@@ -183,15 +227,15 @@ class singlepost_modal extends Component {
     }
 
     returnAfterDelete() {
-    	console.log("Trying to return to the discussion board now...")
+    	//console.log("Trying to return to the discussion board now...")
     	this.resetAndExit()
     }
 
     appendLatestReplies(setOfNewReplies) {
     	if(setOfNewReplies.length > this.state.discussionBoardReplies.length) {
     		const latestReplies = setOfNewReplies.slice(this.state.discussionBoardReplies.length);
-    		console.log("LIST OF REPLIES WE ALREADY HAVE: ",this.state.discussionBoardReplies)
-    		console.log("FRESH BATCH: ",latestReplies);
+    		//console.log("LIST OF REPLIES WE ALREADY HAVE: ",this.state.discussionBoardReplies)
+    		//console.log("FRESH BATCH: ",latestReplies);
     		const olderReplies = this.state.discussionBoardReplies;
     		this.setState({discussionBoardReplies: [...olderReplies,...latestReplies]});
     	}
@@ -244,7 +288,7 @@ class singlepost_modal extends Component {
 			var newDateTime = this.fetchDateTime()
 			var commentCount = this.state.parentPostCommentCount    //TO DO: This needs to be in the state, not a constant value!
 		//console.log(this.props.postCommentCount)
-			console.log("Old comment count was", commentCount)
+			//console.log("Old comment count was", commentCount)
 			var userID = firebase.auth().currentUser.uid
 			var repliesListRef = firebase.database().ref('/discBoardreplies/' + postID + '/');
 			var newReplyRef = repliesListRef.push();
@@ -268,13 +312,15 @@ class singlepost_modal extends Component {
 	}
 
 	resetAndExit() {
-		console.log("Exit process started...")
-		this.testArray();
-		console.log("About to run the modalFunc")
+		// console.log("Exit process started...")
+		// console.log("Latest Posts have been fetched.")
+		//this.props.fetchLatestPosts()
+		this.cleanState();
+
+		// console.log("About to run the modalFunc")
 		setTimeout(() => {this.props.modalFunc()},250)
-		console.log("And now the modalFunc has run.")
-		setTimeout(() => {this.props.fetchLatestPosts()},250);
-		console.log("Latest Posts have been fetched.")
+		setTimeout(() => {this.props.fetchLatestPosts()},250)
+		// console.log("And now the modalFunc has run.")
 	}
 
 	newRepliesArrived() {
@@ -285,9 +331,21 @@ class singlepost_modal extends Component {
 			)
 	}
 
-	testArray() {
-		this.setState({discussionBoardReplies: [{'reply_key': 1, 'author_name': ' ', 'author_initials': ' ', 'author_headline': ' ', 'reply_date_time': ' ', 'reply_text': ' ', 'author_id': 'test'}]})
-		console.log("The testArray is in place.")
+	cleanState() {
+		this.setState({discussionBoardReplies: [{'reply_key': 12345, 'author_name': ' ', 'author_initials': ' ', 'author_headline': ' ', 'reply_date_time': ' ', 'reply_text': ' ', 'author_id': 12345}]})
+		//console.log("The testArray is in place.")
+	}
+
+	renderIf(condition) {
+	    if (condition) {
+	        return (
+	        	<TouchableOpacity onPress={this.onDeletePress.bind(this)}>
+					<Text style={styles.deleteButtonStyle}>Delete</Text>
+				</TouchableOpacity>
+	        );
+	    } else {
+	        return null;
+	    }
 	}
 
 	renderSeparator() {
@@ -318,18 +376,8 @@ class singlepost_modal extends Component {
 	        	transparent={false}
 	        	visible={this.props.modalVisible}
 			>
-			<View flex={1}>
-				<ImageBackground
-					resizeMode='cover'
-					style={{
-						flex: 1,
-						position: 'absolute',
-						width: '100%',
-						height: '100%',
-					}}
-
-					source={require('../../../Images/plussilvergradient.png')}
-				>
+			<View flex={1} backgroundColor='#dbd1ce'>
+				
 				
 					<View flex={1}>
 						<ImageBackground
@@ -340,35 +388,32 @@ class singlepost_modal extends Component {
 
 			              source={require('../../../Images/positionedblur.png')}
 						>
-							<View flex={1} paddingTop={20} justifyContent="center">
+							<View flex={1} paddingTop={25} justifyContent="center">
 								<View>
 									<TouchableOpacity onPress={() => {this.resetAndExit()}}>
 										<View paddingLeft={30}>
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>											
 										</View>
 									</TouchableOpacity>									
-								</View>
-								<View paddingRight={30}>
-									{renderIf(uid == this.state.postauthID,									
-										<TouchableOpacity onPress={this.onDeletePress.bind(this)}>
-											<Text style={styles.postButtonStyle}>Delete Post</Text>
-										</TouchableOpacity>
-										)}									
-								</View>
+								</View>									
 							</View>
 						</ImageBackground>
 						<KeyboardAwareScrollView contentContainerStyle={{flex:1}} bounces={false} scrollEnabled={false} extraScrollHeight={40} keyboardOpeningTime={200}>
 						<ScrollView ref='_repliesScrollView' flex={1} showsVerticalScrollIndicator={false}>
 							<View style={styles.encompCont}>
 							<View flexDirection="column">
-								<View paddingTop={20} paddingBottom={10} paddingHorizontal={38}>
+								<View paddingTop={30} paddingBottom={10} paddingHorizontal={38}>
 									<View flexDirection="row">
 										<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.authProfPic}>
-								            <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.authorInitials}</Text>
+								            <Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.authorInitials}</Text>
 								        </LinearGradient>						
-										<View justifyContent = "center" flexDirection="column" width={175}>
-											<Text style={styles.nameStyle}>{this.props.authorName}</Text>
-											<Text style={styles.headlineStyle}>{this.props.authorHeadline}</Text> 
+										<View justifyContent = "center" flexDirection="column" width={250}>
+											<View justifyContent="center" marginBottom={1}>
+												<Text style={styles.nameStyle}>{this.props.authorName}</Text>
+											</View>
+											<View justifyContent="center">
+												<Text style={styles.headlineStyle}>{this.props.authorHeadline}</Text>
+											</View>
 										</View>						
 									</View>
 									<View marginTop={15}>
@@ -376,13 +421,14 @@ class singlepost_modal extends Component {
 											<Text style={styles.descStyle}>{this.props.fullPostDesc}</Text> 
 										</View>
 									</View>
-									<View marginTop={10} flexDirection="row">
+									<View marginTop={12} flexDirection="row" justifyContent="space-between">
 										<View paddingLeft={8}>
 											<Text style={styles.additionalInfoStyle}>Posted on {dateAndTime}</Text>
 										</View>
+										{this.renderIf(uid == this.state.postauthID)}
 									</View>
 								</View>
-								<View marginTop={8} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
+								<View marginTop={6} marginBottom={16} height={1} backgroundColor="rgb(199,193,195)"/>
 								
 								<FlatList
 									ListEmptyComponent={<View marginTop={30} alignItems="center">
@@ -403,10 +449,11 @@ class singlepost_modal extends Component {
 							</View>
 			           		</View>			           		
 			           	</ScrollView>
-		           		<View marginTop={8} justifyContent="center" borderTopWidth={1} borderColor='rgb(199,193,195)' bottom={0} paddingLeft={30} paddingVertical={15}>
+						
+		           		<View justifyContent="center" borderTopWidth={1} borderColor='rgb(199,193,195)' bottom={0}>
 						
 		           		
-						<View flexDirection="row">
+						<View flexDirection="row" paddingLeft={30} paddingVertical={25} >
 							<View justifyContent="center">
 								<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.userProfPic}>
 						            <Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
@@ -421,17 +468,17 @@ class singlepost_modal extends Component {
 												autoCapitalize = 'none'
 												autoCorrect = {false}
 												editable={true}
-												multiline={true}
+												//multiline={true}
 												onChangeText={(text) => this.setState({replyText: text})}
 	        						  			value={this.state.replyText}												
 												placeholder="Add a comment..."
-	                  							placeholderTextColor="rgb(181,178,178)"   
+	                  							placeholderTextColor="#afacac"   
 											>
 											</TextInput>
 										</View>
-										<View justifyContent="center" paddingBottom={2} paddingRight={18}>
+										<View justifyContent="center" paddingRight={18}>
 										<TouchableOpacity onPress={this.replyToPost.bind(this)}>
-											<Text style={{fontFamily: 'SFProText-Regular', fontSize: 16, color: 'rgb(181,178,178)'}}>Post</Text>										
+											<Text style={{fontFamily: 'SFProText-Regular', fontSize: 14, color: '#737373'}}>Post</Text>										
 										</TouchableOpacity>
 										</View>
 									</View>
@@ -439,10 +486,11 @@ class singlepost_modal extends Component {
 							</View>
 							</View>
 						</View>
+						
 						</KeyboardAwareScrollView>
 			 		</View>
            	
-				</ImageBackground>
+				
 			</View>
 			</Modal>
 			);
@@ -454,6 +502,7 @@ const styles = ({
 		flex: 1,
 		top: 0,
 		bottom: 0,
+
 	},
 	userProfPic: {
 		height: 38,
@@ -464,27 +513,34 @@ const styles = ({
 		alignItems: 'center',
 		shadowColor: 'rgba(0, 0, 0, 0.5)',
 		shadowOffset: {
-			width: 0,height: 1
+			width: 0,height: 2
 		},
 		shadowRadius: 4,
 		shadowOpacity: 1,
 	},
 	authProfPic: {
-		width: 70,
-		height: 70,
-		borderRadius: 35,
+		width: 46,
+		height: 46,
+		borderRadius: 23,
 		marginRight: 14,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: {
+			width: 0,height: 2
+		},			
+		shadowRadius: 4,
+		shadowOpacity: 1,
+
 	},
 	nameStyle: {
 		fontFamily: 'SFProText-Regular',
-		fontSize: 20,
+		fontSize: 16,
 		color: 'rgb(115,115,115)'
 	},
 	headlineStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 16,
+		fontSize: 14,
 		color: 'rgb(115,115,115)'
 	},
 	locationStyle: {
@@ -494,7 +550,7 @@ const styles = ({
 	},
 	descStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 20,
+		fontSize: 16,
 		color: 'rgb(115,115,115)',
 	},
 	joinButtonStyle: {
@@ -520,21 +576,29 @@ const styles = ({
 	},
 	additionalInfoStyle: {
 		fontFamily: 'SFProText-Light',
-		fontSize: 16,
+		fontSize: 12,
 		color: 'rgb(115,115,115)'
 	},
 	replyEncompCont: {
 		borderRadius: 17,
 		borderWidth: 1,
-		borderColor: 'rgb(206,201,201)',
+		borderColor: '#afacac',
 	},
 	replyTextInput: {
-		padding: 12,
+		//paddingTop: 12,
+		paddingLeft: 12,
+		paddingRight: 12,
+		//paddingBottom: 8,
 		height: 40,
 		width: 200,
 		fontFamily: 'SFProText-Regular',
-		fontSize: 16,
-		color: 'rgb(180,177,177)'
+		fontSize: 14,
+		color: '#afacac'
+	},
+	deleteButtonStyle: {
+		fontFamily: 'SFProText-Medium',
+		fontSize: 12,
+		color: '#6A2E34',
 	}
 })
 

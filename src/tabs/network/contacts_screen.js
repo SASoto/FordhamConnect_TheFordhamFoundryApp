@@ -20,7 +20,7 @@ class SectionListItem extends Component {
                         <View flexDirection="row">
                             <View flex={1} flexDirection="row">
                                 <LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.sectionlistItemUserBubble}>
-                                    <Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.item.initials}</Text>
+                                    <Text style={{fontFamily: 'SFProText-Light', fontSize: 14, color: 'rgb(255,255,255)'}}>{this.props.item.initials}</Text>
                                 </LinearGradient>
                                 <View justifyContent="center">
                                 <Text style={styles.sectionListItemUserName}>{this.props.item.fullname}</Text>                         
@@ -40,7 +40,7 @@ class SectionHeader extends Component {
         if(this.props.section.title == "Favorited") {
             return (
                 <View flex={1} marginLeft={30} marginTop={26}>
-                    <MatIcon name="star" size={29} color="rgb(106,46,52)"/>
+                    <Image source={require('../../../Images/starfilled.png')}/>
                 </View>
             )
         }
@@ -299,18 +299,24 @@ const styles = ({
         flex: 1,
         paddingLeft: 80
     },
-    nameStyle: {
-        fontFamily: 'HelveticaNeue-Medium',
-        color: 'black',
-        fontSize: 16
-    },
+    // nameStyle: {
+    //     fontFamily: 'HelveticaNeue-Medium',
+    //     color: 'black',
+    //     fontSize: 16
+    // },
     sectionlistItemUserBubble: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 32,
+        height: 32,
+        borderRadius: 16,
         marginRight: 15,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        shadowOffset: {
+            width: 0,height: 2
+        },          
+        shadowRadius: 4,
+        shadowOpacity: 1,
     },
     sectionListItemUserName: {
         fontFamily: 'SFProText-Light',

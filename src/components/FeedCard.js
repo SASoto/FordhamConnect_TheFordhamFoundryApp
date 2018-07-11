@@ -35,7 +35,7 @@ export default class LogoutButton extends React.PureComponent {
 		}
 
 		if(this.props.tweetDesc != null) {
-			var tweetDesc = (<View flex={1} marginTop={1}>
+			var tweetDesc = (<View flex={1} marginTop={5}>
 								<Text style={styles.tweetTextStyle} /*textAlign='left'*/>{this.props.tweetDesc}</Text>
 							 </View>)
 		}
@@ -51,13 +51,15 @@ export default class LogoutButton extends React.PureComponent {
 						}}
 						source={require('../../Images/plussilvergradient.png')}
 					>
+					<View backgroundColor="rgba(106,46,52,.1)">
+					<View backgroundColor="rgba(230,226,225,.8)">	
 					<View backgroundColor="rgba(106,46,52,1)">
 					{media}
 					</View>
-					<View padding={8}>
+					<View paddingTop={8} paddingBottom={8} paddingRight={8} paddingLeft={14}>
 					{tweetTitle}
 					{tweetDesc}
-					<View marginTop={7} flexDirection="row" justifyContent="space-between">
+					<View marginTop={10} flexDirection="row" justifyContent="space-between">
 						
 						<View>
 							<Text style={styles.dateStyle}>{this.props.date}</Text>
@@ -69,6 +71,8 @@ export default class LogoutButton extends React.PureComponent {
 						</View>
 					
 					<View height={4} backgroundColor="rgb(85,172,238)"/>
+					</View>
+					</View>
 					</ImageBackground>
 					</TouchableOpacity>
 				</View>
@@ -82,26 +86,28 @@ export default class LogoutButton extends React.PureComponent {
 						flex: 1,
 					}}
 					source={require('../../Images/plussilvergradient.png')}
-				>			
-					<View backgroundColor="rgba(106,46,52,1)">
-					{media}	
-					</View>		
-					<View padding={8}>
-					{tweetTitle}
-					{tweetDesc}
-					<View marginTop={7} flexDirection="row" justifyContent="space-between">
+				>		
+					<View backgroundColor="rgba(230,226,225,.8)">	
+						<View backgroundColor="rgba(106,46,52,1)">
+						{media}	
+						</View>		
+						<View paddingTop={8} paddingBottom={8} paddingRight={8} paddingLeft={14}>						
+						{tweetTitle}
+						{tweetDesc}
+						<View marginTop={7} flexDirection="row" justifyContent="space-between">
+							
+							<View>
+								<Text style={styles.dateStyle}>{this.props.date}</Text>
+							</View>
+							</View>
+							<View paddingRight={10} marginTop={-10} alignItems="flex-end">
+								<MatCommIcon name="twitter" size={20} color="rgb(85,172,238)"/>
+							</View>
+							</View>
 						
-						<View>
-							<Text style={styles.dateStyle}>{this.props.date}</Text>
-						</View>
-						</View>
-						<View paddingRight={10} marginTop={-10} alignItems="flex-end">
-							<MatCommIcon name="twitter" size={20} color="rgb(85,172,238)"/>
-						</View>
-						</View>
-					
-					<View height={4} backgroundColor="rgb(85,172,238)"/>
-					</ImageBackground>
+						<View height={4} backgroundColor="rgb(85,172,238)"/>
+					</View>
+				</ImageBackground>
 				</View>
 			);
 		}
@@ -125,8 +131,10 @@ const styles = ({
 	encompCont: {
 		flex: 1,
 		flexDirection: 'column',
-		width: '95%',
+		width: '90%',
 		backgroundColor: 'transparent',
+		borderWidth: 0.4,
+		borderColor: 'grey'
 	},
 	profilePicCont: {
 		borderRadius: 14,

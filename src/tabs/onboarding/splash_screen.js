@@ -47,7 +47,6 @@ class splash_screen extends Component {
                     </View>
                     <MaterialIndicator color='white' size={40} />
                     </ImageBackground>
-                    
                 </View>
             );
     }

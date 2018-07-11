@@ -134,16 +134,16 @@ class profilemodal extends Component {
 			              source={require('../../Images/positionedblur.png')}
 
 						>
-							<View flex={1} paddingTop={20} justifyContent="center">
+							<View flex={1} paddingTop={25} justifyContent="center">
 								<View flexDirection="row" justifyContent="space-between">
-									<TouchableOpacity onPress={this.resetProfileModal.bind(this)}>
+									<TouchableOpacity justifyContent='center' onPress={this.resetProfileModal.bind(this)}>
 										<View paddingLeft={30} justifyContent='center'>
 											<MatIcon name="close" size={24} color="rgb(255,255,255)"/>
 										</View>
 									</TouchableOpacity>
 									<View paddingRight={20} justifyContent='center'>
 										<TouchableOpacity onPress={this.setNewProfileData.bind(this)}>
-											<Text style={{fontFamily:"SFProText-Medium",fontSize:16, color:"rgb(255,255,255)"}}>Save</Text>
+											<Text style={{fontFamily:"SFProText-Regular",fontSize:14, color:"rgb(255,255,255)"}}>Save</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
@@ -156,7 +156,7 @@ class profilemodal extends Component {
 
                             <View flexDirection="row">
                             	<LinearGradient colors={['rgb(0,122,255)', 'rgb(85,181,255)']} style={styles.profPic}>
-                                    <Text style={{fontFamily: 'SFProText-Light', fontSize: 24, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
+                                    <Text style={{fontFamily: 'SFProText-Light', fontSize: 18, color: 'rgb(255,255,255)'}}>{this.props.initials}</Text>
                                 </LinearGradient>                           
                                 <View marginLeft={16} justifyContent="center" width={150}>
                                     <Text style={styles.userNameStyle}>{this.props.firstname} {this.props.lastname}</Text>
@@ -191,6 +191,7 @@ class profilemodal extends Component {
 						          value = {this.props.firstname}
 						          autoCorrect = {false}
 						          editable={true}
+						          maxLength={15}
 						          onChangeText={(text) => this.setState({tempFirstName: text})}
 						        />
 						        </View>
@@ -205,7 +206,8 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          value = {this.props.lastname}
 						          autoCorrect = {false}
-						          editable={true}	
+						          editable={true}
+						          maxLength={15}	
 						          onChangeText={(text) => this.setState({tempLastName: text})}
 						        />
 						        </View>
@@ -221,7 +223,7 @@ class profilemodal extends Component {
 						          autoCapitalize = 'none'
 						          autoCorrect = {false}
 						          editable={true}
-						          maxLength={30}
+						          maxLength={15}
 						          onChangeText={(text) => this.setState({tempHeadline: text})}
 						          placeholder="ex. FCRH '15 or Gabelli '87 (30 characters or less, please.)"			      				          
 						        />
@@ -295,15 +297,21 @@ class profilemodal extends Component {
 
 const styles = ({
   profPic: {
-  	width: 60,
-  	height: 60,
-  	borderRadius: 30,
+  	width: 46,
+  	height: 46,
+  	borderRadius: 23,
   	justifyContent: 'center',
-  	alignItems: 'center'
+  	alignItems: 'center',
+  	shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: {
+        width: 0,height: 2
+    },          
+    shadowRadius: 4,
+    shadowOpacity: 1,
   },
   userNameStyle: {
  	fontFamily: 'SFProText-Regular',
- 	fontSize: 15,
+ 	fontSize: 13,
  	color: 'rgb(115,115,115)'
   },
   textStyle: {
@@ -328,7 +336,7 @@ const styles = ({
     color: 'rgb(115,115,115)',
     fontSize: 13,
     backgroundColor: 'transparent',
-    paddingLeft: 10,
+    paddingHorizontal: 10,
   },
   inputBackground: {
     marginTop: 10,
@@ -346,16 +354,19 @@ const styles = ({
   },
   input4Bio: {
   	fontFamily: 'SFProText-Light',
-    height: 60,
+    height: 90,
     width: windowSize.width * .85,
     color: 'rgb(115,115,115)',
     fontSize: 13,
     backgroundColor: 'transparent',
-    paddingLeft: 10,
+    //paddingVertical: 20,
+    paddingHorizontal: 10,
+    lineHeight: 30
   },
   inputBackground4Bio: {
+  	//justifyContent: 'center',
   	marginTop: 10,
-    height: 60,
+    height: 100,
     width: windowSize.width * .85,
     backgroundColor: 'rgba(106,46,52,0.1)',
     borderRadius: 8,
@@ -368,11 +379,11 @@ const styles = ({
     shadowOpacity: 1
   },
   saveButtonCont: {
-  	marginRight: 14,
+  	//marginRight: 14,
   	backgroundColor: '#47101E',
   	borderRadius: 8,
-  	paddingTop: 10,
-  	paddingBottom: 10,
+  	// paddingTop: 10,
+  	// paddingBottom: 10,
   	paddingHorizontal: 25,
   },
   saveTxt: {
