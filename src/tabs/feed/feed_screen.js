@@ -157,6 +157,7 @@ export default class feed_screen extends Component {
             const olderFeedData = this.state.feedData;
             if(result[result.length-1].id == this.state.sinceId) {
               const slicedRes = result.slice(0,result.length-1);
+              console.log("NEW TWEETS GOTTEN")
               this.setState({feedData: [...slicedRes, ...olderFeedData], sinceId: result[0].id})
             } else {
               this.setState({feedData: [...result, ...olderFeedData], sinceId: result[0].id})
@@ -173,6 +174,7 @@ export default class feed_screen extends Component {
   }
 
   fetchOldTweets() {
+    //console.log("FETCHING OLD TWEETS")
       if(!this.canAction) return;
       var url = `${TIMELINE_URL}?user_id=${USER_ID}&count=${FOR_OLD_AND_NEW}&max_id=${this.state.maxId}&include_rts=1&tweet_mode=extended`;
 
@@ -366,11 +368,11 @@ export default class feed_screen extends Component {
               onEndThreshold={0}
               onEndReachedThreshold={0.2}
               onMomentumScrollBegin={() => {
-                console.log('onMomentumScrollBegin');
+                //console.log('onMomentumScrollBegin');
                 this.canAction = true;
               }}
               onMomentumScrollEnd={() => {
-                console.log('onMomentumScrollEnd');
+                //console.log('onMomentumScrollEnd');
                 this.canAction = false;
               }}
              refreshControl={

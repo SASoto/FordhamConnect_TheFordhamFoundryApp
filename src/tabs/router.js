@@ -40,8 +40,6 @@ import ContactProfileScreen from './network/contactprofile_screen'
 import DiscBoardScreen from './discboard/discboard_screen';
 //import SinglePostScreen from './discboard/singlepost_screen';
 
-import ChatScreen from './chat/chat_screen';
-
 import SettingsScreen from './settings/settings_screen';
 import SettingsForgotPasswordScreen from './settings/forgotpassword_screen';
 
@@ -210,32 +208,6 @@ export const DiscussionStack = createStackNavigator ({
 			header: null
 		}
 	},
-})
-
-export const ChatStack = createStackNavigator ({
-	Chat: {
-		screen: ChatScreen,
-		navigationOptions: ({navigation}) => ({
-			headerBackground: 
-			<ImageBackground
-				resizeMode="cover"
-				style={{
-                flex: 1,
-                position: 'absolute',
-                width: '101%',
-                height: '101%',
-              }}
-
-              source={require('../../Images/launchscreenblur.png')}
-
-			/>,			
-			headerTintColor: 'white',
-			headerLeft: 
-				<View paddingLeft={5}>
-					<MenuButton onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
-				</View>
-		})
-	}
 })
 
 export const SettingsStack = createStackNavigator ({

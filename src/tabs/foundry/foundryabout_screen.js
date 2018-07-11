@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, ImageBackground, Image, Text, StyleSheet, View, ScrollView, TouchableOpacity, Linking} from 'react-native';
+import {Dimensions, ImageBackground, WebView, Image, Text, StyleSheet, View, ScrollView, TouchableOpacity, Linking} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -42,16 +42,16 @@ export default class foundryabout_screen extends Component {
 			        	<Image style={styles.imgCont} source={require('../../../Images/Grouprefine.png')}/>			        	
 			        </View>	
 			        <View marginTop={40}>
-			        	<TouchableOpacity onPress={() => this.checkIfConnected('https://www.fordhamfoundry.org/newsletter-signup/')}>
+			        	<TouchableOpacity onPress={() => this.checkIfConnected('http://fordhamfoundry.us14.list-manage.com/subscribe?u=50107e082aaf9c73519bb8da7&id=43d5162012')}>
 			        		<Image style={styles.imgCont} source={require('../../../Images/subscribe.png')}/>
 			        	</TouchableOpacity>
-			        </View>		  
-		        	<View marginTop={20} flexDirection="column">
+			        </View>
+			        <View marginTop={20} flexDirection="column">
 		        		<Text style={styles.siteTxtStyle}>Learn more about the Foundry at</Text>
 		        		<TouchableOpacity onPress={() => this.checkIfConnected('https://www.fordhamfoundry.org')}>
 		        			<Text style={styles.linkTxtStyle}>www.fordhamfoundry.org</Text>
 		        		</TouchableOpacity>
-		        	</View>
+		        	</View> 		        	
 		        	<View height={500} backgroundColor='transparent'/>
 		        </View>
 	        	
